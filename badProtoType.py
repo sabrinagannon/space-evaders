@@ -90,7 +90,10 @@ while True:
             index = index -1
             length = length - 1
             playerScore = playerScore + 1
-            speed = speed - (0.05 * playerScore)
+            if speed > 0 :
+                speed = speed - (0.01 * playerScore)
+            else:
+                speed = 0.001
         index+=1
     for itemRect in itemRectList:
         pygame.draw.rect(screen,colors['green'],itemRect,3)
