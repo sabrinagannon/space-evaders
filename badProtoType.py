@@ -35,7 +35,7 @@ playerRect = pygame.Rect(x,y,100,100)
 speed = 5.5
 playerScore = 0 
 
-itemRect = pygame.Rect(300,400,50,50)
+itemRect = pygame.Rect(w_width+10,w_height+10,50,50)
 
 itemRectList= [itemRect]
 
@@ -85,15 +85,18 @@ while True:
         print("index: " + str(index))
         if(itemRectList[index].colliderect(playerRect)):
             print "the two items collided!"
-            del itemRectList[index]
-            print str(itemRectList)
-            index = index -1
-            length = length - 1
-            playerScore = playerScore + 1
+            keys = pygame.key.get_pressed()
+            if(keys[pygame.K_SPACE]):
+                
+                del itemRectList[index]
+                print str(itemRectList)
+                index = index -1
+                length = length - 1
+                playerScore = playerScore + 1
             if speed > 0 :
                 speed = speed - (0.01 * playerScore)
             else:
-                speed = 0.001
+                speed = 0.01
         index+=1
     for itemRect in itemRectList:
         pygame.draw.rect(screen,colors['green'],itemRect,3)
