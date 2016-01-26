@@ -5,7 +5,7 @@ import pickle
 class Player(pygame.sprite.Sprite):
     def __init__(self,startingPos,imagePath, speed = 5.5):
         pygame.sprite.Sprite.__init__(self) # calls the parent class constructor
-        
+
         self.sheet = pygame.image.load(imagePath[0] + imagePath[1]) # load and assign spritesheet
 
         # using with to load clip co-ordinates ensures the files
@@ -18,24 +18,24 @@ class Player(pygame.sprite.Sprite):
                     self.up_states = pickle.load(us)
                     self.right_states = pickle.load(rs)
                     self.down_states = pickle.load(ds)
-        
+
         clip_area = pygame.Rect(self.left_states[0]) # this is the size of a frame
         self.sheet.set_clip(clip_area)
 
-        
+
         # create a rectangle that is the player sprite
         self.image = self.sheet.subsurface(self.sheet.get_clip())
         self.rectangle = self.image.get_rect()
-        self.rectangle.topleft = startingPos        
-        
+        self.rectangle.topleft = startingPos
+
         # used to cycle through frames
-        self.frame = 0  
+        self.frame = 0
         self.speed = speed
-        
-    
+
+
     def handle(self,event):
         if event.type == pygame.KEYDOWN:
-            
+
             if event.key == pygame.K_a:
                 self.update('left')
             if event.key == pygame.K_d:
@@ -49,10 +49,10 @@ class Player(pygame.sprite.Sprite):
                 pygame.quit()
                 sys.exit()
 
-        if event.type == pygame.KEYUP:  
+        if event.type == pygame.KEYUP:
 
             if event.key == pygame.K_a:
-                self.update('stand_left')            
+                self.update('stand_left')
             if event.key == pygame.K_d:
                 self.update('stand_right')
             if event.key == pygame.K_w:
@@ -63,7 +63,7 @@ class Player(pygame.sprite.Sprite):
     def update(self, direction):
         if direction == 'left':
             if (self.rectangle.x > self.speed):
-                self.rectangle.x -= self.speed 
+                self.rectangle.x -= self.speed
                 self.move(self.left_states)
         if direction == 'right':
             if (self.rectangle.x < w_width - self.rectangle.width):
@@ -75,9 +75,9 @@ class Player(pygame.sprite.Sprite):
                 self.move(self.up_states)
         if direction == 'down':
             if (self.rectangle.y < w_height-self.rectangle.height):
-                self.rectangle.y += self.speed 
+                self.rectangle.y += self.speed
                 self.move(self.down_states)
- 
+
         if direction == 'stand_left':
             self.move(self.left_states[0])
         if direction == 'stand_right':
