@@ -19,7 +19,7 @@ if __name__ == '__main__':
     # Uncomment to see the modern version!
     #keith = player.Player((x,y), playerPath1, speed)
     playerScore = 0
-    itemRect = pygame.Rect(x+10,y+10,25,25)
+    itemRect = pygame.Rect(w_width+10,w_height+10,25,25)
 
     itemRectList= [itemRect]
 
