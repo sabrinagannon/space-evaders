@@ -1,6 +1,6 @@
 import pygame, sys , items
-from constants import w_width, w_height, colors, speed, playerPath1, playerPath2
-import player
+from constants import w_width, w_height, colors, speed, playerPath1, playerPath2, enemyPath
+import player,enemy
 
 if __name__ == '__main__':
     pygame.init()
@@ -15,6 +15,7 @@ if __name__ == '__main__':
 
     x,y = 100,100
     keith = player.Player((x,y), playerPath2, speed)
+    enemy = enemy.Enemy((x+10,y+10),enemyPath)
 
     # Uncomment to see the modern version!
     #keith = player.Player((x,y), playerPath1, speed)
@@ -25,6 +26,7 @@ if __name__ == '__main__':
 
     screen.fill(colors['black'])
     screen.blit(keith.image, keith.rectangle)
+    screen.blit(enemy.image, enemy.rectangle)
     pygame.draw.rect(screen,colors['green'],itemRect,3)
     pygame.display.update()
 
@@ -37,6 +39,7 @@ if __name__ == '__main__':
                 sys.exit()
 
         keith.handle(event)
+        enemy.patrol()
         screen.fill(colors['black'])
 
         # generate new item--(fragment?) that does not collide with player
@@ -73,6 +76,7 @@ if __name__ == '__main__':
 
         pygame.draw.rect(screen,colors['green'],itemRect,3)
         screen.blit(keith.image, keith.rectangle)
+        screen.blit(enemy.image, enemy.rectangle)
         pygame.display.update()
 
         gameClock.tick(25)
