@@ -1,6 +1,12 @@
 import pygame, sys , items
-from constants import w_width, w_height, colors, speed, playerPath1, playerPath2, enemyPath
+from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, enemyPath
 import player,enemy
+
+def drawEnemies(screen,enemies):
+    for enemy in enemies:
+        pygame.draw.rect(screen,colors['blue'],enemy.detection,3)
+        screen.blit(enemy.image, enemy.rectangle)
+    
 
 if __name__ == '__main__':
     pygame.init()
@@ -14,19 +20,21 @@ if __name__ == '__main__':
 
 
     x,y = 100,100
-    keith = player.Player((x,y), playerPath2, speed)
-    enemy = enemy.Enemy((x+10,y+10),enemyPath)
+    keith = player.Player((x,y), playerPath2, playerSpeed)
+    enemies = []
+    e = enemy.Enemy((x+100,y+200),enemyPath,7)
+    enemies.append(e)
 
     # Uncomment to see the modern version!
-    #keith = player.Player((x,y), playerPath1, speed)
+    #keith = player.Player((x,y), playerPath1, playerSpeed)
     playerScore = 0
     itemRect = pygame.Rect(w_width+10,w_height+10,25,25)
 
     itemRectList= [itemRect]
 
     screen.fill(colors['black'])
-    screen.blit(keith.image, keith.rectangle)
-    screen.blit(enemy.image, enemy.rectangle)
+    # screen.blit(keith.image, keith.rectangle)
+    # screen.blit(enemy.image, enemy.rectangle)
     pygame.draw.rect(screen,colors['green'],itemRect,3)
     pygame.display.update()
 
@@ -39,7 +47,8 @@ if __name__ == '__main__':
                 sys.exit()
 
         keith.handle(event)
-        enemy.patrol()
+        for e in enemies:
+            e.update(keith.rectangle)
         screen.fill(colors['black'])
 
         # generate new item--(fragment?) that does not collide with player
@@ -57,12 +66,12 @@ if __name__ == '__main__':
         while index < length:
             #print("index: " + str(index))
             if(itemRectList[index].colliderect(keith.rectangle)):
-                print "the two items collided!"
+                #print "the two items collided!"
                 keys = pygame.key.get_pressed()
                 if(keys[pygame.K_SPACE]):
 
                     del itemRectList[index]
-                    print str(itemRectList)
+                    #print str(itemRectList)
                     index = index -1
                     length = length - 1
                     playerScore = playerScore + 1
@@ -76,7 +85,7 @@ if __name__ == '__main__':
 
         pygame.draw.rect(screen,colors['green'],itemRect,3)
         screen.blit(keith.image, keith.rectangle)
-        screen.blit(enemy.image, enemy.rectangle)
+        drawEnemies(screen,enemies)
         pygame.display.update()
 
-        gameClock.tick(25)
+        gameClock.tick(20)

@@ -1,5 +1,5 @@
 import pygame, sys
-from constants import w_width, w_height
+from constants import w_width, w_height,playerSpeed
 import pickle
 
 class Enemy(pygame.sprite.Sprite):
@@ -31,6 +31,15 @@ class Enemy(pygame.sprite.Sprite):
         self.frame = 0
         self.speed = speed
         self.direction = 'left'
+        self.detection = self.rectangle.inflate(60,60)
+
+    def update(self,playerRect):
+
+        if self.detection.colliderect(playerRect):
+            self.chase(playerRect)
+        else:
+            self.patrol()
+            self.detection = self.rectangle.inflate(60,60)
         
     def patrol(self):
         if self.direction == 'left':
@@ -61,7 +70,28 @@ class Enemy(pygame.sprite.Sprite):
                 self.direction = 'right'
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
-       
+
+    def chase(self,playerRect):
+        # increase detection range
+        self.detection = self.rectangle.inflate(400,300)
+
+        # using integer division to get the floor
+        x = (playerRect.x - self.rectangle.x)//(playerSpeed+5)
+        y = (playerRect.y - self.rectangle.y)//(playerSpeed+5)
+        self.rectangle.x += x
+        self.rectangle.y += y
+
+        if y > 0:             # player below
+            self.move(self.down_states)
+        elif y < 0:             # player above
+            self.move(self.up_states)
+        elif x > 0:               # player to right
+            self.move(self.right_states)
+        elif x < 0:             # player to left
+            self.move(self.left_states)
+   
+
+        self.image = self.sheet.subsurface(self.sheet.get_clip())
 
     def move(self, movement):
         if type(movement) is dict:
