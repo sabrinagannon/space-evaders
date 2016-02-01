@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     # Uncomment to see the modern version!
     #keith = player.Player((x,y), playerPath1, playerSpeed)
-    playerScore = 0
+    keith.score = 0
     itemRect = pygame.Rect(w_width+10,w_height+10,25,25)
 
     itemRectList= [itemRect]
@@ -43,10 +43,11 @@ if __name__ == '__main__':
         frameCount+=1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                print "player score is : " + str(playerScore)
+                print "player score is : " + str(keith.score)
                 sys.exit()
 
-        keith.handle(event)
+        update = keith.handle(event)
+
         for e in enemies:
             e.update(keith.rectangle)
         screen.fill(colors['black'])
@@ -61,9 +62,8 @@ if __name__ == '__main__':
                 itemRectList.append(items.createRandomRect(w_width,w_height,50,50,keith.rectangle))
 
         # Check for collisions, update speed and score
-        length = len(itemRectList)
         index = 0
-        while index < length:
+        while index < len(itemRectList):
             #print("index: " + str(index))
             if(itemRectList[index].colliderect(keith.rectangle)):
                 #print "the two items collided!"
@@ -73,16 +73,25 @@ if __name__ == '__main__':
                     del itemRectList[index]
                     #print str(itemRectList)
                     index = index -1
-                    length = length - 1
-                    playerScore = playerScore + 1
-                if keith.speed > 0 :
-                    keith.speed = keith.speed - (0.01 * playerScore)
-                else:
-                    keith.speed = 0.01
+                    keith.score = keith.score + 1
+                    keith.itemsHeld = keith.itemsHeld + 1
+                    if keith.speed > 5 :
+                        keith.updateSpeed()
+                    else:
+                        keith.speed = 5
             index+=1
+
+        if update is None:
+            pass
+        else:
+            # player dropped an item and we need to re-draw it
+            itemRectList.append(update)
+        
         for itemRect in itemRectList:
             pygame.draw.rect(screen,colors['green'],itemRect,3)
 
+        print 'speed= ', keith.speed
+        print 'items=', keith.itemsHeld
         pygame.draw.rect(screen,colors['green'],itemRect,3)
         screen.blit(keith.image, keith.rectangle)
         drawEnemies(screen,enemies)

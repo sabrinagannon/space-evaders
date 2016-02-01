@@ -3,7 +3,7 @@ from constants import w_width, w_height
 import pickle
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self,startingPos,imagePath, speed = 5.5):
+    def __init__(self,startingPos,imagePath, speed = 10):
         pygame.sprite.Sprite.__init__(self) # calls the parent class constructor
 
         self.sheet = pygame.image.load(imagePath[0] + imagePath[1]) # load and assign spritesheet
@@ -30,8 +30,12 @@ class Player(pygame.sprite.Sprite):
 
         # used to cycle through frames
         self.frame = 0
-        self.speed = speed
 
+        # state attributes
+        self.initialSpeed = speed
+        self.speed = speed
+        self.itemsHeld = 0
+        self.score = 0
 
     def handle(self,event):
         if event.type == pygame.KEYDOWN:
@@ -44,6 +48,13 @@ class Player(pygame.sprite.Sprite):
                 self.update('up')
             if event.key == pygame.K_s:
                 self.update('down')
+            if (event.key == pygame.K_k) and (self.itemsHeld > 0) :
+                self.itemsHeld -= 1
+                self.score -= 1
+                self.updateSpeed()
+                droppedItem = pygame.Rect(self.rectangle.x, self.rectangle.y, 50,50)
+                return droppedItem
+
             if event.key == pygame.K_ESCAPE:
                 pygame.display.quit()
                 pygame.quit()
@@ -59,6 +70,8 @@ class Player(pygame.sprite.Sprite):
                 self.update('stand_up')
             if event.key == pygame.K_s:
                 self.update('stand_down')
+        
+        return None
 
     def update(self, direction):
         if direction == 'left':
@@ -106,3 +119,10 @@ class Player(pygame.sprite.Sprite):
 
         self.sheet.set_clip(new_rect)
         return movement         # not sure why we return this
+
+    
+    def updateSpeed(self):
+        update = self.initialSpeed - (2*self.itemsHeld)
+        if update < 5:
+            update = 5
+        self.speed = update
