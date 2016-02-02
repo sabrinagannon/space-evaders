@@ -23,7 +23,9 @@ if __name__ == '__main__':
     keith = player.Player((x,y), playerPath2, playerSpeed)
     enemies = []
     e = enemy.Enemy((x+100,y+200),enemyPath,7)
+    e2 = enemy.Enemy((x+300,y+100),enemyPath,9)
     enemies.append(e)
+    enemies.append(e2)
 
     # Uncomment to see the modern version!
     #keith = player.Player((x,y), playerPath1, playerSpeed)
@@ -90,8 +92,8 @@ if __name__ == '__main__':
         for itemRect in itemRectList:
             pygame.draw.rect(screen,colors['green'],itemRect,3)
 
-        print 'speed= ', keith.speed
-        print 'items=', keith.itemsHeld
+        # print 'speed= ', keith.speed
+        # print 'items=', keith.itemsHeld
         pygame.draw.rect(screen,colors['green'],itemRect,3)
         screen.blit(keith.image, keith.rectangle)
         drawEnemies(screen,enemies)

@@ -1,6 +1,17 @@
-import pygame, sys
+import pygame, sys, random, math
 from constants import w_width, w_height,playerSpeed
 import pickle
+
+class vector():
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+
+    def negateX(self):
+        self.x *= -1
+
+    def negateY(self):
+        self.y *= -1
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self,startingPos,imagePath,speed = 10):
@@ -30,6 +41,8 @@ class Enemy(pygame.sprite.Sprite):
         # used to cycle through frames
         self.frame = 0
         self.speed = speed
+        
+        self.heading = self.createRandomHeading()
         self.direction = 'left'
         self.detection = self.rectangle.inflate(60,60)
 
@@ -42,6 +55,39 @@ class Enemy(pygame.sprite.Sprite):
             self.detection = self.rectangle.inflate(60,60)
         
     def patrol(self):
+        nextXPos = self.rectangle.x + (self.speed*self.heading.x)
+        nextYPos = self.rectangle.y + (self.speed*self.heading.y)
+
+        if nextXPos > (w_width-self.rectangle.width):
+            newHeading = vector((-1*self.heading.x),self.heading.y)
+            self.heading = newHeading
+        if nextXPos <= 0:
+            newHeading = vector((-1*self.heading.x),self.heading.y)
+            self.heading = newHeading
+        if nextYPos > (w_height-self.rectangle.height):
+            newHeading = vector(self.heading.x,(-1*self.heading.y))
+            self.heading = newHeading
+        if nextYPos <= 0:
+            newHeading = vector(self.heading.x,(-1*self.heading.y))
+            self.heading = newHeading
+
+        self.rectangle.x = nextXPos
+        self.rectangle.y = nextYPos
+
+        if nextYPos > nextXPos: # animate vertical
+            if self.heading.y > 0:        # moving down
+                self.move(self.down_states)
+            else:
+                self.move(self.up_states)
+        else:                   # animate hroizontal
+            if self.heading.x > 0:        # moving right
+                self.move(self.right_states)
+            else:
+                self.move(self.left_states)
+
+        self.image = self.sheet.subsurface(self.sheet.get_clip())
+
+    def patrolBorder(self):
         if self.direction == 'left':
             if (self.rectangle.x > self.speed):
                 self.rectangle.x -= self.speed
@@ -110,3 +156,12 @@ class Enemy(pygame.sprite.Sprite):
 
         self.sheet.set_clip(new_rect)
         return movement         # not sure why we return this
+
+    def createRandomHeading(self):
+        angle = random.randint(0,360)
+        angle = angle * (3.14159/180)
+        
+        x = math.cos(angle)
+        y = math.sin(angle)
+        v = vector(x,y)
+        return v
