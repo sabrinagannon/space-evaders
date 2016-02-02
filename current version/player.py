@@ -1,6 +1,7 @@
 import pygame, sys
 from constants import w_width, w_height
 import pickle
+import json
 
 class Player(pygame.sprite.Sprite):
     def __init__(self,startingPos,imagePath, speed = 10):
@@ -10,14 +11,14 @@ class Player(pygame.sprite.Sprite):
 
         # using with to load clip co-ordinates ensures the files
         # are closed
-        with open(imagePath[0] + 'ls.dat', "rb") as ls,\
-             open(imagePath[0] + 'us.dat', "rb") as us,\
-             open(imagePath[0] + 'rs.dat', "rs") as rs,\
-             open(imagePath[0] + 'ds.dat', "rb") as ds:
-                    self.left_states = pickle.load(ls)
-                    self.up_states = pickle.load(us)
-                    self.right_states = pickle.load(rs)
-                    self.down_states = pickle.load(ds)
+        with open(imagePath[0] + 'ls.json', "rb") as ls,\
+             open(imagePath[0] + 'us.json', "rb") as us,\
+             open(imagePath[0] + 'rs.json', "rb") as rs,\
+             open(imagePath[0] + 'ds.json', "rb") as ds:
+            self.left_states = {int(key):tuple(value) for key, value in json.load(ls).items()}
+            self.up_states = {int(key):tuple(value) for key, value in json.load(us).items()}
+            self.right_states = {int(key):tuple(value) for key, value in json.load(rs).items()}
+            self.down_states = {int(key):tuple(value) for key, value in json.load(ds).items()}
 
         clip_area = pygame.Rect(self.left_states[0]) # this is the size of a frame
         self.sheet.set_clip(clip_area)
