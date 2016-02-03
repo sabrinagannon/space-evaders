@@ -1,5 +1,5 @@
 import pygame, sys , items
-from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, enemyPath
+from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath
 import player,enemy
 
 def drawEnemies(screen,enemies):
@@ -22,10 +22,9 @@ if __name__ == '__main__':
     x,y = 100,100
     keith = player.Player((x,y), playerPath2, playerSpeed)
     enemies = []
-    e = enemy.Enemy((x+100,y+200),enemyPath,7)
-    e2 = enemy.Enemy((x+300,y+100),enemyPath,9)
-    enemies.append(e)
-    enemies.append(e2)
+    wolf = enemy.Enemy((x+100,y+200),wolfPath,7)
+    bear = enemy.Enemy((x+300,y+100),bearPath,9)
+    enemies.extend([wolf,bear])
 
     # Uncomment to see the modern version!
     #keith = player.Player((x,y), playerPath1, playerSpeed)
