@@ -50,7 +50,6 @@ class Player(pygame.sprite.Sprite):
             self.update('down')
         if (keys[pygame.K_k]) and (self.itemsHeld > 0) :
             self.itemsHeld -= 1
-            self.score -= 1
             self.updateSpeed()
             droppedItem = pygame.Rect(self.rectangle.x, self.rectangle.y, 50,50)
             return droppedItem
@@ -59,16 +58,6 @@ class Player(pygame.sprite.Sprite):
             pygame.display.quit()
             pygame.quit()
             sys.exit()
-        # if event.type == pygame.KEYUP:
-
-        #     if event.key == pygame.K_a:
-        #         self.update('stand_left')
-        #     if event.key == pygame.K_d:
-        #         self.update('stand_right')
-        #     if event.key == pygame.K_w:
-        #         self.update('stand_up')
-        #     if event.key == pygame.K_s:
-        #         self.update('stand_down')
         
         return None
 
