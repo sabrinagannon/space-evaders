@@ -1,12 +1,12 @@
 import pygame, sys , items
-from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath, itemPath
+from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath
 import player,enemy
 
 def drawEnemies(screen,enemies):
     for enemy in enemies:
         pygame.draw.rect(screen,colors['blue'],enemy.detection,3)
         screen.blit(enemy.image, enemy.rectangle)
-
+    
 
 if __name__ == '__main__':
     pygame.init()
@@ -88,12 +88,9 @@ if __name__ == '__main__':
         else:
             # player dropped an item and we need to re-draw it
             itemRectList.append(update)
-
+        
         for itemRect in itemRectList:
-            itemImg = pygame.image.load(itemPath[0] + itemPath[1])
             pygame.draw.rect(screen,colors['green'],itemRect,3)
-            screen.blit(itemImg, itemRect)
-
 
         # print 'speed= ', keith.speed
         # print 'items=', keith.itemsHeld

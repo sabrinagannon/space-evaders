@@ -8,6 +8,7 @@ playerPath2 = ['assets/sprites/player/hetalia/','hetalia.png']
 playerPath3 = ['assets/sprites/player/serge/','serge.png']
 wolfPath = ['assets/sprites/enemies/wolf/','wolf.png']
 bearPath = ['assets/sprites/enemies/scaryBear/','scaryBear.png']
+itemPath = ['assets/sprites/items/','crystal.png']
 
 # misc
 colors = {'black': (0,0,0) , 'blue':(0,0,255),'green':(0,255,0),'red':(255,0, 0)}
