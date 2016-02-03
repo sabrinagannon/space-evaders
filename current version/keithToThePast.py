@@ -21,6 +21,7 @@ if __name__ == '__main__':
 
     x,y = 100,100
     keith = player.Player((x,y), playerPath2, playerSpeed)
+
     enemies = []
     wolf = enemy.Enemy((x+100,y+200),wolfPath,7)
     bear = enemy.Enemy((x+300,y+100),bearPath,9)
@@ -47,7 +48,8 @@ if __name__ == '__main__':
                 print "player score is : " + str(keith.score)
                 sys.exit()
 
-        update = keith.handle(event)
+        keys = pygame.key.get_pressed()
+        update = keith.handle(keys)
 
         for e in enemies:
             e.update(keith.rectangle)
@@ -68,7 +70,6 @@ if __name__ == '__main__':
             #print("index: " + str(index))
             if(itemRectList[index].colliderect(keith.rectangle)):
                 #print "the two items collided!"
-                keys = pygame.key.get_pressed()
                 if(keys[pygame.K_SPACE]):
 
                     del itemRectList[index]

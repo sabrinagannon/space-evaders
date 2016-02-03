@@ -1,6 +1,5 @@
 import pygame, sys
 from constants import w_width, w_height
-import pickle
 import json
 
 class Player(pygame.sprite.Sprite):
@@ -38,39 +37,38 @@ class Player(pygame.sprite.Sprite):
         self.itemsHeld = 0
         self.score = 0
 
-    def handle(self,event):
-        if event.type == pygame.KEYDOWN:
+    def handle(self,keys):
+       # if event.type == pygame.KEYDOWN:
 
-            if event.key == pygame.K_a:
-                self.update('left')
-            if event.key == pygame.K_d:
-                self.update('right')
-            if event.key == pygame.K_w:
-                self.update('up')
-            if event.key == pygame.K_s:
-                self.update('down')
-            if (event.key == pygame.K_k) and (self.itemsHeld > 0) :
-                self.itemsHeld -= 1
-                self.score -= 1
-                self.updateSpeed()
-                droppedItem = pygame.Rect(self.rectangle.x, self.rectangle.y, 50,50)
-                return droppedItem
+        if keys[pygame.K_a]:
+            self.update('left')
+        if keys[pygame.K_d]:
+            self.update('right')
+        if keys[pygame.K_w]:
+            self.update('up')
+        if keys[pygame.K_s]:
+            self.update('down')
+        if (keys[pygame.K_k]) and (self.itemsHeld > 0) :
+            self.itemsHeld -= 1
+            self.score -= 1
+            self.updateSpeed()
+            droppedItem = pygame.Rect(self.rectangle.x, self.rectangle.y, 50,50)
+            return droppedItem
 
-            if event.key == pygame.K_ESCAPE:
-                pygame.display.quit()
-                pygame.quit()
-                sys.exit()
+        if keys[pygame.K_ESCAPE]:
+            pygame.display.quit()
+            pygame.quit()
+            sys.exit()
+        # if event.type == pygame.KEYUP:
 
-        if event.type == pygame.KEYUP:
-
-            if event.key == pygame.K_a:
-                self.update('stand_left')
-            if event.key == pygame.K_d:
-                self.update('stand_right')
-            if event.key == pygame.K_w:
-                self.update('stand_up')
-            if event.key == pygame.K_s:
-                self.update('stand_down')
+        #     if event.key == pygame.K_a:
+        #         self.update('stand_left')
+        #     if event.key == pygame.K_d:
+        #         self.update('stand_right')
+        #     if event.key == pygame.K_w:
+        #         self.update('stand_up')
+        #     if event.key == pygame.K_s:
+        #         self.update('stand_down')
         
         return None
 
