@@ -26,11 +26,13 @@ def playLvlMusic(lvlNumber):
 
 def playSoundEffect(effectCode):
     if effectCode == 0: # BAD SOUND
-        pygame.mixer.music.pause()
-
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load("assets/music/GETBONKED.mp3")
+        pygame.mixer.music.play()
     elif effectCode == 1: # Pickup sound
-
-        pygame.mixer.music.pause()
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load("assets/music/PICKUP.mp3")
+        pygame.mixer.music.play()
 
 
 
@@ -42,7 +44,7 @@ if __name__ == '__main__':
 
     gameClock = pygame.time.Clock()
     screen = pygame.display.set_mode([w_width,w_height])
-    pygame.display.set_caption('Use WASD to move, collect crystals by pressing SPACE, drop crystals into the blue box by pressing K, avoid the bears and wolves!! (oh my!) Press ESCAPE to QUIT')
+    pygame.display.set_caption('Use WASD to move, collect crystals by pressing SPACE, drop crystals into the red box by pressing K, avoid the bears and wolves!! (oh my!) Press ESCAPE to QUIT')
     #screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     #info = pygame.display.Info()
     #w_width, w_height = info.current_w, info.current_h
@@ -52,6 +54,7 @@ if __name__ == '__main__':
     # Uncomment to see the modern version!
     #keith = player.Player((x,y), playerPath1, playerSpeed)
     keith.score = 0
+    musicPointer = 0
 
     enemies = []
     wolf = enemy.Enemy((x+100,y+200),wolfPath,7)
@@ -74,9 +77,7 @@ if __name__ == '__main__':
     font=gameFont
     frameCount = 0
     while True:
-        pygame.mixer.music.unpause()
-        if not (pygame.mixer.music.get_busy()):
-            # print "am i ever here???"
+        if pygame.mixer.music.get_busy() == False:
             playLvlMusic(0)
 
         frameCount+=1
