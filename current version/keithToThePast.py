@@ -1,5 +1,5 @@
 import pygame, sys , items
-from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath, itemPath
+from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath, itemPath, prototype_text
 import player,enemy
 
 def drawEnemies(screen,enemies):
@@ -14,7 +14,7 @@ def drawItems(screen,itemList,sink):
         itemImg = pygame.image.load(itemPath[0] + itemPath[1])
         pygame.draw.rect(screen,colors['green'],itemRect,3)
         screen.blit(itemImg, itemRect)
-    
+
 def playLvlMusic(lvlNumber):
     pygame.mixer.music.load("assets/music/keithDenial.mp3")
     pygame.mixer.music.play(-1)
@@ -32,6 +32,24 @@ if __name__ == '__main__':
     #screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     #info = pygame.display.Info()
     #w_width, w_height = info.current_w, info.current_h
+
+    # display text (just for prototype)
+    background = pygame.Surface(screen.get_size())
+    background = background.convert()
+    background.fill((0, 0, 0))
+    for i in range(0, len(prototype_text)):
+        text = gameFont.render(prototype_text[i], 1, (250, 250, 250))
+        textpos = text.get_rect()
+        textpos.centerx = background.get_rect().centerx
+        background.blit(text, (10, 10 + (20 * i)))
+        screen.blit(background, (0, 0))
+        pygame.display.flip()
+        pygame.time.wait(1500)
+    loop = True
+    while loop:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                loop = False
 
     x,y = 100,100
     keith = player.Player((x,y), playerPath2, playerSpeed)
