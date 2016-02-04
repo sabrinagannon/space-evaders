@@ -47,24 +47,6 @@ if __name__ == '__main__':
     #info = pygame.display.Info()
     #w_width, w_height = info.current_w, info.current_h
 
-    # display text (just for prototype)
-    background = pygame.Surface(screen.get_size())
-    background = background.convert()
-    background.fill((0, 0, 0))
-    for i in range(0, len(prototype_text)):
-        text = gameFont.render(prototype_text[i], 1, (250, 250, 250))
-        textpos = text.get_rect()
-        textpos.centerx = background.get_rect().centerx
-        background.blit(text, (10, 10 + (20 * i)))
-        screen.blit(background, (0, 0))
-        pygame.display.flip()
-        pygame.time.wait(1500)
-    loop = True
-    while loop:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                loop = False
-
     x,y = 100,100
     keith = player.Player((x,y), playerPath2, playerSpeed)
     # Uncomment to see the modern version!
