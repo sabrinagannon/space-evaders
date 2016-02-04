@@ -7,18 +7,31 @@ def drawEnemies(screen,enemies):
         pygame.draw.rect(screen,colors['blue'],enemy.detection,3)
         screen.blit(enemy.image, enemy.rectangle)
 
+def drawText(screen):
+    font = gameFont
+    text = font.render('You are carrying '+str(keith.itemsHeld)+' crystals', 1,colors['blue'])
+    textpos = pygame.Rect(10,10,w_width/2,w_height/2)
+    screen.blit(text, textpos)
+
 def drawItems(screen,itemList,sink):
     sink.draw(screen)
-
     for itemRect in itemRectList:
         itemImg = pygame.image.load(itemPath[0] + itemPath[1])
         pygame.draw.rect(screen,colors['green'],itemRect,3)
         screen.blit(itemImg, itemRect)
-    
+
 def playLvlMusic(lvlNumber):
     pygame.mixer.music.load("assets/music/keithDenial.mp3")
     pygame.mixer.music.play(-1)
-    #pygame.mixer.Sound.play(lvl1Song,-1)
+
+def playSoundEffect(effectCode):
+    if effectCode == 0: # BAD SOUND
+        pygame.mixer.music.pause()
+
+    elif effectCode == 1: # Pickup sound
+
+        pygame.mixer.music.pause()
+
 
 
 if __name__ == '__main__':
@@ -29,6 +42,7 @@ if __name__ == '__main__':
 
     gameClock = pygame.time.Clock()
     screen = pygame.display.set_mode([w_width,w_height])
+    pygame.display.set_caption('Use WASD to move, collect crystals by pressing SPACE, drop crystals into the blue box by pressing K, avoid the bears and wolves!! (oh my!) Press ESCAPE to QUIT')
     #screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     #info = pygame.display.Info()
     #w_width, w_height = info.current_w, info.current_h
@@ -57,12 +71,12 @@ if __name__ == '__main__':
     pygame.draw.rect(screen,colors['green'],initRect,3)
     sink.draw(screen)
     pygame.display.update()
-
+    font=gameFont
     frameCount = 0
     while True:
-
+        pygame.mixer.music.unpause()
         if not (pygame.mixer.music.get_busy()):
-            print "am i ever here???"
+            # print "am i ever here???"
             playLvlMusic(0)
 
         frameCount+=1
@@ -81,6 +95,15 @@ if __name__ == '__main__':
 
         for e in enemies:
             e.update(keith.rectangle)
+            if(e.rectangle.colliderect(keith.rectangle)):
+                playSoundEffect(0)
+                if(keith.itemsHeld > 0):
+                    keith.itemsHeld -= 1
+                    keith.updateSpeed()
+                    droppedItem = pygame.Rect(keith.rectangle.x, keith.rectangle.y, 50,50)
+                    itemRectList.append(droppedItem)
+                e.caughtHim = 1
+
         screen.fill(colors['black'])
 
         # generate new crystal that does not collide with player or sink
@@ -99,7 +122,7 @@ if __name__ == '__main__':
             if(itemRectList[index].colliderect(keith.rectangle)):
                 #print "the two items collided!"
                 if(keys[pygame.K_SPACE]):
-
+                    playSoundEffect(1)
                     del itemRectList[index]
                     #print str(itemRectList)
                     index = index -1
@@ -121,6 +144,7 @@ if __name__ == '__main__':
         #pygame.draw.rect(screen,colors['green'],itemRect,3)
         drawItems(screen,itemRectList,sink)
         drawEnemies(screen,enemies)
+        drawText(screen)
         screen.blit(keith.image, keith.rectangle)
 
         pygame.display.update()
