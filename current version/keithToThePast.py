@@ -17,7 +17,7 @@ def drawItems(screen,itemList,sink):
     
 def playLvlMusic(lvlNumber):
 	lvl1Song = pygame.mixer.Sound("assets/music/keithDenial.mp3")
-	pygame.mixer.play(lvl1Song,-1)
+	pygame.mixer.Sound.play(lvl1Song,-1)
 
 
 if __name__ == '__main__':
@@ -31,8 +31,8 @@ if __name__ == '__main__':
     #info = pygame.display.Info()
     #w_width, w_height = info.current_w, info.current_h
 
-	playLvlMusic(0)
-	#parameter doesn't do anything yet
+    playLvlMusic(0)
+    #parameter doesn't do anything yet
 
     x,y = 100,100
     keith = player.Player((x,y), playerPath2, playerSpeed)
