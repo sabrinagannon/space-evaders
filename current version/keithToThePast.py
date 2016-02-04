@@ -16,13 +16,14 @@ def drawItems(screen,itemList,sink):
         screen.blit(itemImg, itemRect)
     
 def playLvlMusic(lvlNumber):
-	lvl1Song = pygame.mixer.Sound("assets/music/keithDenial.mp3")
-	pygame.mixer.Sound.play(lvl1Song,-1)
+    pygame.mixer.music.load("assets/music/keithDenial.mp3")
+    pygame.mixer.music.play(-1)
+    #pygame.mixer.Sound.play(lvl1Song,-1)
 
 
 if __name__ == '__main__':
     pygame.init()
-    pygame.mixer.init(44100)
+    #pygame.mixer.init(44100)
     # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
     gameFont = pygame.font.SysFont("monospace", 15)
 
