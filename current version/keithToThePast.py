@@ -22,6 +22,7 @@ def playLvlMusic(lvlNumber):
 
 if __name__ == '__main__':
     pygame.init()
+    pygame.mixer.init(44100)
     # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
     gameFont = pygame.font.SysFont("monospace", 15)
 
@@ -30,9 +31,6 @@ if __name__ == '__main__':
     #screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     #info = pygame.display.Info()
     #w_width, w_height = info.current_w, info.current_h
-
-    playLvlMusic(0)
-    #parameter doesn't do anything yet
 
     x,y = 100,100
     keith = player.Player((x,y), playerPath2, playerSpeed)
@@ -61,6 +59,11 @@ if __name__ == '__main__':
 
     frameCount = 0
     while True:
+
+        if not (pygame.mixer.music.get_busy()):
+            print "am i ever here???"
+            playLvlMusic(0)
+
         frameCount+=1
         if sink.itemsHeld == 10:
               print "player score is : " + str(keith.score)
