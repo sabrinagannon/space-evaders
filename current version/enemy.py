@@ -41,7 +41,10 @@ class Enemy(pygame.sprite.Sprite):
         # used to cycle through frames
         self.frame = 0
         self.speed = speed
-        
+
+        # This is hacky but it's to stop the carnage
+        self.caughtHim = 0
+
         self.heading = self.createRandomHeading()
         self.direction = 'left'
         self.detection = self.rectangle.inflate(60,60)
@@ -53,7 +56,7 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.patrol()
             self.detection = self.rectangle.inflate(60,60)
-        
+
     def patrol(self):
         nextXPos = self.rectangle.x + (self.speed*self.heading.x)
         nextYPos = self.rectangle.y + (self.speed*self.heading.y)
@@ -94,7 +97,7 @@ class Enemy(pygame.sprite.Sprite):
                 self.move(self.left_states)
             else:
                 self.direction = 'down'
-                
+
         if self.direction == 'right':
             if (self.rectangle.x < w_width - self.rectangle.width):
                 self.rectangle.x += self.speed
@@ -118,6 +121,8 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
     def chase(self,playerRect):
+        if self.caughtHim == 1:
+            return
         # increase detection range
         self.detection = self.rectangle.inflate(400,300)
 
@@ -135,7 +140,7 @@ class Enemy(pygame.sprite.Sprite):
             self.move(self.right_states)
         elif x < 0:             # player to left
             self.move(self.left_states)
-   
+
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
@@ -160,7 +165,7 @@ class Enemy(pygame.sprite.Sprite):
     def createRandomHeading(self):
         angle = random.randint(0,360)
         angle = angle * (3.14159/180)
-        
+
         x = math.cos(angle)
         y = math.sin(angle)
         v = vector(x,y)
