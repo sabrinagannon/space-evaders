@@ -55,6 +55,7 @@ class Enemy(pygame.sprite.Sprite):
             self.chase(playerRect)
         else:
             self.patrol()
+            self.caughtHim = 0
             self.detection = self.rectangle.inflate(60,60)
 
     def patrol(self):
@@ -121,8 +122,10 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
     def chase(self,playerRect):
+
         if self.caughtHim == 1:
             return
+
         # increase detection range
         self.detection = self.rectangle.inflate(400,300)
 
