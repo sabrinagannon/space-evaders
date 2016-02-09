@@ -24,20 +24,19 @@ def playLvlMusic(lvlNumber):
     pygame.mixer.music.load("assets/music/keithDenial.mp3")
     pygame.mixer.music.play(-1)
 
-def playSoundEffect(effectCode):
-    if effectCode == 0: # BAD SOUND
-        pygame.mixer.music.stop()
-        pygame.mixer.music.load("assets/music/GETBONKED.mp3")
-        pygame.mixer.music.play()
-    elif effectCode == 1: # Pickup sound
-        pygame.mixer.music.stop()
-        pygame.mixer.music.load("assets/music/PICKUP.mp3")
-        pygame.mixer.music.play()
+def playSoundEffect(code):
+    if code == 0:
+        sound = pygame.mixer.Sound("assets/music/GETBONKED.wav")
+        pygame.mixer.Sound.play(sound)
+    elif code == 1:
+        sound = pygame.mixer.Sound("assets/music/pick up.wav")
+        pygame.mixer.Sound.play(sound)
 
 
 
 if __name__ == '__main__':
     pygame.init()
+    #pygame.mixer.init()
     #pygame.mixer.init(44100)
     # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
     gameFont = pygame.font.SysFont("monospace", 15)
