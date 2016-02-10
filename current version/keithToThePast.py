@@ -1,5 +1,6 @@
-import pygame, sys , items
+import pygame, sys,items,sounds
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath, itemPath, prototype_text
+from constants import chime, bloop
 import player,enemy
 
 def drawEnemies(screen,enemies):
@@ -24,54 +25,45 @@ def playLvlMusic(lvlNumber):
     pygame.mixer.music.load("assets/music/keithDenial.mp3")
     pygame.mixer.music.play(-1)
 
-def playSoundEffect(code):
-    if code == 0:
-        sound = pygame.mixer.Sound("assets/music/GETBONKED.wav")
-        pygame.mixer.Sound.play(sound)
-    elif code == 1:
-        sound = pygame.mixer.Sound("assets/music/pick up.wav")
-        pygame.mixer.Sound.play(sound)
-
-
-
 if __name__ == '__main__':
     pygame.init()
     #pygame.mixer.init()
     #pygame.mixer.init(44100)
+
     # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
     gameFont = pygame.font.SysFont("monospace", 15)
 
     gameClock = pygame.time.Clock()
     screen = pygame.display.set_mode([w_width,w_height])
     pygame.display.set_caption('Use WASD to move, collect crystals by pressing SPACE, drop crystals into the red box by pressing K, avoid the bears and wolves!! (oh my!) Press ESCAPE to QUIT')
+
     #screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     #info = pygame.display.Info()
     #w_width, w_height = info.current_w, info.current_h
 
     # display text (just for prototype)
-    background = pygame.Surface(screen.get_size())
-    background = background.convert()
-    background.fill((0, 0, 0))
-    for i in range(0, len(prototype_text)):
-        text = gameFont.render(prototype_text[i], 1, (250, 250, 250))
-        textpos = text.get_rect()
-        textpos.centerx = background.get_rect().centerx
-        background.blit(text, (10, 10 + (20 * i)))
-        screen.blit(background, (0, 0))
-        pygame.display.flip()
-        pygame.time.wait(1500)
-    loop = True
-    while loop:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                loop = False
+    # background = pygame.Surface(screen.get_size())
+    # background = background.convert()
+    # background.fill((0, 0, 0))
+    # for i in range(0, len(prototype_text)):
+    #     text = gameFont.render(prototype_text[i], 1, (250, 250, 250))
+    #     textpos = text.get_rect()
+    #     textpos.centerx = background.get_rect().centerx
+    #     background.blit(text, (10, 10 + (20 * i)))
+    #     screen.blit(background, (0, 0))
+    #     pygame.display.flip()
+    #     pygame.time.wait(1500)
+
+    # while True:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.KEYDOWN:
+    #             break
 
     x,y = 100,100
     keith = player.Player((x,y), playerPath2, playerSpeed)
     # Uncomment to see the modern version!
     #keith = player.Player((x,y), playerPath1, playerSpeed)
     keith.score = 0
-    musicPointer = 0
 
     enemies = []
     wolf = enemy.Enemy((x+100,y+200),wolfPath,7)
@@ -81,16 +73,17 @@ if __name__ == '__main__':
     enemies.extend([wolf,bear,wolf2,bear2])
 
     sink = items.Sink(150,gameFont,10)
-
+    sounds = sounds.Sounds()
+    sounds.addSound(bloop)
+    sounds.addSound(chime)
     initRect = pygame.Rect(w_width+10,w_height+10,25,25)
     itemRectList= [initRect]
 
     screen.fill(colors['black'])
-    # screen.blit(keith.image, keith.rectangle)
-    # screen.blit(enemy.image, enemy.rectangle)
     pygame.draw.rect(screen,colors['green'],initRect,3)
     sink.draw(screen)
     pygame.display.update()
+
     font=gameFont
     frameCount = 0
     while True:
@@ -114,7 +107,7 @@ if __name__ == '__main__':
         for e in enemies:
             e.update(keith.rectangle)
             if(e.rectangle.colliderect(keith.rectangle)):
-                playSoundEffect(0)
+                sounds.playSound(bloop)
                 if(keith.itemsHeld > 0):
                     keith.itemsHeld -= 1
                     keith.updateSpeed()
@@ -140,7 +133,7 @@ if __name__ == '__main__':
             if(itemRectList[index].colliderect(keith.rectangle)):
                 #print "the two items collided!"
                 if(keys[pygame.K_SPACE]):
-                    playSoundEffect(1)
+                    sounds.playSound(chime)
                     del itemRectList[index]
                     #print str(itemRectList)
                     index = index -1
