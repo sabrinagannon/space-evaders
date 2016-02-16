@@ -152,7 +152,6 @@ class Enemy(pygame.sprite.Sprite):
         elif x < 0:             # player to left
             self.move(self.left_states)
 
-
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
     def move(self, movement):

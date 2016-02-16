@@ -1,6 +1,5 @@
 import pygame, sys,items,sounds,cutscenes
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath, itemPath, prototype_text
-from constants import chime, bloop
 import player,enemy
 
 def drawEnemies(screen,enemies):
@@ -50,9 +49,7 @@ if __name__ == '__main__':
     enemies.extend([wolf,bear,wolf2,bear2])
 
     sink = items.Sink(150,gameFont,10)
-    sounds = sounds.Sounds()
-    sounds.addSound(bloop)
-    sounds.addSound(chime)
+    soundEffects = sounds.SoundFX()
     initRect = pygame.Rect(w_width+10,w_height+10,25,25)
     itemRectList= [initRect]
 
@@ -63,11 +60,14 @@ if __name__ == '__main__':
 
     font=gameFont
     frameCount = 0
+
+
     while True:
         if pygame.mixer.music.get_busy() == False:
             playLvlMusic(0)
 
         frameCount+=1
+        soundEffects.coolDown()
         if sink.itemsHeld == 10:
               print "player score is : " + str(keith.score)
               sys.exit()
@@ -84,7 +84,7 @@ if __name__ == '__main__':
         for e in enemies:
             e.update(keith.rectangle)
             if(e.rectangle.colliderect(keith.rectangle)):
-                sounds.playSound(bloop)
+                soundEffects.playBloop()
                 if(keith.itemsHeld > 0):
                     keith.itemsHeld -= 1
                     keith.updateSpeed()
@@ -110,7 +110,7 @@ if __name__ == '__main__':
             if(itemRectList[index].colliderect(keith.rectangle)):
                 #print "the two items collided!"
                 if(keys[pygame.K_SPACE]):
-                    sounds.playSound(chime)
+                    soundEffects.playChime()
                     del itemRectList[index]
                     #print str(itemRectList)
                     index = index -1
