@@ -48,6 +48,7 @@ class Player(pygame.sprite.Sprite):
             self.update('up')
         if keys[pygame.K_s]:
             self.update('down')
+
         if (keys[pygame.K_k]) and (self.itemsHeld > 0) :
             self.itemsHeld -= 1
             self.updateSpeed()
@@ -78,15 +79,6 @@ class Player(pygame.sprite.Sprite):
             if (self.rectangle.y < w_height-self.rectangle.height):
                 self.rectangle.y += self.speed
                 self.move(self.down_states)
-
-        if direction == 'stand_left':
-            self.move(self.left_states[0])
-        if direction == 'stand_right':
-            self.move(self.right_states[0])
-        if direction == 'stand_up':
-            self.move(self.up_states[0])
-        if direction == 'stand_down':
-            self.move(self.down_states[0])
 
         # what actually updates the image
         self.image = self.sheet.subsurface(self.sheet.get_clip())

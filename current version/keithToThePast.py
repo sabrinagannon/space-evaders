@@ -1,4 +1,4 @@
-import pygame, sys,items,sounds
+import pygame, sys,items,sounds,cutscenes
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath, itemPath, prototype_text
 from constants import chime, bloop
 import player,enemy
@@ -9,8 +9,7 @@ def drawEnemies(screen,enemies):
         screen.blit(enemy.image, enemy.rectangle)
 
 def drawText(screen):
-    font = gameFont
-    text = font.render('You are carrying '+str(keith.itemsHeld)+' crystals', 1,colors['blue'])
+    text = gameFont.render('You are carrying '+str(keith.itemsHeld)+' crystals', 1,colors['blue'])
     textpos = pygame.Rect(10,10,w_width/2,w_height/2)
     screen.blit(text, textpos)
 
@@ -27,43 +26,21 @@ def playLvlMusic(lvlNumber):
 
 if __name__ == '__main__':
     pygame.init()
-    #pygame.mixer.init()
-    #pygame.mixer.init(44100)
 
     # initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
     gameFont = pygame.font.SysFont("monospace", 15)
 
     gameClock = pygame.time.Clock()
     screen = pygame.display.set_mode([w_width,w_height])
+    # screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
     pygame.display.set_caption('Use WASD to move, collect crystals by pressing SPACE, drop crystals into the red box by pressing K, avoid the bears and wolves!! (oh my!) Press ESCAPE to QUIT')
 
-    #screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-    #info = pygame.display.Info()
-    #w_width, w_height = info.current_w, info.current_h
-
-    # display text (just for prototype)
-    # background = pygame.Surface(screen.get_size())
-    # background = background.convert()
-    # background.fill((0, 0, 0))
-    # for i in range(0, len(prototype_text)):
-    #     text = gameFont.render(prototype_text[i], 1, (250, 250, 250))
-    #     textpos = text.get_rect()
-    #     textpos.centerx = background.get_rect().centerx
-    #     background.blit(text, (10, 10 + (20 * i)))
-    #     screen.blit(background, (0, 0))
-    #     pygame.display.flip()
-    #     pygame.time.wait(1500)
-
-    # while True:
-    #     for event in pygame.event.get():
-    #         if event.type == pygame.KEYDOWN:
-    #             break
+    # cutscenes.playCutscene1(screen,gameFont)
 
     x,y = 100,100
     keith = player.Player((x,y), playerPath2, playerSpeed)
     # Uncomment to see the modern version!
     #keith = player.Player((x,y), playerPath1, playerSpeed)
-    keith.score = 0
 
     enemies = []
     wolf = enemy.Enemy((x+100,y+200),wolfPath,7)

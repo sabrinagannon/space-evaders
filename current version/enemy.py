@@ -47,16 +47,15 @@ class Enemy(pygame.sprite.Sprite):
 
         self.heading = self.createRandomHeading()
         self.direction = 'left'
-        self.detection = self.rectangle.inflate(60,60)
+        self.detection = self.rectangle.inflate(100,100)
 
     def update(self,playerRect):
-
         if self.detection.colliderect(playerRect):
             self.chase(playerRect)
         else:
             self.patrol()
             self.caughtHim = 0
-            self.detection = self.rectangle.inflate(60,60)
+            self.detection = self.rectangle.inflate(100,100)
 
     def patrol(self):
         nextXPos = self.rectangle.x + (self.speed*self.heading.x)
@@ -129,11 +128,20 @@ class Enemy(pygame.sprite.Sprite):
         # increase detection range
         self.detection = self.rectangle.inflate(400,300)
 
-        # using integer division to get the floor
-        x = (playerRect.x - self.rectangle.x)//(playerSpeed+5)
-        y = (playerRect.y - self.rectangle.y)//(playerSpeed+5)
-        self.rectangle.x += x
-        self.rectangle.y += y
+        # using integer division
+        x = (playerRect.x - self.rectangle.x)#//12
+        y = (playerRect.y - self.rectangle.y)#//12
+        
+        length = math.sqrt((x*x)+(y*y))
+
+        headingX = float(x/length)
+        headingY = float(y/length)
+
+        nextXPos = self.rectangle.x + (self.speed*headingX)
+        nextYPos = self.rectangle.y + (self.speed*headingY)
+
+        self.rectangle.x = nextXPos
+        self.rectangle.y = nextYPos
 
         if y > 0:             # player below
             self.move(self.down_states)
@@ -149,8 +157,7 @@ class Enemy(pygame.sprite.Sprite):
 
     def move(self, movement):
         if type(movement) is dict:
-            # regular case, where we call self.move with our dictionary
-            # of coordinates
+            # regular case, where we call self.move with our dictionary of coordinates
             self.frame += 1     # cycle through
             if self.frame > (len(movement) -1):
                 self.frame = 0
