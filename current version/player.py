@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, items
 from constants import w_width, w_height
 import json
 
@@ -52,8 +52,9 @@ class Player(pygame.sprite.Sprite):
         if (keys[pygame.K_k]) and (self.itemsHeld > 0) :
             self.itemsHeld -= 1
             self.updateSpeed()
-            droppedItem = pygame.Rect(self.rectangle.x, self.rectangle.y, 50,50)
-            return droppedItem
+            droppedItem = pygame.Rect(self.rectangle.x , self.rectangle.y, 50,50)
+            droppedCrystal = items.Crystal(droppedItem)
+            return droppedCrystal
 
         if keys[pygame.K_ESCAPE]:
             pygame.display.quit()
@@ -65,19 +66,19 @@ class Player(pygame.sprite.Sprite):
     def update(self, direction):
         if direction == 'left':
             if (self.rectangle.x > self.speed):
-                self.rectangle.x -= self.speed
+                #self.rectangle.x -= self.speed
                 self.move(self.left_states)
         if direction == 'right':
             if (self.rectangle.x < w_width - self.rectangle.width):
-                self.rectangle.x += self.speed
+                #self.rectangle.x += self.speed
                 self.move(self.right_states)
         if direction == 'up':
             if (self.rectangle.y > self.speed):
-                self.rectangle.y -= self.speed
+                #self.rectangle.y -= self.speed
                 self.move(self.up_states)
         if direction == 'down':
             if (self.rectangle.y < w_height-self.rectangle.height):
-                self.rectangle.y += self.speed
+                #self.rectangle.y += self.speed
                 self.move(self.down_states)
 
         # what actually updates the image

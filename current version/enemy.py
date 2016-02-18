@@ -49,33 +49,50 @@ class Enemy(pygame.sprite.Sprite):
         self.direction = 'left'
         self.detection = self.rectangle.inflate(100,100)
 
-    def update(self,playerRect):
-        if self.detection.colliderect(playerRect):
-            self.chase(playerRect)
+    def update(self,keith,bg,keys):
+        if keys[pygame.K_a]:
+            self.rectangle.x += keith.speed
+        if keys[pygame.K_d]:
+            self.rectangle.x -= keith.speed
+        if keys[pygame.K_w]:
+            self.rectangle.y += keith.speed
+        if keys[pygame.K_s]:
+            self.rectangle.y -= keith.speed
+
+        if self.detection.colliderect(keith.rectangle):
+            self.chase(keith.rectangle)
         else:
-            self.patrol()
+            self.patrol(bg)
             self.caughtHim = 0
             self.detection = self.rectangle.inflate(100,100)
 
-    def patrol(self):
+
+
+    def patrol(self,bg):
         nextXPos = self.rectangle.x + (self.speed*self.heading.x)
         nextYPos = self.rectangle.y + (self.speed*self.heading.y)
 
-        if nextXPos > (w_width-self.rectangle.width):
+        if nextXPos - bg.x > (bg.resolution[0]-self.rectangle.width):
+            #(w_width-self.rectangle.width):
             newHeading = vector((-1*self.heading.x),self.heading.y)
             self.heading = newHeading
-        if nextXPos <= 0:
+            nextXPos = (bg.resolution[0]-self.rectangle.width)+bg.x
+        if nextXPos - bg.x <= 0:
             newHeading = vector((-1*self.heading.x),self.heading.y)
             self.heading = newHeading
-        if nextYPos > (w_height-self.rectangle.height):
+            nextXPos = bg.x
+        if nextYPos - bg.y > (bg.resolution[1]-self.rectangle.height):
             newHeading = vector(self.heading.x,(-1*self.heading.y))
             self.heading = newHeading
-        if nextYPos <= 0:
+            nextYPos = (bg.resolution[1]-self.rectangle.width)+bg.y
+        if nextYPos -bg.y <= 0:
             newHeading = vector(self.heading.x,(-1*self.heading.y))
             self.heading = newHeading
+            nextYPos = bg.y
 
         self.rectangle.x = nextXPos
         self.rectangle.y = nextYPos
+
 
         if nextYPos > nextXPos: # animate vertical
             if self.heading.y > 0:        # moving down
@@ -90,39 +107,10 @@ class Enemy(pygame.sprite.Sprite):
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
-    def patrolBorder(self):
-        if self.direction == 'left':
-            if (self.rectangle.x > self.speed):
-                self.rectangle.x -= self.speed
-                self.move(self.left_states)
-            else:
-                self.direction = 'down'
-
-        if self.direction == 'right':
-            if (self.rectangle.x < w_width - self.rectangle.width):
-                self.rectangle.x += self.speed
-                self.move(self.right_states)
-            else:
-                self.direction = 'up'
-
-        if self.direction == 'up':
-            if (self.rectangle.y > self.speed):
-                self.rectangle.y -= self.speed
-                self.move(self.up_states)
-            else:
-                self.direction = 'left'
-        if self.direction == 'down':
-            if (self.rectangle.y < w_height-self.rectangle.height):
-                self.rectangle.y += self.speed
-                self.move(self.down_states)
-            else:
-                self.direction = 'right'
-
-        self.image = self.sheet.subsurface(self.sheet.get_clip())
-
     def chase(self,playerRect):
 
         if self.caughtHim == 1:
+            self.detection = self.rectangle.inflate(400,300)
             return
 
         # increase detection range

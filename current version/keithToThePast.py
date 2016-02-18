@@ -1,6 +1,6 @@
 import pygame, sys,items,sounds,cutscenes
-from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath, itemPath, prototype_text
-import player,enemy
+from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath
+import player,enemy,backgrounds
 
 def drawEnemies(screen,enemies):
     for enemy in enemies:
@@ -12,16 +12,20 @@ def drawText(screen):
     textpos = pygame.Rect(10,10,w_width/2,w_height/2)
     screen.blit(text, textpos)
 
-def drawItems(screen,itemList,sink):
-    sink.draw(screen)
-    for itemRect in itemRectList:
-        itemImg = pygame.image.load(itemPath[0] + itemPath[1])
-        pygame.draw.rect(screen,colors['green'],itemRect,3)
-        screen.blit(itemImg, itemRect)
+def drawItems(screen,crystalList,sink,bg):
+    sink.draw(screen,bg.x,bg.y,bg.offset)
+
+    for crystal in crystalList:
+        crystal.rect.x = crystal.origX + (bg.x + bg.offset)
+        crystal.rect.y = crystal.origY + (bg.y + bg.offset)
+        pygame.draw.rect(screen,colors['green'],crystal.rect,3)
+        screen.blit(crystal.sheet, crystal.rect)#(itemRect.x + (b.x + b.offset), itemRect.y + (b.y + b.offset)))
 
 def playLvlMusic(lvlNumber):
     pygame.mixer.music.load("assets/music/keithDenial.mp3")
     pygame.mixer.music.play(-1)
+
+
 
 if __name__ == '__main__':
     pygame.init()
@@ -42,24 +46,28 @@ if __name__ == '__main__':
     #keith = player.Player((x,y), playerPath1, playerSpeed)
 
     enemies = []
-    wolf = enemy.Enemy((x+100,y+200),wolfPath,7)
-    bear = enemy.Enemy((x+300,y+100),bearPath,9)
-    wolf2 = enemy.Enemy((x+400,y+200),wolfPath,10)
-    bear2 = enemy.Enemy((x+100,y+400),bearPath,11)
-    enemies.extend([wolf,bear,wolf2,bear2])
+    wolf = enemy.Enemy((600,350),wolfPath,7)
+    bear = enemy.Enemy((600,350),bearPath,9)
+    wolf2 = enemy.Enemy((600,350),wolfPath,10)
+    bear2 = enemy.Enemy((600,350),bearPath,11)
+    wolf3 = enemy.Enemy((600,350),wolfPath,3)
+    bear3 = enemy.Enemy((600,350),bearPath,12)
+    enemies.extend([wolf,bear,wolf2,bear2,bear3,wolf3])
 
     sink = items.Sink(150,gameFont,10)
     soundEffects = sounds.SoundFX()
-    initRect = pygame.Rect(w_width+10,w_height+10,25,25)
-    itemRectList= [initRect]
+    initRect = pygame.Rect(-4000,-4000,25,25)
+    initCrystal = items.Crystal(initRect)
+    crystalList= [initCrystal]
 
     screen.fill(colors['black'])
     pygame.draw.rect(screen,colors['green'],initRect,3)
-    sink.draw(screen)
+    #sink.draw(screen)
     pygame.display.update()
 
     font=gameFont
     frameCount = 0
+    background = backgrounds.Background(1)
 
 
     while True:
@@ -79,41 +87,38 @@ if __name__ == '__main__':
 
         keys = pygame.key.get_pressed()
 
+        background.handle(keys,keith)
         update = keith.handle(keys)
 
         for e in enemies:
-            e.update(keith.rectangle)
+            e.update(keith,background,keys)
             if(e.rectangle.colliderect(keith.rectangle)):
-                soundEffects.playBloop()
+                #soundEffects.playBloop()
+                e.caughtHim = 1
                 if(keith.itemsHeld > 0):
                     keith.itemsHeld -= 1
                     keith.updateSpeed()
-                    droppedItem = pygame.Rect(keith.rectangle.x, keith.rectangle.y, 50,50)
-                    itemRectList.append(droppedItem)
-                e.caughtHim = 1
-
-        screen.fill(colors['black'])
+                    droppedBox = pygame.Rect(keith.rectangle.x, keith.rectangle.y, 41,36)
+                    droppedItem = items.Crystal(droppedBox)
+                    crystalList.append(droppedItem)
 
         # generate new crystal that does not collide with player or sink
-        if(frameCount == 80):
+        if(frameCount == 90):
             frameCount = 0
-            if(len(itemRectList) < 10): # quick way of limiting us to 10 items (or however many fragments/items, can be changed depending on level.)
-                itemRectList.append(items.createRandomRect(w_width,w_height,50,50,keith.rectangle,sink.rect))
-            elif(len(itemRectList) > 0):
-                del itemRectList[1]
-                itemRectList.append(items.createRandomRect(w_width,w_height,50,50,keith.rectangle,sink.rect))
+            if(len(crystalList) < 10): # quick way of limiting us to 10 items (or however many crystals, can be changed depending on level.)
+                crystalList.append(items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect))
+            elif(len(crystalList) > 0):
+                del crystalList[1]
+                crystalList.append(items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect))
 
         # Check for collisions, update speed and score
         index = 0
-        while index < len(itemRectList):
-            #print("index: " + str(index))
-            if(itemRectList[index].colliderect(keith.rectangle)):
-                #print "the two items collided!"
+        while index < len(crystalList):
+            if(crystalList[index].rect.colliderect(keith.rectangle)):
                 if(keys[pygame.K_SPACE]):
                     soundEffects.playChime()
-                    del itemRectList[index]
-                    #print str(itemRectList)
-                    index = index -1
+                    del crystalList[index]
+                    index = index-1
                     keith.itemsHeld = keith.itemsHeld + 1
                     if keith.speed > 5 :
                         keith.updateSpeed()
@@ -127,13 +132,14 @@ if __name__ == '__main__':
                 keith.score += 1
             else:
                 # player dropped an item and we need to re-draw it
-                itemRectList.append(update)
+                crystalList.append(update)
 
-        #pygame.draw.rect(screen,colors['green'],itemRect,3)
-        drawItems(screen,itemRectList,sink)
+        screen.fill(colors['black'])
+        background.draw(screen)
+        drawItems(screen,crystalList,sink,background)
         drawEnemies(screen,enemies)
         drawText(screen)
         screen.blit(keith.image, keith.rectangle)
 
         pygame.display.update()
-        gameClock.tick(20)
+        gameClock.tick(30)
