@@ -3,7 +3,7 @@ from constants import w_width,w_height
 
 class Background():
     def __init__(self,level):
-        self.level1 = pygame.image.load('assets/background.png').convert()
+        self.level1 = pygame.image.load('assets/images/background.png').convert()
         self.resolution = (3000,3000)
         self.level = level
         self.offset = 1000
