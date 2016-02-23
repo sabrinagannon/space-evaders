@@ -1,4 +1,4 @@
-import pygame, sys,items,sounds,cutscenes
+import pygame, sys,items,sounds,cutscenes, random
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2, wolfPath, bearPath
 import player,enemy,backgrounds
 
@@ -26,7 +26,6 @@ def playLvlMusic(lvlNumber):
     pygame.mixer.music.play(-1)
 
 
-
 if __name__ == '__main__':
     pygame.init()
 
@@ -40,18 +39,19 @@ if __name__ == '__main__':
 
     # cutscenes.playCutscene1(screen,gameFont)
 
-    x,y = 100,100
+    x,y = 600,350 # start player at center
+    enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points
     keith = player.Player((x,y), playerPath2, playerSpeed)
     # Uncomment to see the modern version!
     #keith = player.Player((x,y), playerPath1, playerSpeed)
 
     enemies = []
-    wolf = enemy.Enemy((600,350),wolfPath,7)
-    bear = enemy.Enemy((600,350),bearPath,9)
-    wolf2 = enemy.Enemy((600,350),wolfPath,10)
-    bear2 = enemy.Enemy((600,350),bearPath,11)
-    wolf3 = enemy.Enemy((600,350),wolfPath,3)
-    bear3 = enemy.Enemy((600,350),bearPath,12)
+    wolf = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,7)
+    bear = enemy.Enemy((enemyStartX, enemyStartY),bearPath,9)
+    wolf2 = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,10)
+    bear2 = enemy.Enemy((enemyStartX, enemyStartY),bearPath,11)
+    wolf3 = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,3)
+    bear3 = enemy.Enemy((enemyStartX, enemyStartY),bearPath,12)
     enemies.extend([wolf,bear,wolf2,bear2,bear3,wolf3])
 
     sink = items.Sink(150,gameFont,10)
