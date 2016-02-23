@@ -14,20 +14,20 @@ class Background():
 
         if keys[pygame.K_a]:
             self.x += keith.speed
-            if self.x >= 120:
-                self.x = 120
+            if self.x >= (w_width/2):
+                self.x = (w_width/2)
         if keys[pygame.K_d]:
             self.x -= keith.speed
-            if self.x <= (-self.resolution[0])+120: # probably shouldn't be hardcoded
-                self.x = (-self.resolution[0])+120
+            if self.x <= (-self.resolution[0])+(w_width/2): # probably shouldn't be hardcoded
+                self.x = (-self.resolution[0])+(w_width/2)
         if keys[pygame.K_w]:
             self.y += keith.speed
-            if self.y >= 120:
-                self.y = 120
+            if self.y >= (w_height/2):
+                self.y = (w_height/2)
         if keys[pygame.K_s]:
             self.y -= keith.speed
-            if self.y <= -self.resolution[1] + 120:
-                self.y = -self.resolution[1] + 120
+            if self.y <= -self.resolution[1] + (w_height/2):
+                self.y = -self.resolution[1] + (w_height/2)
 
     def draw(self,screen):
         if self.level == 1:
