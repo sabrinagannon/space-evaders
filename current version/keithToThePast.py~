@@ -88,17 +88,17 @@ if __name__ == '__main__':
         keys = pygame.key.get_pressed()
 
         background.handle(keys,keith)
-        update = keith.handle(keys,background)
+        update = keith.handle(keys)
 
         for e in enemies:
             e.update(keith,background,keys)
             if(e.rectangle.colliderect(keith.rectangle)):
-                soundEffects.playBloop()
+                #soundEffects.playBloop()
                 e.caughtHim = 1
                 if(keith.itemsHeld > 0):
                     keith.itemsHeld -= 1
                     keith.updateSpeed()
-                    droppedBox = pygame.Rect((keith.rectangle.x - 1000 - background.x), (keith.rectangle.y -1000 - background.y), 41,36)
+                    droppedBox = pygame.Rect(keith.rectangle.x, keith.rectangle.y, 41,36)
                     droppedItem = items.Crystal(droppedBox)
                     crystalList.append(droppedItem)
 

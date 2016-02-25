@@ -18,7 +18,7 @@ class Background():
                 self.x = (w_width/2)
         if keys[pygame.K_d]:
             self.x -= keith.speed
-            if self.x <= (-self.resolution[0])+(w_width/2):
+            if self.x <= (-self.resolution[0])+(w_width/2): # probably shouldn't be hardcoded
                 self.x = (-self.resolution[0])+(w_width/2)
         if keys[pygame.K_w]:
             self.y += keith.speed

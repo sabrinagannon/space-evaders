@@ -44,8 +44,7 @@ def createRandomRect( w_Width, w_Height , rectWidth , rectHeight , playerRect, s
     while not goodCoords:
         x = random.randint(0,(w_Width - rectWidth))
         y = random.randint(0,(w_Height - rectHeight))
-        newRect = pygame.Rect(x,y,41,36)
-        if(not playerRect.colliderect(newRect) and (not sinkRect.colliderect(newRect))):
+        if(not playerRect.collidepoint(x,y)) and (not sinkRect.collidepoint(x,y)):
             goodCoords = True
 
     itemRect=pygame.Rect(x,y,41,36)

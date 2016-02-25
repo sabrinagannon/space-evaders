@@ -37,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.itemsHeld = 0
         self.score = 0
 
-    def handle(self,keys):
+    def handle(self,keys,bg):
        # if event.type == pygame.KEYDOWN:
 
         if keys[pygame.K_a]:
@@ -52,7 +52,7 @@ class Player(pygame.sprite.Sprite):
         if (keys[pygame.K_k]) and (self.itemsHeld > 0) :
             self.itemsHeld -= 1
             self.updateSpeed()
-            droppedItem = pygame.Rect(self.rectangle.x , self.rectangle.y, 50,50)
+            droppedItem = pygame.Rect((self.rectangle.x -1000 -bg.x), (self.rectangle.y -1000 -bg.y), 50,50)
             droppedCrystal = items.Crystal(droppedItem)
             return droppedCrystal
 
