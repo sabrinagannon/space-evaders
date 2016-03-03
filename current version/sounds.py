@@ -24,9 +24,10 @@ class SoundFX():
             sound = self.sound_lib.get(bloop)
             sound.play()
             self.cooldown = 10
+        else:
+            self.coolDown()
 
     def playChime(self):
-        if not self.cooldown:
-            sound = self.sound_lib.get(chime)
-            sound.play()
-            self.cooldown = 10
+        sound = self.sound_lib.get(chime)
+        sound.play()
+        self.cooldown = 10
