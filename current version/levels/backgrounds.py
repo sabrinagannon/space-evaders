@@ -1,5 +1,6 @@
 import pygame
 from constants import w_width,w_height
+import os
 
 class Background():
     def __init__(self,level):
@@ -18,6 +19,7 @@ class Background():
             self.y = -1000
 
         elif level == 2:
+            print os.getcwd()
             self.pic = pygame.image.load('assets/images/space.jpg').convert()
             self.resolution = (3000,3000)
             self.offset = 1000
@@ -46,6 +48,5 @@ class Background():
                 self.y = -self.resolution[1] + (w_height/2)
 
     def draw(self,screen):
-        if self.level == 1:
-            screen.blit(self.pic, (self.x,self.y))
+        screen.blit(self.pic, (self.x,self.y))
         

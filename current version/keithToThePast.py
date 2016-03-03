@@ -53,8 +53,13 @@ if __name__ == '__main__':
 
         frameCount+=1
         if sink.itemsHeld == 10:
-              print "player score is : " + str(keith.score)
-              sys.exit()
+              # print "player score is : " + str(keith.score)
+              # sys.exit()
+            reset(sink,soundEffects,initRect,initCrystal,crystalList)
+            level = level2.level(screen)
+            levelNum = 2;
+            sink.itemsHeld += 1
+            level.playLvlMusic(levelNum)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
