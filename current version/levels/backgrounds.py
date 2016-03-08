@@ -12,7 +12,7 @@ class Background():
         self.y = 0
 
         if level == 1:
-            self.pic = pygame.image.load('assets/images/background.png').convert()
+            self.pic = pygame.image.load('assets/images/LevelOneBG.png').convert()
             self.resolution = (3000,3000)
             self.offset = 1000
             self.x = -1000
