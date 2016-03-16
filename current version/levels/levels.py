@@ -22,6 +22,13 @@ class levels():
             pygame.draw.rect(self.screen,colors['green'],crystal.rect,3)
             self.screen.blit(crystal.sheet, crystal.rect)
 
+    def drawObstacles(self,obstacleList,bg):
+        
+        for obstacle in obstacleList:
+            obstacle.rect.x = obstacle.origX + (bg.x + bg.offset)
+            obstacle.rect.y = obstacle.origY = (bg.y + bg.offset)
+            self.screen.blit(obstacle.sheet,obstacle.rect)
+
     def playLvlMusic(self,lvlNumber):
         pygame.mixer.music.load(self.music[lvlNumber-1])
         pygame.mixer.music.play(-1)
