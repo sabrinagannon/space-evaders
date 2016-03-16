@@ -2,15 +2,11 @@ import sys
 sys.path.insert(0,'../')
 from levels import levels
 from constants import w_width, w_height, wolfPath, bearPath,colors
-import enemy, items, backgrounds,sounds
+import enemy, items, backgrounds, sounds
 import random, pygame
 
-
-
-
-
 class level(levels):
-    
+
     def __init__(self, screen):
         levels.__init__(self,screen)
         self.screen = screen
@@ -28,7 +24,7 @@ class level(levels):
         bear2 = enemy.Enemy((enemyStartX, enemyStartY),bearPath,11)
         wolf3 = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,3)
         bear3 = enemy.Enemy((enemyStartX, enemyStartY),bearPath,12)
-        
+
         self.enemies = [wolf,bear,wolf2,bear2,bear3,wolf3]
         self.background = backgrounds.Background(1)
 
@@ -37,7 +33,7 @@ class level(levels):
             e.update(keith,self.background,keys)
 
             if(e.rectangle.colliderect(keith.rectangle)):
-                
+
                 self.soundFX.playBloop()
                 e.caughtHim = 1
 
@@ -48,7 +44,7 @@ class level(levels):
                     droppedItem = items.Crystal(droppedBox)
                     crystalList.append(droppedItem)
 
-    
+
 
     def draw(self,crystalList,sink,keith):
         self.screen.fill(colors['black'])
@@ -58,12 +54,3 @@ class level(levels):
         self.drawText(keith)
         self.drawObstacles(self.obstacles,self.background)
         self.screen.blit(keith.image, keith.rectangle)
-
-
-
-
-
-
-
-
-

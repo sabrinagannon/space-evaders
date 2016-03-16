@@ -6,7 +6,7 @@ import enemy, items, backgrounds,sounds
 import random, pygame
 
 class level(levels):
-    
+
     def __init__(self, screen):
         levels.__init__(self,screen)
         self.screen = screen
@@ -24,7 +24,7 @@ class level(levels):
             e.update(keith,self.background,keys)
 
             if(e.rectangle.colliderect(keith.rectangle)):
-                
+
                 self.soundFX.playBloop()
                 e.caughtHim = 1
 
@@ -42,12 +42,3 @@ class level(levels):
         self.drawEnemies(self.enemies)
         self.drawText(keith)
         self.screen.blit(keith.image, keith.rectangle)
-
-
-
-
-
-
-
-
-

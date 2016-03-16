@@ -2,6 +2,7 @@ import pygame, sys,items,random
 sys.path.insert(0,'levels/')
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2
 import player, level1, level2, sounds
+import cutscenes, cutsceneText
 
 #,backgrounds
 
@@ -23,13 +24,17 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode([w_width,w_height])
     screen.fill(colors['black'])
     # screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-    
+
     pygame.display.set_caption('Use WASD to move, collect crystals by pressing SPACE, drop crystals into the red box by pressing K, avoid the bears and wolves!! (oh my!) Press ESCAPE to QUIT')
+
+    # play intro cutscene
+    cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
     level = level1.level(screen)
     levelNum = 1
 
-    #level.playCutscene(levelNum)
+    # play level cutscene
+    level.playCutscene(levelNum)
 
     keith = player.Player((level.startingPosX,level.startingPosY), playerPath2, playerSpeed)
     #keith = player.Player((x,y), playerPath1, playerSpeed)
@@ -39,7 +44,7 @@ if __name__ == '__main__':
     initRect = pygame.Rect(-4000,-4000,25,25)
     initCrystal = items.Crystal(initRect)
     crystalList= [initCrystal]
- 
+
     pygame.draw.rect(screen,colors['green'],initRect,3)
     #sink.draw(screen)
     pygame.display.update()

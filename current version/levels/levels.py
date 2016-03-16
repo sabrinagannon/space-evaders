@@ -1,5 +1,5 @@
 from constants import colors, w_width, w_height
-import pygame, cutscenes
+import pygame, cutscenes, cutsceneText
 
 class levels():
 
@@ -23,7 +23,7 @@ class levels():
             self.screen.blit(crystal.sheet, crystal.rect)
 
     def drawObstacles(self,obstacleList,bg):
-        
+
         for obstacle in obstacleList:
             obstacle.rect.x = obstacle.origX + (bg.x + bg.offset)
             obstacle.rect.y = obstacle.origY = (bg.y + bg.offset)
@@ -39,5 +39,5 @@ class levels():
         self.screen.blit(text, textpos)
 
     def playCutscene(self,level):
-        if (level == 1):
-            cutscenes.playCutscene1(self.screen,self.font)
+        cutsceneArray = "level" + str(level) + "_cutscene"
+        cutscenes.playCutscene(self.screen, cutsceneText.text[cutsceneArray])
