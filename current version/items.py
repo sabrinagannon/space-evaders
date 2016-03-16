@@ -42,8 +42,8 @@ def createRandomRect( w_Width, w_Height , rectWidth , rectHeight , playerRect, s
     y = 0
 
     while not goodCoords:
-        x = random.randint(0,2500 - rectHeight)
-        y = random.randint(0,2500 - rectWidth)
+        x = random.randint(0, (2000 - rectWidth))
+        y = random.randint(0,(2000 - rectHeight))
         if(not playerRect.collidepoint(x,y)) and (not sinkRect.collidepoint(x,y)):
            # print "x: " + str(x)
            # print 'y: ' + str(y)
