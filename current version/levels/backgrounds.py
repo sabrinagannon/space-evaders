@@ -10,6 +10,8 @@ class Background():
         self.offset = 0
         self.x = 0
         self.y = 0
+        self.prevPress = 0
+        self.new = True
 
         if level == 1:
             self.pic = pygame.image.load('assets/images/LevelOneBG.png').convert()
@@ -36,7 +38,7 @@ class Background():
                 self.x = (w_width/2)
         if keys[pygame.K_d]:
             self.x -= keith.speed
-            if self.x <= (-self.resolution[0])+(w_width/2): # probably shouldn't be hardcoded
+            if self.x <= (-self.resolution[0])+(w_width/2):
                 self.x = (-self.resolution[0])+(w_width/2)
         if keys[pygame.K_w]:
             self.y += keith.speed

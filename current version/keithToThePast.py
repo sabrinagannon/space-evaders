@@ -4,15 +4,27 @@ from constants import w_width, w_height, colors, playerSpeed, playerPath1, playe
 import player, level1, level2, sounds
 import cutscenes, cutsceneText
 
-#,backgrounds
-
-
 def reset(sink,soundEffects,initRect,initCrystal,crystalList):
     sink = items.Sink(150,font,10)
     soundEffects = sounds.SoundFX()
     initRect = pygame.Rect(-4000,-4000,25,25)
     initCrystal = items.Crystal(initRect)
     crystalList= [initCrystal]
+
+
+# Return array of keys pressed
+def getKeys(keys):
+    pressed = []
+    if keys[pygame.K_a]:
+        pressed.append(pygame.K_a)
+    if keys[pygame.K_d]:
+        pressed.append(pygame.K_d)
+    if keys[pygame.K_w]:
+        pressed.append(pygame.K_w)
+    if keys[pygame.K_s]:
+        pressed.append(pygame.K_s)
+    return pressed
+    
 
 
 if __name__ == '__main__':
@@ -72,6 +84,15 @@ if __name__ == '__main__':
                 sys.exit()
 
         keys = pygame.key.get_pressed()
+        pressed = getKeys(keys)
+
+        # Check for obstacle collisions
+        index = 0
+        # blocked = False
+        # for obstacle in level.obstacles:
+        #     if obstacle.rect.colliderect(keith.rectangle):
+        #         blocked = True
+        #         break
 
         # React to key press
         level.background.handle(keys,keith)
@@ -101,11 +122,6 @@ if __name__ == '__main__':
                     else:
                         keith.speed = 5
             index+=1
-
-        #index = 0
-       # while index < len(level.obstacles):
-         #   if(level.obstacles[index].rect.colliderect(keith.rectangle)):
-           #     print "get bonked"
 
 
         if update is not None:
