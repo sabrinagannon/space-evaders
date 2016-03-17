@@ -42,8 +42,8 @@ def createRandomRect( w_Width, w_Height , rectWidth , rectHeight , playerRect, s
     y = 0
 
     while not goodCoords:
-        x = random.randint(0,2500 - rectHeight)
-        y = random.randint(0,2500 - rectWidth)
+        x = random.randint(0, (2000 - rectWidth))
+        y = random.randint(0,(2000 - rectHeight))
         if(not playerRect.collidepoint(x,y)) and (not sinkRect.collidepoint(x,y)):
            # print "x: " + str(x)
            # print 'y: ' + str(y)
@@ -72,7 +72,7 @@ def createObstacles(obstacleDict):
 
     for obstacle in obstacleDict:
 
-        clip_area = pygame.Rect(10,10,200,200) # this is the size of a frame
+        clip_area = pygame.Rect(obstacleDict[obstacle]['x'],obstacleDict[obstacle]['y'],obstacleDict[obstacle]['width'],obstacleDict[obstacle]['height']) # this is the size of a frame
             
         obstacles.append(Obstacle(clip_area,obstacleDict[obstacle]['path']))
         
@@ -83,4 +83,4 @@ def createObstacles(obstacleDict):
         # self.rectangle.topleft = startingPos
 
 
-        return obstacles
+    return obstacles

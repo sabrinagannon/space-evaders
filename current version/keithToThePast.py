@@ -102,6 +102,11 @@ if __name__ == '__main__':
                         keith.speed = 5
             index+=1
 
+        #index = 0
+       # while index < len(level.obstacles):
+         #   if(level.obstacles[index].rect.colliderect(keith.rectangle)):
+           #     print "get bonked"
+
 
         if update is not None:
             if sink.rect.colliderect(keith.rectangle): # dropping in the sink
