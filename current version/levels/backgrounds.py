@@ -10,8 +10,6 @@ class Background():
         self.offset = 0
         self.x = 0
         self.y = 0
-        self.prevPress = 0
-        self.new = True
 
         if level == 1:
             self.pic = pygame.image.load('assets/images/LevelOneBG.png').convert()
