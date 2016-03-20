@@ -38,7 +38,6 @@ class Player(pygame.sprite.Sprite):
         self.score = 0
 
     def handle(self,keys,bg):
-       # if event.type == pygame.KEYDOWN:
 
         if keys[pygame.K_a]:
             self.update('left')
@@ -66,19 +65,15 @@ class Player(pygame.sprite.Sprite):
     def update(self, direction):
         if direction == 'left':
             if (self.rectangle.x > self.speed):
-                #self.rectangle.x -= self.speed
                 self.move(self.left_states)
         if direction == 'right':
             if (self.rectangle.x < w_width - self.rectangle.width):
-                #self.rectangle.x += self.speed
                 self.move(self.right_states)
         if direction == 'up':
             if (self.rectangle.y > self.speed):
-                #self.rectangle.y -= self.speed
                 self.move(self.up_states)
         if direction == 'down':
             if (self.rectangle.y < w_height-self.rectangle.height):
-                #self.rectangle.y += self.speed
                 self.move(self.down_states)
 
         # what actually updates the image
@@ -99,7 +94,7 @@ class Player(pygame.sprite.Sprite):
         new_rect =  pygame.Rect(coords)
 
         self.sheet.set_clip(new_rect)
-        return movement         # not sure why we return this
+        return movement   
 
     
     def updateSpeed(self):

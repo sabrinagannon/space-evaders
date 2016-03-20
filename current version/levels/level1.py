@@ -14,10 +14,11 @@ class level(levels):
         self.startingPosX = 600
         self.startingPosY = 350
         self.soundFX = sounds.SoundFX()
-        self.obstacleCoords = {'obst1': {'x':10 ,'y':500 , 'width':376 , 'height':296, 'path':'assets/images/suck.png' },'obst2':{'x':1500,'y':-200 , 'width':376, 'height':296, 'path':'assets/images/suck.png'}}
+        self.obstacleCoords = {'obst1': {'x':100 ,'y':500 , 'width':376 , 'height':296, 'path':'assets/images/suck.png' },'obst2':{'x':1500,'y':-200 , 'width':376, 'height':296, 'path':'assets/images/suck.png'}}
         self.obstacles = items.createObstacles(self.obstacleCoords)
         # where the enemies will start on this level
         enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points
+
         wolf = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,7)
         bear = enemy.Enemy((enemyStartX, enemyStartY),bearPath,9)
         wolf2 = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,10)
@@ -28,9 +29,13 @@ class level(levels):
         self.enemies = [wolf,bear,wolf2,bear2,bear3,wolf3]
         self.background = backgrounds.Background(1)
 
-    def updateEnemies(self,keith,keys,crystalList):
+    def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
+        if disabled == None:
+            collision = False
+        else:
+            collision = keys[disabled]
         for e in self.enemies:
-            e.update(keith,self.background,keys)
+            e.update(keith,self.background,keys,collision,obstacles)
 
             if(e.rectangle.colliderect(keith.rectangle)):
 

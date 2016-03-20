@@ -11,22 +11,6 @@ def reset(sink,soundEffects,initRect,initCrystal,crystalList):
     initCrystal = items.Crystal(initRect)
     crystalList= [initCrystal]
 
-
-# Return array of keys pressed
-def getKeys(keys):
-    pressed = []
-    if keys[pygame.K_a]:
-        pressed.append(pygame.K_a)
-    if keys[pygame.K_d]:
-        pressed.append(pygame.K_d)
-    if keys[pygame.K_w]:
-        pressed.append(pygame.K_w)
-    if keys[pygame.K_s]:
-        pressed.append(pygame.K_s)
-    return pressed
-    
-
-
 if __name__ == '__main__':
     pygame.init()
 
@@ -75,7 +59,7 @@ if __name__ == '__main__':
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
             level = level2.level(screen)
             levelNum = 2;
-            sink.itemsHeld += 1
+            sink.itemsHeld =0
             level.playLvlMusic(levelNum)
 
         for event in pygame.event.get():
@@ -84,20 +68,11 @@ if __name__ == '__main__':
                 sys.exit()
 
         keys = pygame.key.get_pressed()
-        pressed = getKeys(keys)
-
-        # Check for obstacle collisions
-        index = 0
-        # blocked = False
-        # for obstacle in level.obstacles:
-        #     if obstacle.rect.colliderect(keith.rectangle):
-        #         blocked = True
-        #         break
 
         # React to key press
-        level.background.handle(keys,keith)
+        disabled = level.background.handle(keys,keith,level)
         update = keith.handle(keys,level.background)
-        level.updateEnemies(keith,keys,crystalList)
+        level.updateEnemies(keith,keys,crystalList,disabled,level.obstacles)
 
         # generate new crystal that does not collide with player or sink
         if(frameCount == 90):

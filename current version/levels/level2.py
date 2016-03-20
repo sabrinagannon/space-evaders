@@ -14,14 +14,21 @@ class level(levels):
         self.startingPosX = 600
         self.startingPosY = 350
         self.soundFX = sounds.SoundFX()
+        self.obstacleCoords = {'obst1': {'x':100 ,'y':500 , 'width':376 , 'height':296, 'path':'assets/images/suck.png' },'obst2':{'x':1500,'y':-200 , 'width':376, 'height':296, 'path':'assets/images/suck.png'}}
+        self.obstacles = items.createObstacles(self.obstacleCoords)
+        
         enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points
         wolf = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,10)
         self.enemies = [wolf]
         self.background = backgrounds.Background(2)
 
-    def updateEnemies(self,keith,keys,crystalList):
+    def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
+        if disabled == None:
+            collision = False
+        else:
+            collision = keys[disabled]
         for e in self.enemies:
-            e.update(keith,self.background,keys)
+            e.update(keith,self.background,keys,collision,obstacles)
 
             if(e.rectangle.colliderect(keith.rectangle)):
 
@@ -41,4 +48,5 @@ class level(levels):
         self.drawItems(crystalList,sink,self.background)
         self.drawEnemies(self.enemies)
         self.drawText(keith)
+        self.drawObstacles(self.obstacles,self.background)
         self.screen.blit(keith.image, keith.rectangle)

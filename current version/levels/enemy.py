@@ -49,31 +49,62 @@ class Enemy(pygame.sprite.Sprite):
         self.direction = 'left'
         self.detection = self.rectangle.inflate(100,100)
 
-    def update(self,keith,bg,keys):
-        if keys[pygame.K_a]:
-            self.rectangle.x += keith.speed
-        if keys[pygame.K_d]:
-            self.rectangle.x -= keith.speed
-        if keys[pygame.K_w]:
-            self.rectangle.y += keith.speed
-        if keys[pygame.K_s]:
-            self.rectangle.y -= keith.speed
+    def update(self,keith,bg,keys,collision,obstacles):
+        if not collision:
+            if keys[pygame.K_a]:
+                self.rectangle.x += keith.speed
+            if keys[pygame.K_d]:
+                self.rectangle.x -= keith.speed
+            if keys[pygame.K_w]:
+                self.rectangle.y += keith.speed
+            if keys[pygame.K_s]:
+                self.rectangle.y -= keith.speed
 
         if self.detection.colliderect(keith.rectangle):
             self.chase(keith.rectangle)
         else:
-            self.patrol(bg)
+            self.patrol(bg,obstacles)
             self.caughtHim = 0
             self.detection = self.rectangle.inflate(100,100)
 
-
-
-    def patrol(self,bg):
+    def patrol(self,bg,obstacles):
+        # Have to check for collisions here
         nextXPos = self.rectangle.x + (self.speed*self.heading.x)
         nextYPos = self.rectangle.y + (self.speed*self.heading.y)
 
+        fnxt = math.floor(nextXPos)
+        fnyt = math.floor(nextYPos)
+        
+        
+        for obstacle in obstacles:
+            x = obstacle.rect.x
+            y = obstacle.rect.y
+            width = obstacle.rect.width
+            height = obstacle.rect.height
+            if (nextXPos > x-self.rectangle.width-6) and (nextXPos < x +width+6) and (nextYPos > y-self.rectangle.height-6) and (nextYPos < y+height+6):
+
+                if fnxt in range(x-self.rectangle.width-5,x-self.rectangle.width+5):
+                    # send back east
+                    newHeading = vector((-1*self.heading.x),self.heading.y)
+                    self.heading = newHeading
+                    nextXPos = x-self.rectangle.width
+                elif fnxt in range(x + width-5,x+width+5):
+                    # send back west
+                    newHeading = vector((-1*self.heading.x),self.heading.y)
+                    self.heading = newHeading
+                    nextXPos = x+width
+                elif fnyt in range(y-self.rectangle.height-5,y-self.rectangle.height+5):
+                    # send back north
+                    newHeading = vector(self.heading.x,(-1*self.heading.y))
+                    self.heading = newHeading
+                    nextYPos = y-self.rectangle.height
+                elif fnyt in range(y+height-5,y+height+5):
+                    # send back south
+                    newHeading = vector(self.heading.x,(-1*self.heading.y))
+                    self.heading = newHeading
+                    nextYPos = y+height
+
         if nextXPos - bg.x > (bg.resolution[0]-self.rectangle.width):
-            #(w_width-self.rectangle.width):
             newHeading = vector((-1*self.heading.x),self.heading.y)
             self.heading = newHeading
             nextXPos = (bg.resolution[0]-self.rectangle.width)+bg.x
@@ -92,7 +123,6 @@ class Enemy(pygame.sprite.Sprite):
 
         self.rectangle.x = nextXPos
         self.rectangle.y = nextYPos
-
 
         if nextYPos > nextXPos: # animate vertical
             if self.heading.y > 0:        # moving down
@@ -116,9 +146,8 @@ class Enemy(pygame.sprite.Sprite):
         # increase detection range
         self.detection = self.rectangle.inflate(400,300)
 
-        # using integer division
-        x = (playerRect.x - self.rectangle.x)#//12
-        y = (playerRect.y - self.rectangle.y)#//12
+        x = (playerRect.x - self.rectangle.x)
+        y = (playerRect.y - self.rectangle.y)
         
         length = math.sqrt((x*x)+(y*y))
 
@@ -157,7 +186,7 @@ class Enemy(pygame.sprite.Sprite):
         new_rect =  pygame.Rect(coords)
 
         self.sheet.set_clip(new_rect)
-        return movement         # not sure why we return this
+        return movement
 
     def createRandomHeading(self):
         angle = random.randint(0,360)

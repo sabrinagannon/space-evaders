@@ -71,8 +71,12 @@ def createObstacles(obstacleDict):
     obstacles = []
 
     for obstacle in obstacleDict:
+        x = obstacleDict[obstacle]['x']
+        y = obstacleDict[obstacle]['y']
+        width = obstacleDict[obstacle]['width']
+        height = obstacleDict[obstacle]['height']
 
-        clip_area = pygame.Rect(obstacleDict[obstacle]['x'],obstacleDict[obstacle]['y'],obstacleDict[obstacle]['width'],obstacleDict[obstacle]['height']) # this is the size of a frame
+        clip_area = pygame.Rect(x,y,width,height)
             
         obstacles.append(Obstacle(clip_area,obstacleDict[obstacle]['path']))
         
