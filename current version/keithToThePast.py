@@ -1,7 +1,7 @@
 import pygame, sys,items,random
 sys.path.insert(0,'levels/')
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2
-import player, level1, level2, sounds
+import player, level1, level2, level3, sounds
 import cutscenes, cutsceneText
 
 def reset(sink,soundEffects,initRect,initCrystal,crystalList):
@@ -57,8 +57,12 @@ if __name__ == '__main__':
               # print "player score is : " + str(keith.score)
               # sys.exit()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
-            level = level2.level(screen)
-            levelNum = 2;
+            if levelNum == 1:
+                level = level2.level(screen)
+                levelNum = 2
+            elif levelNum == 2:
+                level = level3.level(screen)
+                levelNum = 3
             sink.itemsHeld =0
             level.playLvlMusic(levelNum)
 
