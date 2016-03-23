@@ -13,21 +13,21 @@ class Background():
         self.disabled = None
 
         if level == 1:
-            self.pic = pygame.image.load('assets/images/LevelOneBG.png').convert()
+            self.pic = pygame.image.load('assets/images/levelOne/LevelOneBG.png').convert()
             self.resolution = (3000,3000)
             self.offset = 1000
             self.x = -1000
             self.y = -1000
 
         elif level == 2:
-            self.pic = pygame.image.load('assets/images/LevelTwo.png').convert()
+            self.pic = pygame.image.load('assets/images/levelTwo/GroundAndOutline.png').convert()
             self.resolution = (3000,3000)
             self.offset = 1000
             self.x = -1000
             self.y = -1000
 
         elif level == 3:
-            self.pic = pygame.image.load('assets/images/LevelThree.png').convert()
+            self.pic = pygame.image.load('assets/images/levelThree/GroundAndOutline.png').convert()
             self.resolution = (3000,3000)
             self.offset = 1000
             self.x = -1000
