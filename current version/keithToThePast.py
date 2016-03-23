@@ -1,7 +1,7 @@
 import pygame, sys,items,random
 sys.path.insert(0,'levels/')
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2
-import player, level1, level2, level3, sounds
+import player, level1, level2, level3, level4, level5, sounds
 import cutscenes, cutsceneText
 
 def reset(sink,soundEffects,initRect,initCrystal,crystalList):
@@ -57,12 +57,21 @@ if __name__ == '__main__':
               # print "player score is : " + str(keith.score)
               # sys.exit()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
+
             if levelNum == 1:
                 level = level2.level(screen)
                 levelNum = 2
             elif levelNum == 2:
                 level = level3.level(screen)
                 levelNum = 3
+            elif levelNum == 3:
+                level = level4.level(screen)
+                levelNum = 4
+            elif levelNum == 4:
+                # Need to make window static and constrain movement still for level 5
+                level = level5.level(screen)
+                levelNum = 5
+
             sink.itemsHeld =0
             level.playLvlMusic(levelNum)
 

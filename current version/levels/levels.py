@@ -30,7 +30,7 @@ class levels():
             self.screen.blit(obstacle.sheet,obstacle.rect)
 
     def playLvlMusic(self,lvlNumber):
-        pygame.mixer.music.load(self.music[lvlNumber-1])
+        pygame.mixer.music.load(self.music[0]) # change to lvlNumber-1
         pygame.mixer.music.play(-1)
 
     def drawText(self,keith):
