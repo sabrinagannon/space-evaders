@@ -24,7 +24,7 @@ if __name__ == '__main__':
     pygame.display.set_caption('Use WASD to move, collect crystals by pressing SPACE, drop crystals into the red box by pressing K, avoid the bears and wolves!! (oh my!) Press ESCAPE to QUIT')
 
     # play intro cutscene
-    #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
+    cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
     level = level1.level(screen)
     levelNum = 1

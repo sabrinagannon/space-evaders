@@ -27,7 +27,7 @@ if __name__ == '__main__':
     #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
     level = level2.level(screen)
-    levelNum = 2
+    levelNum = 1
 
     # play level cutscene
     level.playCutscene(levelNum)

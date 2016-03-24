@@ -194,7 +194,7 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.patrol(bg,obstacles)
             self.caughtHim = 0
-            self.detection = self.rectangle.inflate(100,100)
+            self.detection = self.rectangle.inflate(200,200)
 
 
     def chase2(self,playerRect):
