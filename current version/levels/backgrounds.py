@@ -13,13 +13,34 @@ class Background():
         self.disabled = None
 
         if level == 1:
-            self.pic = pygame.image.load('assets/images/LevelOneBG.png').convert()
+            self.pic = pygame.image.load('assets/images/levelOne/LevelOneBG.png').convert()
             self.resolution = (3000,3000)
             self.offset = 1000
             self.x = -1000
             self.y = -1000
 
         elif level == 2:
+            self.pic = pygame.image.load('assets/images/levelTwo/GroundAndOutline.png').convert()
+            self.resolution = (3000,3000)
+            self.offset = 1000
+            self.x = -1000
+            self.y = -1000
+
+        elif level == 3:
+            self.pic = pygame.image.load('assets/images/levelThree/GroundAndOutline.png').convert()
+            self.resolution = (3000,3000)
+            self.offset = 1000
+            self.x = -1000
+            self.y = -1000
+
+        elif level == 4:
+            self.pic = pygame.image.load('assets/images/levelFour/GroundAndOutline.png').convert()
+            self.resolution = (3000,3000)
+            self.offset = 1000
+            self.x = -1000
+            self.y = -1000
+
+        elif level == 5:
             self.pic = pygame.image.load('assets/images/space.jpg').convert()
             self.resolution = (3000,3000)
             self.offset = 1000
@@ -58,9 +79,9 @@ class Background():
         else:
             self.disabled = None
             self.move(keys,keith)
-        
+
         return self.disabled
-            
+
     def move(self,keys,keith):
         if keys[pygame.K_a]:
             self.x += keith.speed
@@ -80,7 +101,7 @@ class Background():
         if keys[pygame.K_s]:
             self.y -= keith.speed
             if self.y <= -self.resolution[1] + (w_height/2):
-                self.y = -self.resolution[1] + (w_height/2)       
+                self.y = -self.resolution[1] + (w_height/2)
 
     def draw(self,screen):
         screen.blit(self.pic, (self.x,self.y))
@@ -90,4 +111,3 @@ def checkForCollisions(level,keith):
     for obstacle in level.obstacles:
         if obstacle.rect.colliderect(keith.rectangle):
             return True
-        

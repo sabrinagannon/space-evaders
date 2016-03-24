@@ -5,6 +5,7 @@
 # line of text in that cutscene. Each line array is
 # organized as follows: [text, is_narrator, time_to_wait_for_line_to_appear].
 text = {
+
     "intro_cutscene" : [["KEITH IS GONE.", True, 0],
                         ["...", False, 1500],
                         ["What did you say to me?", False, 1000],
