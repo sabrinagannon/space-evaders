@@ -14,7 +14,7 @@ class vector():
         self.y *= -1
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self,startingPos,imagePath,speed = 10):
+    def __init__(self,startingPos,imagePath,speed = 10, inflate = 100):
         pygame.sprite.Sprite.__init__(self) # calls the parent class constructor
 
         self.sheet = pygame.image.load(imagePath[0] + imagePath[1]) # load and assign spritesheet
@@ -44,6 +44,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # This is hacky but it's to stop the carnage
         self.caughtHim = 0
+        self.chasing = False
       
         self.rampage = 0
         self.stepCounter = 50
@@ -52,7 +53,8 @@ class Enemy(pygame.sprite.Sprite):
         
         self.heading = self.createRandomHeading()
         self.direction = 'left'
-        self.detection = self.rectangle.inflate(100,100)
+        self.inflate = inflate
+        self.detection = self.rectangle.inflate(self.inflate,self.inflate)
 
     def update(self,keith,bg,keys,collision,obstacles):
         if not collision:
@@ -70,10 +72,44 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.patrol(bg,obstacles)
             self.caughtHim = 0
-            self.detection = self.rectangle.inflate(100,100)
+            self.detection = self.rectangle.inflate(self.inflate,self.inflate)
+
+    def update3(self,keith,bg,keys,collision,obstacles,chaser):
+        # Houskeeping
+        if not collision:
+            if keys[pygame.K_a]:
+                self.rectangle.x += keith.speed
+            if keys[pygame.K_d]:
+                self.rectangle.x -= keith.speed
+            if keys[pygame.K_w]:
+                self.rectangle.y += keith.speed
+            if keys[pygame.K_s]:
+                self.rectangle.y -= keith.speed
+
+        if (bg.previousPos == (bg.x,bg.y)) and (not chaser):
+            # not moving, so move away
+            if self.chasing:
+                playerRect = keith.rectangle
+                x = (playerRect.x - self.rectangle.x)
+                y = (playerRect.y - self.rectangle.y)
+        
+                length = math.sqrt((x*x)+(y*y))
+
+                headingX = float(x/length)
+                headingY = float(y/length)
+
+                newHeading = vector(-1*headingX,-1*headingY)
+                self.heading = newHeading
+                self.chasing = False
+            self.patrol(bg,obstacles,ghost=True)
+        else:
+            # move towards player
+            self.chase(keith.rectangle)
+            if not self.chasing:
+                self.chasing = True
 
 
-    def patrol(self,bg,obstacles):
+    def patrol(self,bg,obstacles,ghost=False):
         # Have to check for collisions here
         nextXPos = self.rectangle.x + (self.speed*self.heading.x)
         nextYPos = self.rectangle.y + (self.speed*self.heading.y)
@@ -81,34 +117,34 @@ class Enemy(pygame.sprite.Sprite):
         fnxt = math.floor(nextXPos)
         fnyt = math.floor(nextYPos)
         
-        
-        for obstacle in obstacles:
-            x = obstacle.rect.x
-            y = obstacle.rect.y
-            width = obstacle.rect.width
-            height = obstacle.rect.height
-            if (nextXPos > x-self.rectangle.width-6) and (nextXPos < x +width+6) and (nextYPos > y-self.rectangle.height-6) and (nextYPos < y+height+6):
+        if not ghost:
+            for obstacle in obstacles:
+                x = obstacle.rect.x
+                y = obstacle.rect.y
+                width = obstacle.rect.width
+                height = obstacle.rect.height
+                if (nextXPos > x-self.rectangle.width-6) and (nextXPos < x +width+6) and (nextYPos > y-self.rectangle.height-6) and (nextYPos < y+height+6):
 
-                if fnxt in range(x-self.rectangle.width-5,x-self.rectangle.width+5):
-                    # send back east
-                    newHeading = vector((-1*self.heading.x),self.heading.y)
-                    self.heading = newHeading
-                    nextXPos = x-self.rectangle.width
-                elif fnxt in range(x + width-5,x+width+5):
-                    # send back west
-                    newHeading = vector((-1*self.heading.x),self.heading.y)
-                    self.heading = newHeading
-                    nextXPos = x+width
-                elif fnyt in range(y-self.rectangle.height-5,y-self.rectangle.height+5):
-                    # send back north
-                    newHeading = vector(self.heading.x,(-1*self.heading.y))
-                    self.heading = newHeading
-                    nextYPos = y-self.rectangle.height
-                elif fnyt in range(y+height-5,y+height+5):
-                    # send back south
-                    newHeading = vector(self.heading.x,(-1*self.heading.y))
-                    self.heading = newHeading
-                    nextYPos = y+height
+                    if fnxt in range(x-self.rectangle.width-5,x-self.rectangle.width+5):
+                        # send back east
+                        newHeading = vector((-1*self.heading.x),self.heading.y)
+                        self.heading = newHeading
+                        nextXPos = x-self.rectangle.width
+                    elif fnxt in range(x + width-5,x+width+5):
+                        # send back west
+                        newHeading = vector((-1*self.heading.x),self.heading.y)
+                        self.heading = newHeading
+                        nextXPos = x+width
+                    elif fnyt in range(y-self.rectangle.height-5,y-self.rectangle.height+5):
+                        # send back north
+                        newHeading = vector(self.heading.x,(-1*self.heading.y))
+                        self.heading = newHeading
+                        nextYPos = y-self.rectangle.height
+                    elif fnyt in range(y+height-5,y+height+5):
+                        # send back south
+                        newHeading = vector(self.heading.x,(-1*self.heading.y))
+                        self.heading = newHeading
+                        nextYPos = y+height
 
         if nextXPos - bg.x > (bg.resolution[0]-self.rectangle.width):
             newHeading = vector((-1*self.heading.x),self.heading.y)
@@ -143,14 +179,16 @@ class Enemy(pygame.sprite.Sprite):
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
-    def chase(self,playerRect):
+
+    def chase(self,playerRect,ghost=False):
 
         if self.caughtHim == 1:
             self.detection = self.rectangle.inflate(400,300)
             return
 
         # increase detection range
-        self.detection = self.rectangle.inflate(400,300)
+        if not ghost:
+            self.detection = self.rectangle.inflate(400,300)
 
         x = (playerRect.x - self.rectangle.x)
         y = (playerRect.y - self.rectangle.y)
@@ -216,8 +254,6 @@ class Enemy(pygame.sprite.Sprite):
             self.headingX = float(x/length)
             self.headingY = float(y/length)
 
-
-
             self.rampage = 1
 
         else:
@@ -251,11 +287,6 @@ class Enemy(pygame.sprite.Sprite):
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
 
-
-
-
-
-
     def move(self, movement):
         if type(movement) is dict:
             # regular case, where we call self.move with our dictionary of coordinates
@@ -273,6 +304,7 @@ class Enemy(pygame.sprite.Sprite):
         self.sheet.set_clip(new_rect)
         return movement
 
+ 
     def createRandomHeading(self):
         angle = random.randint(0,360)
         angle = angle * (3.14159/180)

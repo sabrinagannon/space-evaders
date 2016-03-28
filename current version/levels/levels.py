@@ -10,7 +10,8 @@ class levels():
 
     def drawEnemies(self,enemies):
         for enemy in enemies:
-            pygame.draw.rect(self.screen,colors['blue'],enemy.detection,3)
+            if enemy.inflate:
+                pygame.draw.rect(self.screen,colors['blue'],enemy.detection,3)
             self.screen.blit(enemy.image, enemy.rectangle)
 
     def drawItems(self,crystalList,sink,bg):

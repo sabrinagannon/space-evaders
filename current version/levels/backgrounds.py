@@ -46,15 +46,17 @@ class Background():
             self.offset = 1000
             self.x = -1000
             self.y = -1000
+            
 
+        self.previousPos = (self.x,self.y)
         self.level = level
 
     def handle(self,keys,keith,level):
 
         if checkForCollisions(level,keith):
-            #hitting an obstacle
+            # hitting an obstacle
             if self.disabled == None:
-                #nothing set, so set something
+                # nothing set, so set something
                 if keys[pygame.K_a]:
                     self.disabled = pygame.K_a
                 elif keys[pygame.K_s]:
@@ -64,10 +66,12 @@ class Background():
                 elif keys[pygame.K_d]:
                     self.disabled = pygame.K_d
             else:
-                #something set
+                # something set
                 if keys[self.disabled]:
+                    # if we tried to move in the disabled direction
                     return self.disabled
                 else:
+                    # we are moving in a new direction, so allow it
                     self.move(keys,keith)
         else:
             self.disabled = None
@@ -75,7 +79,11 @@ class Background():
 
         return self.disabled
 
+
     def move(self,keys,keith):
+
+        self.previousPos = (self.x, self.y)
+
         if keys[pygame.K_a]:
             self.x += keith.speed
             if self.x >= (w_width/2):
