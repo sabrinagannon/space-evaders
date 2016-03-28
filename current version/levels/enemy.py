@@ -44,7 +44,12 @@ class Enemy(pygame.sprite.Sprite):
 
         # This is hacky but it's to stop the carnage
         self.caughtHim = 0
-
+      
+        self.rampage = 0
+        self.stepCounter = 50
+        self.headingX = 0
+        self.headingY = 0 
+        
         self.heading = self.createRandomHeading()
         self.direction = 'left'
         self.detection = self.rectangle.inflate(100,100)
@@ -66,6 +71,7 @@ class Enemy(pygame.sprite.Sprite):
             self.patrol(bg,obstacles)
             self.caughtHim = 0
             self.detection = self.rectangle.inflate(100,100)
+
 
     def patrol(self,bg,obstacles):
         # Have to check for collisions here
@@ -170,6 +176,85 @@ class Enemy(pygame.sprite.Sprite):
             self.move(self.left_states)
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
+
+
+    def update2(self,keith,bg,keys,collision,obstacles):
+        if not collision:
+            if keys[pygame.K_a]:
+                self.rectangle.x += keith.speed
+            if keys[pygame.K_d]:
+                self.rectangle.x -= keith.speed
+            if keys[pygame.K_w]:
+                self.rectangle.y += keith.speed
+            if keys[pygame.K_s]:
+                self.rectangle.y -= keith.speed
+
+        if self.detection.colliderect(keith.rectangle):
+            self.chase2(keith.rectangle)
+        else:
+            self.patrol(bg,obstacles)
+            self.caughtHim = 0
+            self.detection = self.rectangle.inflate(200,200)
+
+
+    def chase2(self,playerRect):
+        
+        if self.caughtHim == 1:
+            self.rampage = 0
+            self.detection = self.rectangle.inflate(400,300)
+            return
+
+        if self.rampage == 0:
+        # increase detection range
+            self.detection = self.rectangle.inflate(400,300)
+
+            x = (playerRect.x - self.rectangle.x)
+            y = (playerRect.y - self.rectangle.y)
+        
+            length = math.sqrt((x*x)+(y*y))
+
+            self.headingX = float(x/length)
+            self.headingY = float(y/length)
+
+
+
+            self.rampage = 1
+
+        else:
+            self.detection = self.rectangle.inflate(400,300)
+            x = (playerRect.x - self.rectangle.x)
+            y = (playerRect.y - self.rectangle.y)
+            rampageSpeed = self.speed*1.7
+            self.stepCounter-=1
+            nextXPos = self.rectangle.x + (rampageSpeed*self.headingX)
+            nextYPos = self.rectangle.y + (rampageSpeed*self.headingY)
+
+            self.rectangle.x = nextXPos
+            self.rectangle.y = nextYPos
+            print self.rectangle.x 
+            print self.rectangle.y
+
+            if y > 0:             # player below
+                self.move(self.down_states)
+            elif y < 0:             # player above
+                self.move(self.up_states)
+            elif x > 0:               # player to right
+                self.move(self.right_states)
+            elif x < 0:             # player to left
+                self.move(self.left_states)
+            
+        if self.stepCounter <= 0:
+
+            self.rampage = 0
+            self.stepCounter = 50
+            return 
+
+        self.image = self.sheet.subsurface(self.sheet.get_clip())
+
+
+
+
+
 
     def move(self, movement):
         if type(movement) is dict:

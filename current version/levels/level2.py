@@ -28,7 +28,7 @@ class level(levels):
         else:
             collision = keys[disabled]
         for e in self.enemies:
-            e.update(keith,self.background,keys,collision,obstacles)
+            e.update2(keith,self.background,keys,collision,obstacles)
 
             if(e.rectangle.colliderect(keith.rectangle)):
 
