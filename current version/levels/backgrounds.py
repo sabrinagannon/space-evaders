@@ -47,13 +47,6 @@ class Background():
             self.x = -1000
             self.y = -1000
 
-         elif level == 3:
-            self.pic = pygame.image.load('assets/images/background.png').convert()
-            self.resolution = (3000,3000)
-            self.offset = 1000
-            self.x = -1000
-            self.y = -1000
-
         self.level = level
 
     def handle(self,keys,keith,level):

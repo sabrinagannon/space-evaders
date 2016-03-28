@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0,'../')
 from levels import levels
-from constants import w_width, w_height, wolfPath, bearPath,colors
+from constants import w_width, w_height, wolfPath, bearPath,colors, blobPath
 import enemy, items, backgrounds,sounds
 import random, pygame
 
@@ -18,8 +18,8 @@ class level(levels):
         self.obstacles = items.createObstacles(self.obstacleCoords)
 
         enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points
-        wolf = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,10)
-        self.enemies = [wolf]
+        blob = enemy.Enemy((-1000,-1000),blobPath,3)
+        self.enemies = [blob]
         self.background = backgrounds.Background(3)
 
     def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
