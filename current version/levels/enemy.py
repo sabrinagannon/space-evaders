@@ -56,6 +56,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # for level4
         self.crystals = 2
+        self.inInterval = 0
       
         
         self.heading = self.createRandomHeading()

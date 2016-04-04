@@ -35,6 +35,7 @@ class Player(pygame.sprite.Sprite):
         self.initialSpeed = speed
         self.speed = speed
         self.itemsHeld = 0
+        self.coinsHeld = 0
         self.score = 0
 
     def handle(self,keys,bg):

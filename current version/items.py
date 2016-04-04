@@ -33,7 +33,19 @@ class Crystal():
         self.rect = rect
         self.origX = rect.x
         self.origY = rect.y
-        
+
+    def isCoin(self):
+        return False
+
+class Coin():
+    def __init__(self,rect):
+        self.sheet = pygame.image.load(itemPath[0] + 'goldCoin.png')
+        self.rect = rect
+        self.origX = rect.x
+        self.origY = rect.y
+
+    def isCoin(self):
+        return True
         
 
 def createRandomRect( w_Width, w_Height , rectWidth , rectHeight , playerRect, sinkRect):
