@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0,'../')
 from levels import levels
-from constants import w_width, w_height, wolfPath, bearPath,colors
+from constants import w_width, w_height, wolfPath, bearPath,colors, blobPath
 import enemy, items, backgrounds,sounds
 import random, pygame
 
@@ -14,22 +14,32 @@ class level(levels):
         self.startingPosX = 600
         self.startingPosY = 350
         self.soundFX = sounds.SoundFX()
-        self.obstacleCoords = {'obst1': {'x':100 ,'y':500 , 'width':376 , 'height':296, 'path':'assets/images/suck.png' },'obst2':{'x':1500,'y':-200 , 'width':376, 'height':296, 'path':'assets/images/suck.png'}}
+        self.obstacleCoords = {}
         self.obstacles = items.createObstacles(self.obstacleCoords)
 
-        enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points
+        enemyStartX, enemyStartY = random.randrange(300),random.randrange(600) # give enemies random start points
         wolf = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,10)
-        self.enemies = [wolf]
+        bear = enemy.Enemy((enemyStartX, enemyStartY),bearPath,9)
+        blob = enemy.Enemy((enemyStartX, enemyStartY),blobPath,3,0)
+
+        self.enemies = [wolf, bear, blob]
         self.background = backgrounds.Background(5)
 
     def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
+        chasers = keith.itemsHeld//2
         if disabled == None:
             collision = False
         else:
             collision = keys[disabled]
+        self.enemies[0].update(keith,self.background,keys,collision,obstacles)
+        self.enemies[1].update2(keith,self.background,keys,collision,obstacles)
+        if chasers > 0:
+            self.enemies[2].update3(keith,self.background,keys,collision,obstacles,True)
+            chasers -= 1
+        else:
+            self.enemies[2].update3(keith,self.background,keys,collision,obstacles,False)
+            
         for e in self.enemies:
-            e.update(keith,self.background,keys,collision,obstacles)
-
             if(e.rectangle.colliderect(keith.rectangle)):
 
                 self.soundFX.playBloop()

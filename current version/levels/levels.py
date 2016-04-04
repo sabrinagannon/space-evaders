@@ -10,8 +10,8 @@ class levels():
 
     def drawEnemies(self,enemies):
         for enemy in enemies:
-            if enemy.inflate:
-                pygame.draw.rect(self.screen,colors['blue'],enemy.detection,3)
+            #if enemy.inflate:
+                #pygame.draw.rect(self.screen,colors['blue'],enemy.detection,3)
             self.screen.blit(enemy.image, enemy.rectangle)
 
     def drawItems(self,crystalList,sink,bg):
@@ -20,7 +20,7 @@ class levels():
         for crystal in crystalList:
             crystal.rect.x = crystal.origX + (bg.x + bg.offset)
             crystal.rect.y = crystal.origY + (bg.y + bg.offset)
-            pygame.draw.rect(self.screen,colors['green'],crystal.rect,3)
+            #pygame.draw.rect(self.screen,colors['green'],crystal.rect,3)
             self.screen.blit(crystal.sheet, crystal.rect)
 
     def drawObstacles(self,obstacleList,bg):
@@ -31,7 +31,7 @@ class levels():
             self.screen.blit(obstacle.sheet,obstacle.rect)
 
     def playLvlMusic(self,lvlNumber):
-        pygame.mixer.music.load(self.music[lvlNumber-1])
+        pygame.mixer.music.load(self.music[0]) # change to lvlNumber-1
         pygame.mixer.music.play(-1)
 
     def drawText(self,keith):
