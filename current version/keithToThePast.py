@@ -27,8 +27,8 @@ if __name__ == '__main__':
     #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
 
-    level = level1.level(screen)
-    levelNum = 1
+    level = level2.level(screen)
+    levelNum = 2
 
     # play level cutscene
     #level.playCutscene(levelNum)
@@ -50,8 +50,8 @@ if __name__ == '__main__':
 
     while True:
 
-        if pygame.mixer.music.get_busy() == False:
-           level.playLvlMusic(levelNum)
+        # if pygame.mixer.music.get_busy() == False:
+        #    level.playLvlMusic(levelNum)
 
         frameCount+=1
         if sink.itemsHeld == 10:

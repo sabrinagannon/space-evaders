@@ -23,7 +23,7 @@ class level(levels):
         self.enemies = [wolf,bear]
         self.background = backgrounds.Background(4)
 
-        self.timer = (30*60)*1  # 2 minutes at 30 fps
+        self.timer = (30*60)*2  # 2 minutes at 30 fps
         self.timerMin = 1
         self.timerSec = 60
 
