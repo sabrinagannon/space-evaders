@@ -21,13 +21,14 @@ if __name__ == '__main__':
     screen.fill(colors['black'])
     # screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 
-    pygame.display.set_caption('Use WASD to move, collect crystals by pressing SPACE, drop crystals into the red box by pressing K, avoid the bears and wolves!! (oh my!) Press ESCAPE to QUIT')
+    pygame.display.set_caption('*~*~*KEITH TO THE PAST*~*~*')
 
     # play intro cutscene
     #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
-    level = level3.level(screen)
-    levelNum = 3
+
+    level = level5.level(screen)
+    levelNum = 5
 
     # play level cutscene
     #level.playCutscene(levelNum)
@@ -41,7 +42,7 @@ if __name__ == '__main__':
     initCrystal = items.Crystal(initRect)
     crystalList= [initCrystal]
 
-    pygame.draw.rect(screen,colors['green'],initRect,3)
+    #pygame.draw.rect(screen,colors['green'],initRect,3)
     #sink.draw(screen)
     pygame.display.update()
 
