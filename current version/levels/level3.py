@@ -3,7 +3,7 @@ sys.path.insert(0,'../')
 from levels import levels
 from constants import w_width, w_height, wolfPath, bearPath,colors, blobPath
 import enemy, items, backgrounds,sounds
-import random, pygame
+import random, pygame, math
 
 class level(levels):
 
@@ -18,13 +18,13 @@ class level(levels):
         self.obstacles = items.createObstacles(self.obstacleCoords)
 
         # top left
-        blob1 = enemy.Enemy((-1000,-1000),blobPath,3,0)
+        blob1 = levelEnemy((-1000,-1000),blobPath,3,0)
         # top right
-        blob2 = enemy.Enemy((2000,-1000),blobPath,3,0)
+        blob2 = levelEnemy((2000,-1000),blobPath,3,0)
         # bottom left
-        blob3 = enemy.Enemy((-1000,2000),blobPath,3,0)
+        blob3 = levelEnemy((-1000,2000),blobPath,3,0)
         # bottom right
-        blob4 = enemy.Enemy((2000,2000),blobPath,3,0)
+        blob4 = levelEnemy((2000,2000),blobPath,3,0)
 
         self.enemies = [blob1,blob2,blob3,blob4]
         self.background = backgrounds.Background(3)
@@ -40,10 +40,10 @@ class level(levels):
         
         for e in self.enemies:
             if chasers > 0:
-                e.update3(keith,self.background,keys,collision,obstacles,True)
+                e.update(keith,self.background,keys,collision,obstacles,True)
                 chasers -= 1
             else:
-                e.update3(keith,self.background,keys,collision,obstacles,False)
+                e.update(keith,self.background,keys,collision,obstacles,False)
 
             if(e.rectangle.colliderect(keith.rectangle)):
 
@@ -64,3 +64,52 @@ class level(levels):
         self.drawEnemies(self.enemies)
         self.drawText(keith)
         self.screen.blit(keith.image, keith.rectangle)
+
+class vector():
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+
+    def negateX(self):
+        self.x *= -1
+
+    def negateY(self):
+        self.y *= -1
+
+
+class levelEnemy(enemy.Enemy):
+
+    
+    def update(self,keith,bg,keys,collision,obstacles,chaser):
+        # Houskeeping
+        if not collision:
+            if keys[pygame.K_a]:
+                self.rectangle.x += keith.speed
+            if keys[pygame.K_d]:
+                self.rectangle.x -= keith.speed
+            if keys[pygame.K_w]:
+                self.rectangle.y += keith.speed
+            if keys[pygame.K_s]:
+                self.rectangle.y -= keith.speed
+
+        if (bg.previousPos == (bg.x,bg.y)) and (not chaser):
+            # not moving, so move away
+            if self.chasing:
+                playerRect = keith.rectangle
+                x = (playerRect.x - self.rectangle.x)
+                y = (playerRect.y - self.rectangle.y)
+        
+                length = math.sqrt((x*x)+(y*y))
+
+                headingX = float(x/length)
+                headingY = float(y/length)
+
+                newHeading = vector(-1*headingX,-1*headingY)
+                self.heading = newHeading
+                self.chasing = False
+            self.patrol(bg,obstacles,ghost=True)
+        else:
+            # move towards player
+            self.chase(keith.rectangle)
+            if not self.chasing:
+                self.chasing = True

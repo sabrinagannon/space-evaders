@@ -74,7 +74,6 @@ class level(levels):
         self.screen.blit(keith.image, keith.rectangle)
 
     def drawText(self,keith):
-        print self.timer
         text = self.font.render('You are carrying '+str(keith.itemsHeld)+' crystals', 1,colors['blue'])
         textpos = pygame.Rect(10,10,w_width/2,w_height/2)
 

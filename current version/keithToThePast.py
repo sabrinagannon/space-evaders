@@ -27,8 +27,8 @@ if __name__ == '__main__':
     #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
 
-    level = level3.level(screen)
-    levelNum = 3
+    level = level1.level(screen)
+    levelNum = 1
 
     # play level cutscene
     #level.playCutscene(levelNum)
@@ -54,7 +54,7 @@ if __name__ == '__main__':
            level.playLvlMusic(levelNum)
 
         frameCount+=1
-        if sink.itemsHeld == 10
+        if sink.itemsHeld == 10:
               # print "player score is : " + str(keith.score)
               # sys.exit()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)

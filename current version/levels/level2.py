@@ -3,7 +3,7 @@ sys.path.insert(0,'../')
 from levels import levels
 from constants import w_width, w_height, wolfPath, bearPath,colors
 import enemy, items, backgrounds,sounds
-import random, pygame
+import random, pygame, math
 
 class level(levels):
 
@@ -18,7 +18,7 @@ class level(levels):
         self.obstacles = items.createObstacles(self.obstacleCoords)
         
         enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points
-        wolf = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,10)
+        wolf = levelEnemy((enemyStartX, enemyStartY),wolfPath,10)
         self.enemies = [wolf]
         self.background = backgrounds.Background(2)
 
@@ -28,7 +28,7 @@ class level(levels):
         else:
             collision = keys[disabled]
         for e in self.enemies:
-            e.update2(keith,self.background,keys,collision,obstacles)
+            e.update(keith,self.background,keys,collision,obstacles)
 
             if(e.rectangle.colliderect(keith.rectangle)):
 
@@ -50,3 +50,86 @@ class level(levels):
         self.drawText(keith)
         self.drawObstacles(self.obstacles,self.background)
         self.screen.blit(keith.image, keith.rectangle)
+
+class vector():
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+
+    def negateX(self):
+        self.x *= -1
+
+    def negateY(self):
+        self.y *= -1
+
+class levelEnemy(enemy.Enemy):
+
+    def update(self,keith,bg,keys,collision,obstacles):
+        if not collision:
+            if keys[pygame.K_a]:
+                self.rectangle.x += keith.speed
+            if keys[pygame.K_d]:
+                self.rectangle.x -= keith.speed
+            if keys[pygame.K_w]:
+                self.rectangle.y += keith.speed
+            if keys[pygame.K_s]:
+                self.rectangle.y -= keith.speed
+
+        if self.detection.colliderect(keith.rectangle):
+            self.chase(keith.rectangle)
+        else:
+            self.patrol(bg,obstacles)
+            self.caughtHim = 0
+            self.detection = self.rectangle.inflate(200,200)
+
+    
+    def chase(self,playerRect):
+        
+        if self.caughtHim == 1:
+            self.rampage = 0
+            self.detection = self.rectangle.inflate(400,300)
+            return
+
+        if self.rampage == 0:
+        # increase detection range
+            self.detection = self.rectangle.inflate(400,300)
+
+            x = (playerRect.x - self.rectangle.x)
+            y = (playerRect.y - self.rectangle.y)
+        
+            length = math.sqrt((x*x)+(y*y))
+
+            self.headingX = float(x/length)
+            self.headingY = float(y/length)
+
+            self.rampage = 1
+
+        else:
+            self.detection = self.rectangle.inflate(400,300)
+            x = (playerRect.x - self.rectangle.x)
+            y = (playerRect.y - self.rectangle.y)
+            rampageSpeed = self.speed*1.7
+            self.stepCounter-=1
+            nextXPos = self.rectangle.x + (rampageSpeed*self.headingX)
+            nextYPos = self.rectangle.y + (rampageSpeed*self.headingY)
+
+            self.rectangle.x = nextXPos
+            self.rectangle.y = nextYPos
+
+            if y > 0:             # player below
+                self.move(self.down_states)
+            elif y < 0:             # player above
+                self.move(self.up_states)
+            elif x > 0:               # player to right
+                self.move(self.right_states)
+            elif x < 0:             # player to left
+                self.move(self.left_states)
+            
+        if self.stepCounter <= 0:
+
+            self.rampage = 0
+            self.stepCounter = 50
+            return 
+
+        self.image = self.sheet.subsurface(self.sheet.get_clip())
+
