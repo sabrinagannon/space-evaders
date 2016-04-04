@@ -34,7 +34,7 @@ class Background():
             self.y = -1000
 
         elif level == 4:
-            self.pic = pygame.image.load('assets/images/levelFour/GroundAndOutline.png').convert()
+            self.pic = pygame.image.load('assets/images/levelFour/Level4.png').convert()
             self.resolution = (3000,3000)
             self.offset = 1000
             self.x = -1000

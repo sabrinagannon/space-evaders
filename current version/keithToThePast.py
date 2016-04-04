@@ -1,7 +1,7 @@
 import pygame, sys,items,random
 sys.path.insert(0,'levels/')
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2
-import player, level1, level2, level3, level5, sounds
+import player, level1, level2, level3, level4, level5, sounds
 import cutscenes, cutsceneText
 
 def reset(sink,soundEffects,initRect,initCrystal,crystalList):
@@ -26,8 +26,8 @@ if __name__ == '__main__':
     # play intro cutscene
     #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
-    level = level1.level(screen)
-    levelNum = 1
+    level = level3.level(screen)
+    levelNum = 3
 
     # play level cutscene
     #level.playCutscene(levelNum)
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     while True:
 
         if pygame.mixer.music.get_busy() == False:
-            level.playLvlMusic(levelNum)
+           level.playLvlMusic(levelNum)
 
         frameCount+=1
         if sink.itemsHeld == 10:

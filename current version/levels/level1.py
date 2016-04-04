@@ -3,7 +3,7 @@ sys.path.insert(0,'../')
 from levels import levels
 from constants import w_width, w_height, wolfPath, bearPath,colors
 import enemy, items, backgrounds, sounds
-import random, pygame
+import random, pygame, json
 
 class level(levels):
 
@@ -14,7 +14,9 @@ class level(levels):
         self.startingPosX = 600
         self.startingPosY = 350
         self.soundFX = sounds.SoundFX()
-        self.obstacleCoords = {'obst1': {'x':0 ,'y':336 , 'width':236 , 'height':450, 'path':'assets/images/levelOne/TreeBigClump.png' },'obst2':{'x':1500,'y':-200 , 'width':376, 'height':296, 'path':'assets/images/suck.png'}}
+        with open('assets/images/levelOne/level1obstacles.json','rb') as obstacles:
+            self.obstacleCoords = json.load(obstacles)
+
         self.obstacles = items.createObstacles(self.obstacleCoords)
         # where the enemies will start on this level
         enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points

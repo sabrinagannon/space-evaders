@@ -5,7 +5,7 @@ class levels():
 
     def __init__(self,screen):
         self.screen = screen
-        self.music = ["assets/music/keithDenial.mp3","assets/music/BargainingKeith.mp3","assets/music/keithDepression.mp3"]
+        self.music = ["assets/music/keithDenial.mp3","assets/music/BargainingKeith.mp3","assets/music/keithDepression.mp3","assets/music/keithDepression.mp3"]
         self.font =  pygame.font.SysFont("monospace", 15)
 
     def drawEnemies(self,enemies):

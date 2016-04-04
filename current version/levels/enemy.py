@@ -44,12 +44,19 @@ class Enemy(pygame.sprite.Sprite):
 
         # This is hacky but it's to stop the carnage
         self.caughtHim = 0
-        self.chasing = False
-      
+
+        # for level 2
         self.rampage = 0
         self.stepCounter = 50
         self.headingX = 0
         self.headingY = 0 
+
+        # for level 3
+        self.chasing = False
+
+        # for level4
+        self.crystals = 2
+      
         
         self.heading = self.createRandomHeading()
         self.direction = 'left'
@@ -73,6 +80,7 @@ class Enemy(pygame.sprite.Sprite):
             self.patrol(bg,obstacles)
             self.caughtHim = 0
             self.detection = self.rectangle.inflate(self.inflate,self.inflate)
+
 
     def update3(self,keith,bg,keys,collision,obstacles,chaser):
         # Houskeeping
@@ -178,6 +186,8 @@ class Enemy(pygame.sprite.Sprite):
                 self.move(self.left_states)
 
         self.image = self.sheet.subsurface(self.sheet.get_clip())
+
+
 
 
     def chase(self,playerRect,ghost=False):
