@@ -115,7 +115,7 @@ if __name__ == '__main__':
                 crystalToAppend = items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect)
                 while 1: 
                     for obstacle in level.obstacles:
-                        if (crystalToAppend.rect.collidepoint(obstacle.rect.x ,obstacle.rect.y)):
+                        if (crystalToAppend.rect.colliderect((obstacle.rect.x ,obstacle.rect.y,obstacle.rect.width,obstacle.rect.height))):
                             goodCrystal = False
                             break
                     if(goodCrystal == False):
