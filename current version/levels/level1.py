@@ -63,6 +63,6 @@ class level(levels):
         self.background.draw(self.screen)
         self.drawItems(crystalList,sink,self.background)
         self.drawEnemies(self.enemies)
-        self.drawText(keith)
         self.drawObstacles(self.obstacles,self.background)
         self.screen.blit(keith.image, keith.rectangle)
+        self.drawText(keith)
