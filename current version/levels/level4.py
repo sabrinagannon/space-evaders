@@ -28,7 +28,7 @@ class level(levels):
         self.timerSec = 60
 
     def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
-
+        keith.updateInvincible()
         if self.timer%(30*60)== 0:
             self.timerMin -= 1
 
@@ -53,6 +53,7 @@ class level(levels):
                 #self.soundFX.playBloop()
                 # NEW SOUND EFFECT!
                 e.caughtHim = 1
+                keith.onEnemyCollision()
 
                 # Now enemy drops a crystal, and is stunned
                 if(e.crystals > 0) and (keith.coinsHeld > 0):
@@ -62,7 +63,10 @@ class level(levels):
                     crystalList.append(droppedItem)
                     del self.enemies[index]
                     index -= 1
+                else:
+                    keith.lives -= 1
             index += 1
+            
 
     def draw(self,crystalList,sink,keith):
         self.screen.fill(colors['black'])

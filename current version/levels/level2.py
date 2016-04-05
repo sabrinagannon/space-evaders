@@ -23,7 +23,14 @@ class level(levels):
         
         enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points
         wolf = levelEnemy((enemyStartX, enemyStartY),wolfPath,10)
-        self.enemies = [wolf]
+        wolf1 = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,7)
+        bear = enemy.Enemy((enemyStartX, enemyStartY),bearPath,9)
+        wolf2 = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,10)
+        bear2 = enemy.Enemy((enemyStartX, enemyStartY),bearPath,11)
+        wolf3 = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,3)
+        bear3 = enemy.Enemy((enemyStartX, enemyStartY),bearPath,12)
+        
+        self.enemies = [wolf,wolf1,bear,wolf2,wolf3,bear,bear2,bear3]
         self.background = backgrounds.Background(2)
 
     def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
@@ -38,6 +45,7 @@ class level(levels):
 
                 self.soundFX.playBloop()
                 e.caughtHim = 1
+                keith.onEnemyCollision()
 
                 if(keith.itemsHeld > 0):
                     keith.itemsHeld -= 1
@@ -45,6 +53,8 @@ class level(levels):
                     droppedBox = pygame.Rect((keith.rectangle.x - 1000 - self.background.x), (keith.rectangle.y -1000 - self.background.y), 41,36)
                     droppedItem = items.Crystal(droppedBox)
                     crystalList.append(droppedItem)
+                else:
+                    keith.lives -= 1
 
     def draw(self,crystalList,sink,keith):
         self.screen.fill(colors['black'])
@@ -69,6 +79,7 @@ class vector():
 class levelEnemy(enemy.Enemy):
 
     def update(self,keith,bg,keys,collision,obstacles):
+        keith.updateInvincible()
         if not collision:
             if keys[pygame.K_a]:
                 self.rectangle.x += keith.speed

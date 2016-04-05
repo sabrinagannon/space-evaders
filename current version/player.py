@@ -1,4 +1,4 @@
-import pygame, sys, items
+import pygame, sys, items, time
 from constants import w_width, w_height
 import json
 
@@ -37,6 +37,9 @@ class Player(pygame.sprite.Sprite):
         self.itemsHeld = 0
         self.coinsHeld = 0
         self.score = 0
+        self.lives = 3
+        self.isInvincible = False
+        self.startInvinc = 0
 
     def handle(self,keys,bg):
 
@@ -103,3 +106,13 @@ class Player(pygame.sprite.Sprite):
         if update < 5:
             update = 5
         self.speed = update
+
+    def onEnemyCollision(self):
+        self.isInvincible = True
+        self.startInvinc = pygame.time.get_ticks()
+
+    def updateInvincible(self):
+        newTime = pygame.time.get_ticks()
+        if (newTime - self.startInvinc ) >= 1000 :
+            
+            self.isInvincible = False

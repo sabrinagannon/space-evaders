@@ -27,11 +27,11 @@ if __name__ == '__main__':
     #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
 
-    level = level2.level(screen)
-    levelNum = 2
+    level = level1.level(screen)
+    levelNum = 1
 
     # play level cutscene
-    #level.playCutscene(levelNum)
+    level.playCutscene(levelNum)
 
     keith = player.Player((level.startingPosX,level.startingPosY), playerPath2, playerSpeed)
     #keith = player.Player((x,y), playerPath1, playerSpeed)
@@ -62,12 +62,18 @@ if __name__ == '__main__':
             if levelNum == 1:
                 level = level2.level(screen)
                 levelNum = 2
+                keith.itemsHeld = 0
+                keith.updateSpeed()
             elif levelNum == 2:
                 level = level3.level(screen)
                 levelNum = 3
+                keith.itemsHeld = 0
+                keith.updateSpeed()
             elif levelNum == 3:
                 level = level4.level(screen)
                 levelNum = 4
+                keith.itemsHeld = 0 
+                keith.updateSpeed()
 
                 initRect1 = pygame.Rect(800,300,36,36)
                 initRect2 = pygame.Rect(400,400,36,36)
@@ -104,6 +110,20 @@ if __name__ == '__main__':
         if(frameCount == 90) and (levelNum != 4):
             frameCount = 0
             if(len(crystalList) < 10): # quick way of limiting us to 10 items (or however many crystals, can be changed depending on level.)
+                #make sure the crystal is not inside of an obstacle
+                goodCrystal = True
+                crystalToAppend = items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect)
+                while 1: 
+                    for obstacle in level.obstacles:
+                        if (crystalToAppend.rect.collidepoint(obstacle.rect.x ,obstacle.rect.y)):
+                            goodCrystal = False
+                            break
+                    if(goodCrystal == False):
+                        crystalToAppend = items.createRandomRect(w_width, w_height,41,36,keith.rectangle,sink.rect)
+                        goodCrystal = True
+                    else:
+                        break
+
                 crystalList.append(items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect))
             elif(len(crystalList) > 0):
                 del crystalList[1]
@@ -114,7 +134,7 @@ if __name__ == '__main__':
         while index < len(crystalList):
             if(crystalList[index].rect.colliderect(keith.rectangle)):
                 
-                if(keys[pygame.K_SPACE]):
+                if(keys[pygame.K_SPACE] and keith.isInvincible==False):
                     soundEffects.playChime()
                     crystal = crystalList[index]
                     del crystalList[index]
@@ -124,6 +144,7 @@ if __name__ == '__main__':
                         keith.coinsHeld += 1
                     else:
                         keith.itemsHeld = keith.itemsHeld + 1
+                        
                         if keith.speed > 5 :
                             keith.updateSpeed()
                         else:
@@ -146,4 +167,8 @@ if __name__ == '__main__':
 
         level.draw(crystalList,sink,keith)
         pygame.display.update()
+        if keith.lives <= 0 :
+            print "you lost all your lives!"
+            sys.exit()
+            
         gameClock.tick(30)

@@ -26,6 +26,7 @@ class level(levels):
         self.background = backgrounds.Background(5)
 
     def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
+        keith.updateInvincible()
         chasers = keith.itemsHeld//2
         if disabled == None:
             collision = False
@@ -44,6 +45,7 @@ class level(levels):
 
                 self.soundFX.playBloop()
                 e.caughtHim = 1
+                keith.onEnemyCollision()
 
                 if(keith.itemsHeld > 0):
                     keith.itemsHeld -= 1
@@ -51,6 +53,8 @@ class level(levels):
                     droppedBox = pygame.Rect((keith.rectangle.x - 1000 - self.background.x), (keith.rectangle.y -1000 - self.background.y), 41,36)
                     droppedItem = items.Crystal(droppedBox)
                     crystalList.append(droppedItem)
+                else:
+                    keith.lives -= 1
 
     def draw(self,crystalList,sink,keith):
         self.screen.fill(colors['black'])
