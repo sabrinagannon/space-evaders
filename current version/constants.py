@@ -5,20 +5,12 @@
 w_width = 1200
 w_height = 700
 
-# sprite stuff
-# playerPath1 = ['../assets/sprites/modern/','serge_run.png']
-# playerPath2 = ['../assets/sprites/player/hetalia/','hetalia.png']
-# playerPath3 = ['../assets/sprites/player/serge/','serge.png']
-# wolfPath = ['../assets/sprites/enemies/wolf/','wolf.png']
-# bearPath = ['../assets/sprites/enemies/scaryBear/','scaryBear.png']
-# blobPath = ['../assets/sprites/enemies/blob/','blob.png']
-# itemPath = ['../assets/sprites/items/','crystal.png']
-
 playerPath1 = ['assets/sprites/modern/','serge_run.png']
 playerPath2 = ['assets/sprites/player/hetalia/','hetalia.png']
 playerPath3 = ['assets/sprites/player/serge/','serge.png']
 wolfPath = ['assets/sprites/enemies/wolf/','wolf.png']
 bearPath = ['assets/sprites/enemies/scaryBear/','scaryBear.png']
+armBearPath = ['assets/sprites/enemies/armouredBear/','bear.png']
 blobPath = ['assets/sprites/enemies/blob/','blob.png']
 itemPath = ['assets/sprites/items/','crystal.png']
 

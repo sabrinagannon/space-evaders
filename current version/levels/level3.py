@@ -3,7 +3,7 @@ sys.path.insert(0,'../')
 from levels import levels
 from constants import w_width, w_height, wolfPath, bearPath,colors, blobPath
 import enemy, items, backgrounds,sounds
-import random, pygame, math
+import random, pygame, math, json
 
 class level(levels):
 
@@ -14,7 +14,11 @@ class level(levels):
         self.startingPosX = 600
         self.startingPosY = 350
         self.soundFX = sounds.SoundFX()
-        self.obstacleCoords = {'obst1': {'x':100 ,'y':500 , 'width':376 , 'height':296, 'path':'assets/images/suck.png' },'obst2':{'x':1500,'y':-200 , 'width':376, 'height':296, 'path':'assets/images/suck.png'}}
+
+        with open('assets/images/levelThree/level3obstacles.json','rb') as obstacles:
+            self.obstacleCoords = json.load(obstacles)
+
+        # self.obstacleCoords = {'obst1': {'x':100 ,'y':500 , 'width':376 , 'height':296, 'path':'assets/images/suck.png' },'obst2':{'x':1500,'y':-200 , 'width':376, 'height':296, 'path':'assets/images/suck.png'}}
         self.obstacles = items.createObstacles(self.obstacleCoords)
 
         # top left
