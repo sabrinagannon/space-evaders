@@ -5,7 +5,6 @@ import player, level1, level2, level3, level4, level5, sounds
 import cutscenes, cutsceneText
 
 def reset(sink,soundEffects,initRect,initCrystal,crystalList):
-    sink = items.Sink(150,font,10)
     sink.itemsHeld = 0
     soundEffects = sounds.SoundFX()
     initRect = pygame.Rect(-4000,-4000,25,25)
@@ -27,8 +26,8 @@ if __name__ == '__main__':
     # play intro cutscene
     #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
-    level = level3.level(screen)
-    levelNum = 3
+    level = level1.level(screen)
+    levelNum = 1
 
     # CUTSCENE TESTING
     # cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
@@ -58,30 +57,33 @@ if __name__ == '__main__':
 
     while True:
 
-        # if pygame.mixer.music.get_busy() == False:
-        #    level.playLvlMusic(levelNum)
+        if pygame.mixer.music.get_busy() == False:
+            level.playLvlMusic(levelNum)
 
         frameCount+=1
-        if sink.itemsHeld == 1 and levelNum != 4:
+        if sink.itemsHeld == 10 and levelNum != 4:
               # print "player score is : " + str(keith.score)
               # sys.exit()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
-
+            print sink.itemsHeld
             if levelNum == 1:
                 level = level2.level(screen)
                 levelNum = 2
                 keith.itemsHeld = 0
                 keith.updateSpeed()
+                crystalList= [initCrystal]
             elif levelNum == 2:
                 level = level3.level(screen)
                 levelNum = 3
                 keith.itemsHeld = 0
                 keith.updateSpeed()
+                crystalList= [initCrystal]
             elif levelNum == 3:
                 level = level4.level(screen)
                 levelNum = 4
                 keith.itemsHeld = 0
                 keith.updateSpeed()
+                crystalList= [initCrystal]
 
                 initRect1 = pygame.Rect(-580,-560,36,36)
                 initRect2 = pygame.Rect(-580,1000,36,36)

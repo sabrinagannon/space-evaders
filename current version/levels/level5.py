@@ -41,7 +41,7 @@ class level(levels):
             self.enemies[2].update3(keith,self.background,keys,collision,obstacles,False)
             
         for e in self.enemies:
-            if(e.rectangle.colliderect(keith.rectangle)):
+            if(e.rectangle.colliderect(keith.rectangle) and keith.isInvincible == False):
 
                 self.soundFX.playBloop()
                 e.caughtHim = 1
