@@ -9,6 +9,7 @@ class levels():
         self.font =  pygame.font.SysFont("monospace", 25)
         self.crystal = pygame.image.load("assets/sprites/items/crystal.png")
         self.heart = pygame.image.load("assets/sprites/items/HeartContainer.png")
+        self.smallHeart = pygame.image.load("assets/sprites/items/HeartContainerSmall.png")
 
     def drawEnemies(self,enemies):
         for enemy in enemies:

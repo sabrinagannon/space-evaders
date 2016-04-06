@@ -89,25 +89,22 @@ class level(levels):
         self.drawText(keith)
 
     def drawText(self,keith):
-        bgRect = pygame.Rect(0,0,350,125)
-        bgRect2 = pygame.Rect(875,0,350,125)
-        bgRect3 = pygame.Rect(0,0,1200,125)
-        pygame.draw.rect(self.screen,colors['black'],bgRect)
-        pygame.draw.rect(self.screen,colors['black'],bgRect2)
+        # bgRect = pygame.Rect(0,0,350,125)
+        # bgRect2 = pygame.Rect(875,0,350,125)
+        bgRect3 = pygame.Rect(0,0,1200,39)
+        # pygame.draw.rect(self.screen,colors['black'],bgRect)
+        # pygame.draw.rect(self.screen,colors['black'],bgRect2)
         pygame.draw.rect(self.screen,colors['black'],bgRect3)
-        text = self.font.render('You have '+str(keith.itemsHeld)+' crystals', 1,colors['blue'])
-        textpos = pygame.Rect(55,10,w_width/2,w_height/2)
-        crystalDisplay = pygame.Rect(10,10,41,36)
-        
-        for life in range(0,keith.lives):
-            self.screen.blit(self.heart,(10+(life*50),55,50,50))
+        text = self.font.render(str(keith.itemsHeld), 1,colors['blue'])
+        textpos = pygame.Rect(185,5,w_width/2,w_height/2)
+        crystalDisplay = pygame.Rect(140,0,41,36)
 
         if self.timerSec < 10:
             timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':0'+str(self.timerSec),True,colors['black'])
         else:
             timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':'+str(self.timerSec),True,colors['white'])
 
-        timerPos = pygame.Rect(875,10,w_width/2,w_height/2)
+        timerPos = pygame.Rect(875,5,w_width/2,w_height/2)
         self.screen.blit(text, textpos)
         self.screen.blit(timerText, timerPos)
         pygame.draw.rect(self.screen,colors['blue'],crystalDisplay)
@@ -115,7 +112,7 @@ class level(levels):
         self.screen.blit(text, textpos)
 
         for life in range(0,keith.lives):
-            self.screen.blit(self.heart,(10+(life*50),55,50,50))
+            self.screen.blit(self.smallHeart,(5+(life*41),0,41,36))
         
       
 
