@@ -10,6 +10,7 @@ class levels():
         self.crystal = pygame.image.load("assets/sprites/items/crystal.png")
         self.heart = pygame.image.load("assets/sprites/items/HeartContainer.png")
         self.smallHeart = pygame.image.load("assets/sprites/items/HeartContainerSmall.png")
+        self.sinkIcon = pygame.image.load('assets/sprites/items/timemachineIcon.png')
 
     def drawEnemies(self,enemies):
         for enemy in enemies:
@@ -38,15 +39,26 @@ class levels():
         pygame.mixer.music.play(-1)
 
     def drawText(self,keith):
-        text = self.font.render('You have '+str(keith.itemsHeld)+' crystals', 1,colors['blue'])
-        textpos = pygame.Rect(55,10,w_width/2,w_height/2)
-        crystalDisplay = pygame.Rect(10,10,41,36)
+
+        #backgroundBar
+        bgRect = pygame.Rect(0,0,1200,39)
+        pygame.draw.rect(self.screen,colors['black'],bgRect)
+
+        #crystals
+        text = self.font.render(str(keith.itemsHeld), 1,colors['blue'])
+        textpos = pygame.Rect(185,5,w_width/2,w_height/2)
+        crystalDisplay = pygame.Rect(140,0,41,36)
+
+        #sink
+        
+
+        self.screen.blit(text, textpos)
         pygame.draw.rect(self.screen,colors['blue'],crystalDisplay)
         self.screen.blit(self.crystal,crystalDisplay)
         self.screen.blit(text, textpos)
-        
+
         for life in range(0,keith.lives):
-            self.screen.blit(self.heart,(10+(life*50),55,50,50))
+            self.screen.blit(self.smallHeart,(5+(life*41),0,41,36))
 
     def playCutscene(self,level):
         cutsceneArray = "level" + str(level) + "_cutscene"

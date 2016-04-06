@@ -12,17 +12,17 @@ class Sink():
         self.capacity = capacity
         self.font = font
         self.rect = pygame.Rect(self.xpos,self.ypos,self.dims,self.dims)
+        self.image = pygame.image.load('assets/sprites/items/timemachineBig.png')
 
     def draw(self,screen,relX, relY, offset):
         self.rect = pygame.Rect(self.xpos+(relX+offset),self.ypos+(relY+offset),self.dims,self.dims)
-        pygame.draw.rect(screen,colors['red'],self.rect,3)
-        dispString = 'Collect: '+str(self.itemsHeld)+'/'+str(self.capacity)
-        label = self.font.render(dispString , 1, colors['blue'])
+        #pygame.draw.rect(screen,colors['red'],self.rect,3)
 
-        if self.itemsHeld > 9:  # not digit
-            screen.blit(label,(self.rect.x+12,self.rect.y+5))
-        else:
-            screen.blit(label,(self.rect.x+14,self.rect.y+5))
+        # dispString = 'Collect: '+str(self.itemsHeld)+'/'+str(self.capacity)
+        # label = self.font.render(dispString, 1, colors['blue'])
+
+        #screen.blit(label,(100,0))
+        screen.blit(self.image,self.rect)
 
     def take(self):
         self.itemsHeld += 1

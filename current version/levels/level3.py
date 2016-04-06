@@ -18,19 +18,26 @@ class level(levels):
         with open('assets/images/levelThree/level3obstacles.json','rb') as obstacles:
             self.obstacleCoords = json.load(obstacles)
 
-        # self.obstacleCoords = {'obst1': {'x':100 ,'y':500 , 'width':376 , 'height':296, 'path':'assets/images/suck.png' },'obst2':{'x':1500,'y':-200 , 'width':376, 'height':296, 'path':'assets/images/suck.png'}}
         self.obstacles = items.createObstacles(self.obstacleCoords)
 
         # top left
-        blob1 = levelEnemy((-1000,-1000),blobPath,3,0)
+        blob1 = levelEnemy((-100,-100),blobPath,3,0)
         # top right
-        blob2 = levelEnemy((2000,-1000),blobPath,3,0)
+        blob2 = levelEnemy((1100,-100),blobPath,3,0)
         # bottom left
-        blob3 = levelEnemy((-1000,2000),blobPath,3,0)
+        blob3 = levelEnemy((-100,1100),blobPath,3,0)
         # bottom right
-        blob4 = levelEnemy((2000,2000),blobPath,3,0)
+        blob4 = levelEnemy((1100,1100),blobPath,3,0)
+          # top left
+        blob5 = levelEnemy((-500,-600),blobPath,3,0)
+        # top right
+        blob6 = levelEnemy((600,2000),blobPath,3,0)
+        # bottom left
+        blob7 = levelEnemy((-400,1000),blobPath,3,0)
+        # bottom right
+        blob8 = levelEnemy((400,400),blobPath,3,0)
 
-        self.enemies = [blob1,blob2,blob3,blob4]
+        self.enemies = [blob1,blob2,blob3,blob4,blob5,blob6,blob7,blob8]
         self.background = backgrounds.Background(3)
 
     def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
