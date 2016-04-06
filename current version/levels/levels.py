@@ -7,6 +7,8 @@ class levels():
         self.screen = screen
         self.music = ["assets/music/keithDenial.mp3","assets/music/realKeithAnger.mp3","assets/music/keithDepression.mp3","assets/music/BargainingKeith.mp3","keithAcceptance.mp3"]
         self.font =  pygame.font.SysFont("monospace", 25)
+        self.crystal = pygame.image.load("assets/sprites/items/crystal.png")
+        self.heart = pygame.image.load("assets/sprites/items/HeartContainer.png")
 
     def drawEnemies(self,enemies):
         for enemy in enemies:
@@ -38,15 +40,12 @@ class levels():
         text = self.font.render('You have '+str(keith.itemsHeld)+' crystals', 1,colors['blue'])
         textpos = pygame.Rect(55,10,w_width/2,w_height/2)
         crystalDisplay = pygame.Rect(10,10,41,36)
-        crystal = pygame.image.load("assets/sprites/items/crystal.png")
         pygame.draw.rect(self.screen,colors['blue'],crystalDisplay)
-        self.screen.blit(crystal,crystalDisplay)
+        self.screen.blit(self.crystal,crystalDisplay)
         self.screen.blit(text, textpos)
         
-        heart = pygame.image.load("assets/sprites/items/HeartContainer.png")
-        
         for life in range(0,keith.lives):
-            self.screen.blit(heart,(10+(life*50),55,50,50))
+            self.screen.blit(self.heart,(10+(life*50),55,50,50))
 
     def playCutscene(self,level):
         cutsceneArray = "level" + str(level) + "_cutscene"

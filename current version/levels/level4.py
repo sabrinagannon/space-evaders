@@ -89,18 +89,35 @@ class level(levels):
         self.drawText(keith)
 
     def drawText(self,keith):
-        text = self.font.render('You are carrying '+str(keith.itemsHeld)+' crystals', 1,colors['blue'])
-        textpos = pygame.Rect(10,10,w_width/2,w_height/2)
+        bgRect = pygame.Rect(0,0,350,125)
+        bgRect2 = pygame.Rect(875,0,350,125)
+        bgRect3 = pygame.Rect(0,0,1200,125)
+        pygame.draw.rect(self.screen,colors['black'],bgRect)
+        pygame.draw.rect(self.screen,colors['black'],bgRect2)
+        pygame.draw.rect(self.screen,colors['black'],bgRect3)
+        text = self.font.render('You have '+str(keith.itemsHeld)+' crystals', 1,colors['blue'])
+        textpos = pygame.Rect(55,10,w_width/2,w_height/2)
+        crystalDisplay = pygame.Rect(10,10,41,36)
+        
+        for life in range(0,keith.lives):
+            self.screen.blit(self.heart,(10+(life*50),55,50,50))
 
         if self.timerSec < 10:
             timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':0'+str(self.timerSec),True,colors['black'])
         else:
-            timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':'+str(self.timerSec),True,colors['black'])
-        self.font =  pygame.font.SysFont("monospace", 56)
-        timerPos = pygame.Rect(1000,10,w_width/2,w_height/2)
+            timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':'+str(self.timerSec),True,colors['white'])
+
+        timerPos = pygame.Rect(875,10,w_width/2,w_height/2)
         self.screen.blit(text, textpos)
         self.screen.blit(timerText, timerPos)
-        self.font =  pygame.font.SysFont("monospace", 15)
+        pygame.draw.rect(self.screen,colors['blue'],crystalDisplay)
+        self.screen.blit(self.crystal,crystalDisplay)
+        self.screen.blit(text, textpos)
+
+        for life in range(0,keith.lives):
+            self.screen.blit(self.heart,(10+(life*50),55,50,50))
+        
+      
 
 class vector():
     def __init__(self,x,y):

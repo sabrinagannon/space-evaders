@@ -1,0 +1,1 @@
+interface image from http://www.quakewiki.net/archives/speedy/textures.htm

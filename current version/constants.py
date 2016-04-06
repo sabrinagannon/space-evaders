@@ -15,7 +15,7 @@ blobPath = ['assets/sprites/enemies/blob/','blob.png']
 itemPath = ['assets/sprites/items/','crystal.png']
 
 # misc
-colors = {'black': (0,0,0) , 'blue':(0,0,255),'green':(0,255,0),'red':(255,0, 0)}
+colors = {'black': (0,0,0) , 'blue':(0,0,255),'green':(0,255,0),'red':(255,0, 0),'white':(255,255,255)}
 playerSpeed = 15                     # initial player speed
 
 prototype_text = ["--KEITH IS GONE.",
