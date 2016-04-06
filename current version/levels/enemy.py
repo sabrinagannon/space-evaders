@@ -14,7 +14,7 @@ class vector():
         self.y *= -1
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self,startingPos,imagePath,speed = 10, inflate = 100):
+    def __init__(self,startingPos,imagePath,speed = 10, inflate = 100,bearDex = 0):
         pygame.sprite.Sprite.__init__(self) # calls the parent class constructor
 
         self.sheet = pygame.image.load(imagePath[0] + imagePath[1]) # load and assign spritesheet
@@ -57,6 +57,8 @@ class Enemy(pygame.sprite.Sprite):
         # for level4
         self.crystals = 2
         self.inInterval = 0
+        self.bearID = bearDex
+        self.bearLims = {0:{'left':150,'right':750,'up':150,'down':650},1:{'left':1700,'right':2300,'up':150,'down':650},2:{'left':1700,'right':2300,'up':1700,'down':2250},3:{'left':150,'right':750,'up':1700,'down':2250}}
       
         
         self.heading = self.createRandomHeading()

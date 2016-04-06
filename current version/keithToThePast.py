@@ -6,6 +6,7 @@ import cutscenes, cutsceneText
 
 def reset(sink,soundEffects,initRect,initCrystal,crystalList):
     sink = items.Sink(150,font,10)
+    sink.itemsHeld = 0
     soundEffects = sounds.SoundFX()
     initRect = pygame.Rect(-4000,-4000,25,25)
     initCrystal = items.Crystal(initRect)
@@ -27,8 +28,8 @@ if __name__ == '__main__':
     #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
 
-    level = level1.level(screen)
-    levelNum = 1
+    level = level3.level(screen)
+    levelNum = 3
 
     # play level cutscene
     level.playCutscene(levelNum)
@@ -54,7 +55,7 @@ if __name__ == '__main__':
         #    level.playLvlMusic(levelNum)
 
         frameCount+=1
-        if sink.itemsHeld == 1:
+        if sink.itemsHeld == 1 and levelNum != 4:
               # print "player score is : " + str(keith.score)
               # sys.exit()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
@@ -75,10 +76,10 @@ if __name__ == '__main__':
                 keith.itemsHeld = 0 
                 keith.updateSpeed()
 
-                initRect1 = pygame.Rect(800,300,36,36)
-                initRect2 = pygame.Rect(400,400,36,36)
-                initRect3 = pygame.Rect(753,200,36,36)
-                initRect4 = pygame.Rect(300,700,36,36)
+                initRect1 = pygame.Rect(-580,-560,36,36)
+                initRect2 = pygame.Rect(-580,1000,36,36)
+                initRect3 = pygame.Rect(990,830,36,36)
+                initRect4 = pygame.Rect(1000,-560,36,36)
                 
                 initCoin1 = items.Coin(initRect1)
                 initCoin2 = items.Coin(initRect2)
@@ -86,10 +87,13 @@ if __name__ == '__main__':
                 initCoin4 = items.Coin(initRect4)
                
                 crystalList= [initCoin1,initCoin2,initCoin3,initCoin4]
-            elif levelNum == 4:
-                # Need to make window static and constrain movement still for level 5
-                level = level5.level(screen)
-                levelNum = 5
+               
+        elif sink.itemsHeld == 4 and levelNum == 4:
+            # Need to make window static and constrain movement still for level 5
+            reset(sink,soundEffects,initRect,initCrystal,crystalList)
+            level = level5.level(screen)
+            levelNum = 5
+            
 
             sink.itemsHeld =0
             level.playLvlMusic(levelNum)
