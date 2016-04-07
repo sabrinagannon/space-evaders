@@ -62,7 +62,7 @@ class level(levels):
             if(e.rectangle.colliderect(keith.rectangle)):
 
                 #self.soundFX.playBloop()
-                # NEW SOUND EFFECT!
+                # NEW SOUND EFFECT?
                 e.caughtHim = 1
                 keith.onEnemyCollision()
 
@@ -86,30 +86,40 @@ class level(levels):
         self.drawObstacles(self.obstacles,self.background)
         self.drawEnemies(self.enemies)
         self.screen.blit(keith.image, keith.rectangle)
-        self.drawText(keith)
+        self.drawText(keith,sink)
+        self.drawDisplay(crystalList,sink,self.background,4)
+      
 
-    def drawText(self,keith):
-        # bgRect = pygame.Rect(0,0,350,125)
-        # bgRect2 = pygame.Rect(875,0,350,125)
-        bgRect3 = pygame.Rect(0,0,1200,39)
-        # pygame.draw.rect(self.screen,colors['black'],bgRect)
-        # pygame.draw.rect(self.screen,colors['black'],bgRect2)
-        pygame.draw.rect(self.screen,colors['black'],bgRect3)
+    def drawText(self,keith,sink):
+        # background bar
+        bgRect = pygame.Rect(0,0,1200,39)
+        pygame.draw.rect(self.screen,colors['black'],bgRect)
+
+        # crystals
         text = self.font.render(str(keith.itemsHeld), 1,colors['blue'])
         textpos = pygame.Rect(185,5,w_width/2,w_height/2)
         crystalDisplay = pygame.Rect(140,0,41,36)
+        self.screen.blit(text, textpos)
+        pygame.draw.rect(self.screen,colors['blue'],crystalDisplay)
+        self.screen.blit(self.crystal,crystalDisplay)
+        self.screen.blit(text, textpos)
 
+        # timer
         if self.timerSec < 10:
             timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':0'+str(self.timerSec),True,colors['black'])
         else:
             timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':'+str(self.timerSec),True,colors['white'])
 
         timerPos = pygame.Rect(875,5,w_width/2,w_height/2)
-        self.screen.blit(text, textpos)
         self.screen.blit(timerText, timerPos)
-        pygame.draw.rect(self.screen,colors['blue'],crystalDisplay)
-        self.screen.blit(self.crystal,crystalDisplay)
-        self.screen.blit(text, textpos)
+    
+        #sink
+        icon = pygame.Rect(220,0,41,36)
+        amt = (36-(9*(sink.itemsHeld)))
+        sinkpos = pygame.Rect(220,amt,41,(9*sink.itemsHeld))
+        if sink.itemsHeld != 0:
+            pygame.draw.rect(self.screen,colors['green'],sinkpos)
+        self.screen.blit(self.sinkIcon,icon)
 
         for life in range(0,keith.lives):
             self.screen.blit(self.smallHeart,(5+(life*41),0,41,36))

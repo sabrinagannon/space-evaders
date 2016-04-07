@@ -73,11 +73,12 @@ class level(levels):
     def draw(self,crystalList,sink,keith):
         self.screen.fill(colors['black'])
         self.background.draw(self.screen)
-        self.drawItems(crystalList,sink,self.background)
         self.drawObstacles(self.obstacles,self.background)
         self.drawEnemies(self.enemies)
+        self.drawItems(crystalList,sink,self.background)
+        self.drawText(keith,sink)
+        self.drawDisplay(crystalList,sink,self.background)
         self.screen.blit(keith.image, keith.rectangle)
-        self.drawText(keith)
 
 class vector():
     def __init__(self,x,y):

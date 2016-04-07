@@ -10,19 +10,21 @@ class Sink():
         self.ypos = (w_height/2)-50
         self.itemsHeld = 0
         self.capacity = capacity
-        self.font = font
+        self.font = pygame.font.SysFont("monospace", 25)
         self.rect = pygame.Rect(self.xpos,self.ypos,self.dims,self.dims)
         self.image = pygame.image.load('assets/sprites/items/timemachineBig.png')
 
-    def draw(self,screen,relX, relY, offset):
-        self.rect = pygame.Rect(self.xpos+(relX+offset),self.ypos+(relY+offset),self.dims,self.dims)
-        #pygame.draw.rect(screen,colors['red'],self.rect,3)
-
-        # dispString = 'Collect: '+str(self.itemsHeld)+'/'+str(self.capacity)
-        # label = self.font.render(dispString, 1, colors['blue'])
-
-        #screen.blit(label,(100,0))
-        screen.blit(self.image,self.rect)
+    def draw(self,screen,relX, relY, offset,display=False,level4=0):
+        if display:
+              self.rect2 = pygame.Rect(270,5,self.dims,self.dims)
+              dispString = str(self.itemsHeld)+'/'+str(self.capacity)
+              if level4:
+                  dispString = str(self.itemsHeld)+'/'+str(4)
+              label = self.font.render(dispString, 1, colors['green'])
+              screen.blit(label,self.rect2)
+        else:
+            self.rect = pygame.Rect(self.xpos+(relX+offset),self.ypos+(relY+offset),self.dims,self.dims)
+            screen.blit(self.image,self.rect)
 
     def take(self):
         self.itemsHeld += 1

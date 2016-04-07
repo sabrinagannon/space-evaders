@@ -56,13 +56,12 @@ class level(levels):
                 else:
                     keith.lives -= 1
 
-
-
     def draw(self,crystalList,sink,keith):
         self.screen.fill(colors['black'])
         self.background.draw(self.screen)
-        self.drawItems(crystalList,sink,self.background)
         self.drawEnemies(self.enemies)
         self.drawObstacles(self.obstacles,self.background)
+        self.drawItems(crystalList,sink,self.background)
+        self.drawText(keith,sink)
+        self.drawDisplay(crystalList,sink,self.background)
         self.screen.blit(keith.image, keith.rectangle)
-        self.drawText(keith)

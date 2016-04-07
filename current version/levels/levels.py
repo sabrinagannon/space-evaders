@@ -18,8 +18,11 @@ class levels():
                 #pygame.draw.rect(self.screen,colors['blue'],enemy.detection,3)
             self.screen.blit(enemy.image, enemy.rectangle)
 
+    def drawDisplay(self,crystalList,sink,bg,level=0):
+        sink.draw(self.screen,bg.x,bg.y,bg.offset,True,level)
+
     def drawItems(self,crystalList,sink,bg):
-        sink.draw(self.screen,bg.x,bg.y,bg.offset)
+        sink.draw(self.screen,bg.x,bg.y,bg.offset,False)
 
         for crystal in crystalList:
             crystal.rect.x = crystal.origX + (bg.x + bg.offset)
@@ -38,7 +41,7 @@ class levels():
         pygame.mixer.music.load(self.music[lvlNumber-1]) # change to lvlNumber-1
         pygame.mixer.music.play(-1)
 
-    def drawText(self,keith):
+    def drawText(self,keith,sink):
 
         #backgroundBar
         bgRect = pygame.Rect(0,0,1200,39)
@@ -46,15 +49,20 @@ class levels():
 
         #crystals
         text = self.font.render(str(keith.itemsHeld), 1,colors['blue'])
-        textpos = pygame.Rect(185,5,w_width/2,w_height/2)
+        textpos = pygame.Rect(185,5,10,w_height/2)
         crystalDisplay = pygame.Rect(140,0,41,36)
+        self.screen.blit(text, textpos)
 
         #sink
-        
+        icon = pygame.Rect(220,0,41,36)
+        amt = (36-(3.6*(sink.itemsHeld)))
+        sinkpos = pygame.Rect(220,amt,41,(3.6*sink.itemsHeld))
 
-        self.screen.blit(text, textpos)
         pygame.draw.rect(self.screen,colors['blue'],crystalDisplay)
+        if sink.itemsHeld != 0:
+            pygame.draw.rect(self.screen,colors['green'],sinkpos)
         self.screen.blit(self.crystal,crystalDisplay)
+        self.screen.blit(self.sinkIcon,icon)
         self.screen.blit(text, textpos)
 
         for life in range(0,keith.lives):

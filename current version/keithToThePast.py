@@ -5,7 +5,6 @@ import player, level1, level2, level3, level4, level5, sounds
 import cutscenes, cutsceneText
 
 def reset(sink,soundEffects,initRect,initCrystal,crystalList):
-    sink = items.Sink(150,font,10)
     sink.itemsHeld = 0
     soundEffects = sounds.SoundFX()
     initRect = pygame.Rect(-4000,-4000,25,25)
@@ -51,13 +50,14 @@ if __name__ == '__main__':
 
     while True:
 
-        # if pygame.mixer.music.get_busy() == False:
-        #    level.playLvlMusic(levelNum)
+        if pygame.mixer.music.get_busy() == False:
+           level.playLvlMusic(levelNum)
 
         frameCount+=1
         if sink.itemsHeld == 1 and levelNum != 4:
               # print "player score is : " + str(keith.score)
               # sys.exit()
+            pygame.mixer.music.stop()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
 
             if levelNum == 1:
