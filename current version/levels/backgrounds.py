@@ -46,7 +46,7 @@ class Background():
             self.offset = 1000
             self.x = -1000
             self.y = -1000
-            
+
 
         self.previousPos = (self.x,self.y)
         self.level = level
@@ -71,11 +71,17 @@ class Background():
                     # if we tried to move in the disabled direction
                     return self.disabled
                 else:
-                    # we are moving in a new direction, so allow it
-                    self.move(keys,keith)
+                # we are moving in a new direction, so allow it
+                    if self.level == 5:
+                        keith.playerMove(keys)
+                    else:
+                        self.move(keys,keith)
         else:
             self.disabled = None
-            self.move(keys,keith)
+            if self.level == 5:
+                keith.playerMove(keys)
+            else:
+                self.move(keys,keith)
 
         return self.disabled
 

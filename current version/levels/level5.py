@@ -32,14 +32,14 @@ class level(levels):
             collision = False
         else:
             collision = keys[disabled]
-        self.enemies[0].update(keith,self.background,keys,collision,obstacles)
-        self.enemies[1].update2(keith,self.background,keys,collision,obstacles)
-        if chasers > 0:
-            self.enemies[2].update3(keith,self.background,keys,collision,obstacles,True)
-            chasers -= 1
-        else:
-            self.enemies[2].update3(keith,self.background,keys,collision,obstacles,False)
-            
+        #self.enemies[0].update(keith,self.background,keys,collision,obstacles)
+        #self.enemies[1].update2(keith,self.background,keys,collision,obstacles)
+        #if chasers > 0:
+            #self.enemies[2].update3(keith,self.background,keys,collision,obstacles,True)
+            #chasers -= 1
+        #else:
+            #self.enemies[2].update3(keith,self.background,keys,collision,obstacles,False)
+
         for e in self.enemies:
             if(e.rectangle.colliderect(keith.rectangle) and keith.isInvincible == False):
 
@@ -61,6 +61,6 @@ class level(levels):
         self.background.draw(self.screen)
         self.drawItems(crystalList,sink,self.background)
         self.drawEnemies(self.enemies)
-        self.drawText(keith)
+        self.drawText(keith,sink)
         self.drawObstacles(self.obstacles,self.background)
         self.screen.blit(keith.image, keith.rectangle)

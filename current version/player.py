@@ -63,7 +63,7 @@ class Player(pygame.sprite.Sprite):
             pygame.display.quit()
             pygame.quit()
             sys.exit()
-        
+
         return None
 
     def update(self, direction):
@@ -98,9 +98,33 @@ class Player(pygame.sprite.Sprite):
         new_rect =  pygame.Rect(coords)
 
         self.sheet.set_clip(new_rect)
-        return movement   
+        return movement
 
-    
+    def playerMove(self,keys):
+        if keys[pygame.K_a]:
+            if (self.rectangle.x > self.speed):
+                self.rectangle.x -= self.speed
+                self.move(self.left_states)
+        if keys[pygame.K_d]:
+            if (self.rectangle.x < w_width - self.rectangle.width):
+                self.rectangle.x += self.speed
+                self.move(self.right_states)
+        if keys[pygame.K_w]:
+            if (self.rectangle.y > self.speed):
+                self.rectangle.y -= self.speed
+                self.move(self.up_states)
+        if keys[pygame.K_s]:
+            if (self.rectangle.y < w_height-self.rectangle.height):
+                self.rectangle.y += self.speed
+                self.move(self.down_states)
+        if (keys[pygame.K_k]) and (self.itemsHeld > 0) :
+            self.itemsHeld -= 1
+            self.updateSpeed()
+            droppedItem = pygame.Rect(self.rectangle.x, self.rectangle.y, 50,50)
+            return droppedItem
+
+
+
     def updateSpeed(self):
         update = self.initialSpeed - (2*self.itemsHeld)
         if update < 5:
@@ -114,5 +138,5 @@ class Player(pygame.sprite.Sprite):
     def updateInvincible(self):
         newTime = pygame.time.get_ticks()
         if (newTime - self.startInvinc ) >= 1000 :
-            
+
             self.isInvincible = False
