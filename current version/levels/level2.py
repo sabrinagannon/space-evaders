@@ -34,6 +34,7 @@ class level(levels):
         self.background = backgrounds.Background(2)
 
     def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
+        keith.updateInvincible()
         if disabled == None:
             collision = False
         else:
@@ -41,11 +42,13 @@ class level(levels):
         for e in self.enemies:
             e.update(keith,self.background,keys,collision,obstacles)
 
-            if(e.rectangle.colliderect(keith.rectangle)):
+            if(e.rectangle.colliderect(keith.rectangle) and keith.isInvincible == False):
 
                 self.soundFX.playBloop()
                 e.caughtHim = 1
+                print"am i ever here?"
                 keith.onEnemyCollision()
+
 
                 if(keith.itemsHeld > 0):
                     keith.itemsHeld -= 1
@@ -81,7 +84,6 @@ class vector():
 class levelEnemy(enemy.Enemy):
 
     def update(self,keith,bg,keys,collision,obstacles):
-        keith.updateInvincible()
         if not collision:
             if keys[pygame.K_a]:
                 self.rectangle.x += keith.speed
@@ -115,9 +117,14 @@ class levelEnemy(enemy.Enemy):
             y = (playerRect.y - self.rectangle.y)
         
             length = math.sqrt((x*x)+(y*y))
-
-            self.headingX = float(x/length)
-            self.headingY = float(y/length)
+            try:
+                self.headingX = float(x/length)
+            except ZeroDivisionError:
+                self.headingX = float(x/(length+1))
+            try:
+                self.headingY = float(y/length)
+            except ZeroDivisionError:
+                self.headingY = float(y/(length + 1))
 
             self.rampage = 1
 

@@ -26,9 +26,16 @@ if __name__ == '__main__':
     # play intro cutscene
     #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
+    level = level1.level(screen)
+    levelNum = 1
 
-    level = level3.level(screen)
-    levelNum = 3
+    # CUTSCENE TESTING
+    # cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
+    # level.playCutscene(1)
+    # level.playCutscene(2)
+    # level.playCutscene(3)
+    # level.playCutscene(4)
+    # level.playCutscene(5)
 
     # play level cutscene
     level.playCutscene(levelNum)
@@ -51,49 +58,52 @@ if __name__ == '__main__':
     while True:
 
         if pygame.mixer.music.get_busy() == False:
-           level.playLvlMusic(levelNum)
+            level.playLvlMusic(levelNum)
 
         frameCount+=1
-        if sink.itemsHeld == 1 and levelNum != 4:
+        if sink.itemsHeld == 10 and levelNum != 4:
               # print "player score is : " + str(keith.score)
               # sys.exit()
             pygame.mixer.music.stop()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
-
+            print sink.itemsHeld
             if levelNum == 1:
                 level = level2.level(screen)
                 levelNum = 2
                 keith.itemsHeld = 0
                 keith.updateSpeed()
+                crystalList= [initCrystal]
             elif levelNum == 2:
                 level = level3.level(screen)
                 levelNum = 3
                 keith.itemsHeld = 0
                 keith.updateSpeed()
+                crystalList= [initCrystal]
             elif levelNum == 3:
                 level = level4.level(screen)
                 levelNum = 4
-                keith.itemsHeld = 0 
+                keith.itemsHeld = 0
                 keith.updateSpeed()
+                crystalList= [initCrystal]
 
                 initRect1 = pygame.Rect(-580,-560,36,36)
                 initRect2 = pygame.Rect(-580,1000,36,36)
                 initRect3 = pygame.Rect(990,830,36,36)
                 initRect4 = pygame.Rect(1000,-560,36,36)
-                
+
                 initCoin1 = items.Coin(initRect1)
                 initCoin2 = items.Coin(initRect2)
                 initCoin3 = items.Coin(initRect3)
                 initCoin4 = items.Coin(initRect4)
-               
+
                 crystalList= [initCoin1,initCoin2,initCoin3,initCoin4]
-               
+
         elif sink.itemsHeld == 4 and levelNum == 4:
             # Need to make window static and constrain movement still for level 5
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
             level = level5.level(screen)
             levelNum = 5
-            
+
 
             sink.itemsHeld =0
             level.playLvlMusic(levelNum)
@@ -117,7 +127,7 @@ if __name__ == '__main__':
                 #make sure the crystal is not inside of an obstacle
                 goodCrystal = True
                 crystalToAppend = items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect)
-                while 1: 
+                while 1:
                     for obstacle in level.obstacles:
                         if (crystalToAppend.rect.colliderect((obstacle.rect.x ,obstacle.rect.y,obstacle.rect.width,obstacle.rect.height))):
                             goodCrystal = False
@@ -137,7 +147,7 @@ if __name__ == '__main__':
         index = 0
         while index < len(crystalList):
             if(crystalList[index].rect.colliderect(keith.rectangle)):
-                
+
                 if(keys[pygame.K_SPACE] and keith.isInvincible==False):
                     soundEffects.playChime()
                     crystal = crystalList[index]
@@ -148,7 +158,7 @@ if __name__ == '__main__':
                         keith.coinsHeld += 1
                     else:
                         keith.itemsHeld = keith.itemsHeld + 1
-                        
+
                         if keith.speed > 5 :
                             keith.updateSpeed()
                         else:
@@ -163,7 +173,7 @@ if __name__ == '__main__':
             else:
                 # player dropped an item and we need to re-draw it
                 crystalList.append(update)
-        
+
         if levelNum == 4:
             if level.timer == 0:
                  print "you weren't fast enough"
@@ -174,5 +184,5 @@ if __name__ == '__main__':
         if keith.lives <= 0 :
             print "you lost all your lives!"
             sys.exit()
-            
+
         gameClock.tick(30)

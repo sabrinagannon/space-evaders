@@ -56,7 +56,7 @@ class level(levels):
             else:
                 e.update(keith,self.background,keys,collision,obstacles,False)
 
-            if(e.rectangle.colliderect(keith.rectangle)):
+            if(e.rectangle.colliderect(keith.rectangle)  and keith.isInvincible == False):
 
                 self.soundFX.playBloop()
 

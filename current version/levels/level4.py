@@ -59,7 +59,7 @@ class level(levels):
         for e in self.enemies:
             crystalList = e.update(keith,self.background,keys,collision,obstacles,crystalList)
 
-            if(e.rectangle.colliderect(keith.rectangle)):
+            if(e.rectangle.colliderect(keith.rectangle) and keith.isInvincible == False):
 
                 #self.soundFX.playBloop()
                 # NEW SOUND EFFECT?
@@ -232,6 +232,7 @@ class levelBear(enemy.Enemy):
         return True
 
     def update(self,keith,bg,keys,collision,obstacles,crystals):
+        keith.updateInvincible()
         if not collision:
             if keys[pygame.K_a]:
                 self.rectangle.x += keith.speed
