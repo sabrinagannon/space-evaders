@@ -66,15 +66,18 @@ class level(levels):
                 e.caughtHim = 1
                 keith.onEnemyCollision()
 
-                # Now enemy drops a crystal, and is stunned
+                # Now enemy drops a crystal, and dies
                 if(e.crystals > 0) and (keith.coinsHeld > 0) and (not e.isBear()):
+                    self.soundFX.playChime()
                     e.crystals -= 1
                     droppedCrystal = pygame.Rect((keith.rectangle.x - 1000 - self.background.x), (keith.rectangle.y -1000 - self.background.y), 41,36)
                     droppedItem = items.Crystal(droppedCrystal)
                     crystalList.append(droppedItem)
                     del self.enemies[index]
                     index -= 1
+                    keith.coinsHeld -= 1
                 else:
+                    self.soundFX.playBloop()
                     keith.lives -= 1
             index += 1
             
@@ -105,10 +108,10 @@ class level(levels):
         self.screen.blit(text, textpos)
 
         # timer
+        timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':'+str(self.timerSec),True,colors['white'])
+        
         if self.timerSec < 10:
-            timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':0'+str(self.timerSec),True,colors['black'])
-        else:
-            timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':'+str(self.timerSec),True,colors['white'])
+            timerText = self.font.render('Time Remaining: ' + str(self.timerMin)+':0'+str(self.timerSec),True,colors['white'])
 
         timerPos = pygame.Rect(875,5,w_width/2,w_height/2)
         self.screen.blit(timerText, timerPos)

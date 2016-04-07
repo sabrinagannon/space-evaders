@@ -24,10 +24,10 @@ if __name__ == '__main__':
     pygame.display.set_caption('*~*~*KEITH TO THE PAST*~*~*')
 
     # play intro cutscene
-    #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
+    cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
-    level = level1.level(screen)
-    levelNum = 1
+    level = level3.level(screen)
+    levelNum = 3
 
     # CUTSCENE TESTING
     # cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
@@ -70,18 +70,23 @@ if __name__ == '__main__':
             if levelNum == 1:
                 level = level2.level(screen)
                 levelNum = 2
+                # play level cutscene
+                level.playCutscene(levelNum)
                 keith.itemsHeld = 0
                 keith.updateSpeed()
                 crystalList= [initCrystal]
             elif levelNum == 2:
                 level = level3.level(screen)
                 levelNum = 3
+                level.playCutscene(levelNum)
                 keith.itemsHeld = 0
                 keith.updateSpeed()
                 crystalList= [initCrystal]
             elif levelNum == 3:
                 level = level4.level(screen)
                 levelNum = 4
+                # play level cutscene
+                level.playCutscene(levelNum)
                 keith.itemsHeld = 0
                 keith.updateSpeed()
                 crystalList= [initCrystal]

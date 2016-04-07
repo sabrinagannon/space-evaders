@@ -170,6 +170,9 @@ class Enemy(pygame.sprite.Sprite):
         
         length = math.sqrt((x*x)+(y*y))
 
+        if length == 0:
+            length = 1
+
         headingX = float(x/length)
         headingY = float(y/length)
 
