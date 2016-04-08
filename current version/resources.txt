@@ -1,1 +1,2 @@
-interface image from http://www.quakewiki.net/archives/speedy/textures.htm
+Logo generated at http://cooltext.com
+Game Menu code modified from user nebelhom at https://nebelprog.wordpress.com/2013/08/14/create-a-simple-game-menu-with-pygame-pt-1-writing-the-menu-options-to-the-screen/
