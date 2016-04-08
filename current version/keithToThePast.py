@@ -2,7 +2,7 @@ import pygame, sys,items,random
 sys.path.insert(0,'levels/')
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2
 import player, level1, level2, level3, level4, level5, sounds
-import cutscenes, cutsceneText
+import cutscenes, cutsceneText, menu
 
 def reset(sink,soundEffects,initRect,initCrystal,crystalList):
     sink.itemsHeld = 0
@@ -21,27 +21,12 @@ if __name__ == '__main__':
     screen.fill(colors['black'])
     # screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 
-    pygame.display.set_caption('*~*~*KEITH TO THE PAST*~*~*')
-
-    # play intro cutscene
-    cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
-
     level = level1.level(screen)
     levelNum = 1
 
-    # CUTSCENE TESTING
-    # cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
-    # level.playCutscene(1)
-    # level.playCutscene(2)
-    # level.playCutscene(3)
-    # level.playCutscene(4)
-    # level.playCutscene(5)
-
-    # play level cutscene
-    level.playCutscene(levelNum)
+    pygame.display.set_caption('*~*~*KEITH TO THE PAST*~*~*')
 
     keith = player.Player((level.startingPosX,level.startingPosY), playerPath2, playerSpeed)
-    #keith = player.Player((x,y), playerPath1, playerSpeed)
 
     sink = items.Sink(150,font,10)
     soundEffects = sounds.SoundFX()
@@ -49,13 +34,24 @@ if __name__ == '__main__':
     initCrystal = items.Crystal(initRect)
     crystalList= [initCrystal]
 
-    #pygame.draw.rect(screen,colors['green'],initRect,3)
-    #sink.draw(screen)
     pygame.display.update()
 
     frameCount = 0
+    gameLoop = menu.display()
+    if gameLoop:
+        cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
+        # play level cutscene
+        level.playCutscene(1)
+        
+        # CUTSCENE TESTING
+        # cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
+        # level.playCutscene(1)
+        # level.playCutscene(2)
+        # level.playCutscene(3)
+        # level.playCutscene(4)
+        # level.playCutscene(5)
 
-    while True:
+    while gameLoop:
 
         if pygame.mixer.music.get_busy() == False:
             level.playLvlMusic(levelNum)
