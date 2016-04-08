@@ -42,10 +42,13 @@ class level(levels):
 
     def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
         keith.updateInvincible()
-        if disabled == None:
+        if disabled == []:
             collision = False
         else:
-            collision = keys[disabled]
+            collision = False
+            for pressed in disabled:
+                if keys[pressed]:
+                    collision = True
 
         chasers = keith.itemsHeld//2
         

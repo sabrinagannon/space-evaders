@@ -50,11 +50,14 @@ class level(levels):
 
         self.timer -= 1
         
-        if disabled == None:
+        if disabled == []:
             collision = False
         else:
-            collision = keys[disabled]
-
+            collision = False
+            for pressed in disabled:
+                if keys[pressed]:
+                    collision = True
+        
         index = 0
         for e in self.enemies:
             crystalList = e.update(keith,self.background,keys,collision,obstacles,crystalList)

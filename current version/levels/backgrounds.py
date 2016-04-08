@@ -6,40 +6,21 @@ class Background():
     def __init__(self,level):
 
         # these should be updated relative to the level
-        self.resolution = (1000,1000)
-        self.offset = 0
-        self.x = 0
-        self.y = 0
-        self.disabled = None
+        self.resolution = (3000,3000)
+        self.offset = 1000
+        self.x = -1000
+        self.y = -1000
+        self.disabled = []
+        self.collides = 0
 
         if level == 1:
             self.pic = pygame.image.load('assets/images/levelOne/LevelOneBG.png').convert()
-            self.resolution = (3000,3000)
-            self.offset = 1000
-            self.x = -1000
-            self.y = -1000
-
         elif level == 2:
             self.pic = pygame.image.load('assets/images/levelTwo/GroundAndOutline.png').convert()
-            self.resolution = (3000,3000)
-            self.offset = 1000
-            self.x = -1000
-            self.y = -1000
-
         elif level == 3:
             self.pic = pygame.image.load('assets/images/levelThree/GroundAndOutline.png').convert()
-            self.resolution = (3000,3000)
-            self.offset = 1000
-            self.x = -1000
-            self.y = -1000
-
         elif level == 4:
             self.pic = pygame.image.load('assets/images/levelFour/GroundAndOutline.png').convert()
-            self.resolution = (3000,3000)
-            self.offset = 1000
-            self.x = -1000
-            self.y = -1000
-
         elif level == 5:
             self.pic = pygame.image.load('assets/images/space.jpg').convert()
             self.resolution = (3000,3000)
@@ -47,37 +28,55 @@ class Background():
             self.x = -1000
             self.y = -1000
 
-
         self.previousPos = (self.x,self.y)
         self.level = level
 
     def handle(self,keys,keith,level):
+        diffX = abs(self.x - self.previousPos[0])
+        diffY = abs(self.y - self.previousPos[1])
 
-        if checkForCollisions(level,keith):
+        collisions = collision(level,keith)
+        if len(collisions):
             # hitting an obstacle
-            if self.disabled == None:
+            if self.disabled == []:
+
+                self.collides = len(collisions)
                 # nothing set, so set something
                 if keys[pygame.K_a]:
-                    self.disabled = pygame.K_a
-                elif keys[pygame.K_s]:
-                    self.disabled = pygame.K_s
-                elif keys[pygame.K_w]:
-                    self.disabled = pygame.K_w
-                elif keys[pygame.K_d]:
-                    self.disabled = pygame.K_d
+                    self.disabled.append(pygame.K_a)
+                if keys[pygame.K_s]:
+                    self.disabled.append(pygame.K_s)
+                if keys[pygame.K_w]:
+                    self.disabled.append(pygame.K_w)
+                if keys[pygame.K_d]:
+                    self.disabled.append(pygame.K_d)
             else:
+                if len(collisions) > self.collides:
+                    if keys[pygame.K_a]:
+                        self.disabled.append(pygame.K_a)
+                    if keys[pygame.K_s]:
+                        self.disabled.append(pygame.K_s)
+                    if keys[pygame.K_w]:
+                        self.disabled.append(pygame.K_w)
+                    if keys[pygame.K_d]:
+                        self.disabled.append(pygame.K_d)
+                    self.collides = len(collisions)
+                    
                 # something set
-                if keys[self.disabled]:
+                for pressed in self.disabled:
+                    if keys[pressed]:
                     # if we tried to move in the disabled direction
-                    return self.disabled
-                else:
+                        return self.disabled
+               
                 # we are moving in a new direction, so allow it
-                    if self.level == 5:
-                        keith.playerMove(keys)
-                    else:
-                        self.move(keys,keith)
+                if self.level == 5:
+                    keith.playerMove(keys)
+                else:
+                    self.move(keys,keith)
         else:
-            self.disabled = None
+            #if (diffX > 10) and (diffY > 10):
+            self.disabled = []
+            self.collides = 0
             if self.level == 5:
                 keith.playerMove(keys)
             else:
@@ -114,7 +113,10 @@ class Background():
         screen.blit(self.pic, (self.x,self.y))
 
 
-def checkForCollisions(level,keith):
+def collision(level,keith):
+    colliders = []
     for obstacle in level.obstacles:
         if obstacle.rect.colliderect(keith.rectangle):
-            return True
+            colliders.append(obstacle)
+            #return True
+    return colliders

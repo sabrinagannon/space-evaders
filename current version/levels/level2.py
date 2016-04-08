@@ -35,10 +35,13 @@ class level(levels):
 
     def updateEnemies(self,keith,keys,crystalList,disabled,obstacles):
         keith.updateInvincible()
-        if disabled == None:
+        if disabled == []:
             collision = False
         else:
-            collision = keys[disabled]
+            collision = False
+            for pressed in disabled:
+                if keys[pressed]:
+                    collision = True
         for e in self.enemies:
             e.update(keith,self.background,keys,collision,obstacles)
 
@@ -46,7 +49,6 @@ class level(levels):
 
                 self.soundFX.playBloop()
                 e.caughtHim = 1
-                print"am i ever here?"
                 keith.onEnemyCollision()
 
 

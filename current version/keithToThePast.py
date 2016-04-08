@@ -70,7 +70,6 @@ if __name__ == '__main__':
             if levelNum == 1:
                 level = level2.level(screen)
                 levelNum = 2
-                # play level cutscene
                 level.playCutscene(levelNum)
                 keith.itemsHeld = 0
                 keith.updateSpeed()
@@ -108,7 +107,6 @@ if __name__ == '__main__':
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
             level = level5.level(screen)
             levelNum = 5
-
 
             sink.itemsHeld =0
             level.playLvlMusic(levelNum)

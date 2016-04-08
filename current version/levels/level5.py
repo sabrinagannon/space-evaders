@@ -31,7 +31,10 @@ class level(levels):
         if disabled == None:
             collision = False
         else:
-            collision = keys[disabled]
+            collision = False
+            for pressed in disabled:
+                if keys[pressed]:
+                    collision = True
         #self.enemies[0].update(keith,self.background,keys,collision,obstacles)
         #self.enemies[1].update2(keith,self.background,keys,collision,obstacles)
         #if chasers > 0:

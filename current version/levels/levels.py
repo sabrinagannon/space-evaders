@@ -5,7 +5,7 @@ class levels():
 
     def __init__(self,screen):
         self.screen = screen
-        self.music = ["assets/music/keithDenial.mp3","assets/music/realKeithAnger.mp3","assets/music/keithDepression.mp3","assets/music/BargainingKeith.mp3","keithAcceptance.mp3"]
+        self.music = ["assets/music/keithDenial.mp3","assets/music/realKeithAnger.mp3","assets/music/keithDepression.mp3","assets/music/BargainingKeith.mp3","assets/music/keithAcceptance.mp3"]
         self.font =  pygame.font.SysFont("monospace", 25)
         self.crystal = pygame.image.load("assets/sprites/items/crystal.png")
         self.heart = pygame.image.load("assets/sprites/items/HeartContainer.png")
