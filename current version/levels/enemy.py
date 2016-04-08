@@ -66,7 +66,7 @@ class Enemy(pygame.sprite.Sprite):
         self.inflate = inflate
         self.detection = self.rectangle.inflate(self.inflate,self.inflate)
 
-    def update(self,keith,bg,keys,collision,obstacles,chaser):
+    def update(self,keith,bg,keys,collision,obstacles):
         if not collision:
             if keys[pygame.K_a]:
                 self.rectangle.x += keith.speed

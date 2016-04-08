@@ -58,7 +58,7 @@ if __name__ == '__main__':
     while True:
 
         if pygame.mixer.music.get_busy() == False:
-            level.playLvlMusic(1)
+            level.playLvlMusic(levelNum)
 
         frameCount+=1
         if sink.itemsHeld == 10 and levelNum != 4:
@@ -66,7 +66,6 @@ if __name__ == '__main__':
               # sys.exit()
             pygame.mixer.music.stop()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
-            print sink.itemsHeld
             if levelNum == 1:
                 level = level2.level(screen)
                 levelNum = 2
