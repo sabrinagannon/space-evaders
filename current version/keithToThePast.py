@@ -24,10 +24,10 @@ if __name__ == '__main__':
     pygame.display.set_caption('*~*~*KEITH TO THE PAST*~*~*')
 
     # play intro cutscene
-    cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
+    #cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
 
-    level = level1.level(screen)
-    levelNum = 1
+    level = level5.level(screen)
+    levelNum = 5
 
     # CUTSCENE TESTING
     # cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     # level.playCutscene(5)
 
     # play level cutscene
-    level.playCutscene(levelNum)
+    #level.playCutscene(levelNum)
 
     keith = player.Player((level.startingPosX,level.startingPosY), playerPath2, playerSpeed)
     #keith = player.Player((x,y), playerPath1, playerSpeed)
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     while True:
 
         if pygame.mixer.music.get_busy() == False:
-            level.playLvlMusic(levelNum)
+            level.playLvlMusic(1)
 
         frameCount+=1
         if sink.itemsHeld == 10 and levelNum != 4:
