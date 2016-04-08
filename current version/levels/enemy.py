@@ -49,7 +49,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rampage = 0
         self.stepCounter = 50
         self.headingX = 0
-        self.headingY = 0 
+        self.headingY = 0
 
         # for level 3
         self.chasing = False
@@ -59,14 +59,14 @@ class Enemy(pygame.sprite.Sprite):
         self.inInterval = 0
         self.bearID = bearDex
         self.bearLims = {0:{'left':150,'right':750,'up':150,'down':650},1:{'left':1700,'right':2300,'up':150,'down':650},2:{'left':1700,'right':2300,'up':1700,'down':2250},3:{'left':150,'right':750,'up':1700,'down':2250}}
-      
-        
+
+
         self.heading = self.createRandomHeading()
         self.direction = 'left'
         self.inflate = inflate
         self.detection = self.rectangle.inflate(self.inflate,self.inflate)
 
-    def update(self,keith,bg,keys,collision,obstacles):
+    def update(self,keith,bg,keys,collision,obstacles,chaser):
         if not collision:
             if keys[pygame.K_a]:
                 self.rectangle.x += keith.speed
@@ -91,7 +91,7 @@ class Enemy(pygame.sprite.Sprite):
 
         fnxt = math.floor(nextXPos)
         fnyt = math.floor(nextYPos)
-        
+
         if not ghost:
             for obstacle in obstacles:
                 x = obstacle.rect.x
@@ -167,7 +167,7 @@ class Enemy(pygame.sprite.Sprite):
 
         x = (playerRect.x - self.rectangle.x)
         y = (playerRect.y - self.rectangle.y)
-        
+
         length = math.sqrt((x*x)+(y*y))
 
         if length == 0:
@@ -210,7 +210,7 @@ class Enemy(pygame.sprite.Sprite):
         self.sheet.set_clip(new_rect)
         return movement
 
- 
+
     def createRandomHeading(self):
         angle = random.randint(0,360)
         angle = angle * (3.14159/180)

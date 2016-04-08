@@ -22,11 +22,11 @@ class Background():
         elif level == 4:
             self.pic = pygame.image.load('assets/images/levelFour/GroundAndOutline.png').convert()
         elif level == 5:
-            self.pic = pygame.image.load('assets/images/space.jpg').convert()
-            self.resolution = (3000,3000)
-            self.offset = 1000
-            self.x = -1000
-            self.y = -1000
+            self.pic = pygame.image.load('assets/images/levelFive/lvl5BG.png').convert()
+            self.resolution = (1200,700)
+            #self.offset = 1000
+            #self.x = -1000
+            #self.y = -1000
 
         self.previousPos = (self.x,self.y)
         self.level = level

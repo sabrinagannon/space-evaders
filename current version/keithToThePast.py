@@ -58,7 +58,7 @@ if __name__ == '__main__':
     while True:
 
         if pygame.mixer.music.get_busy() == False:
-            level.playLvlMusic(levelNum)
+            level.playLvlMusic(1)
 
         frameCount+=1
         if sink.itemsHeld == 10 and levelNum != 4:
