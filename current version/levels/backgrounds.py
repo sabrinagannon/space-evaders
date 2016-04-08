@@ -22,11 +22,12 @@ class Background():
         elif level == 4:
             self.pic = pygame.image.load('assets/images/levelFour/GroundAndOutline.png').convert()
         elif level == 5:
-            self.pic = pygame.image.load('assets/images/levelFive/lvl5BG.png').convert()
             self.resolution = (1200,700)
-            #self.offset = 1000
-            #self.x = -1000
-            #self.y = -1000
+            self.offset = 0
+            self.x = 0
+            self.y = 0
+            self.pic = pygame.image.load('assets/images/levelFive/space.jpg').convert()
+
 
         self.previousPos = (self.x,self.y)
         self.level = level
@@ -61,13 +62,13 @@ class Background():
                     if keys[pygame.K_d]:
                         self.disabled.append(pygame.K_d)
                     self.collides = len(collisions)
-                    
+
                 # something set
                 for pressed in self.disabled:
                     if keys[pressed]:
                     # if we tried to move in the disabled direction
                         return self.disabled
-               
+
                 # we are moving in a new direction, so allow it
                 if self.level == 5:
                     keith.playerMove(keys)
