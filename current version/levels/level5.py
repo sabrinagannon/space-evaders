@@ -78,6 +78,8 @@ class level(levels):
         self.drawText(keith,sink)
         self.drawObstacles(self.obstacles,self.background)
         self.screen.blit(keith.image, keith.rectangle)
+        self.drawDisplay(crystalList,sink,self.background)
+
 class vector():
     def __init__(self,x,y):
         self.x = x
