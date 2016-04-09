@@ -181,7 +181,6 @@ if __name__ == '__main__':
 
 
         if update is not None:
-            print 'hehe'
             if sink.rect.colliderect(keith.rectangle): # dropping in the sink
                 sink.take()
                 keith.score += 1

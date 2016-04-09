@@ -7,8 +7,6 @@ Keys:
  K: https://www.iconfinder.com/icons/833264/k_keyboard_latin_letter_lowcase_virtual_icon
  spaceBar: https://www.wpclipart.com/computer/keyboard_keys/large_keys/computer_key_Space_bar.png.html
 
-
-
 backgrounds:
  Dark Clouds © 2007, Paul Wright
  https://en.wikipedia.org/wiki/File:Dark,_Clouds.JPG
@@ -17,8 +15,7 @@ backgrounds:
 
  space: http://kmknowles.com/images/header-background-3000.jpg
 
-mis:
-
+Other assets:
 https://vxresource.wordpress.com
 http://carmenmcs.deviantart.com
 http://ayene-chan.deviantart.com
