@@ -21,7 +21,7 @@ class level(levels):
 
         self.obstacles = items.createObstacles(self.obstacleCoords)
         self.sink = items.getSink(self.obstacles)
-        
+
 
         enemyStartX, enemyStartY = random.randrange(300),random.randrange(600) # give enemies random start points
         wolf = level1Enemy((enemyStartX, enemyStartY),wolfPath,10)
@@ -48,7 +48,7 @@ class level(levels):
 
             if e.rectangle.colliderect(self.sink.rect):
                 e.reverseHeading(self.sink)
-            
+
             if chasers > 0:
                 e.update(keith,self.background,keys,collision,obstacles,True,crystalList)
                 chasers -= 1
@@ -64,7 +64,7 @@ class level(levels):
                 if(keith.itemsHeld > 0):
                     keith.itemsHeld -= 1
                     keith.updateSpeed()
-                    droppedBox = pygame.Rect((keith.rectangle.x - 1000 - self.background.x), (keith.rectangle.y -1000 - self.background.y), 41,36)
+                    droppedBox = pygame.Rect((keith.rectangle.x - self.background.x), (keith.rectangle.y - self.background.y), 41,36)
                     droppedItem = items.Crystal(droppedBox)
                     crystalList.append(droppedItem)
                 else:

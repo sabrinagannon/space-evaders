@@ -53,16 +53,20 @@ def getSink(obstacles):
     for obst in obstacles:
         if obst.path == 'DNR':
             return obst
-        
 
-def createRandomRect( w_Width, w_Height , rectWidth , rectHeight , playerRect, sinkRect):
+
+def createRandomRect( w_Width, w_Height , rectWidth , rectHeight , playerRect, sinkRect, level):
     goodCoords = False
     x = 0
     y = 0
 
     while not goodCoords:
-        x = random.randint(0, (2000 - rectWidth))
-        y = random.randint(0,(2000 - rectHeight))
+        if level == 5:
+            x = random.randint(0, (1000 - rectWidth))
+            y = random.randint(0,(1000 - rectHeight))
+        else:
+            x = random.randint(0, (2000 - rectWidth))
+            y = random.randint(0,(2000 - rectHeight))
         if(not playerRect.collidepoint(x,y)) and (not sinkRect.collidepoint(x,y)):
            # print "x: " + str(x)
            # print 'y: ' + str(y)
@@ -75,7 +79,7 @@ def createRandomRect( w_Width, w_Height , rectWidth , rectHeight , playerRect, s
 
 
 class Obstacle:
-    
+
     def __init__(self,rect,path):
         if path != 'DNR':
             self.sheet = pygame.image.load(path)
@@ -96,9 +100,9 @@ def createObstacles(obstacleDict):
         height = obstacleDict[obstacle]['height']
 
         clip_area = pygame.Rect(x,y,width,height)
-            
+
         obstacles.append(Obstacle(clip_area,obstacleDict[obstacle]['path']))
-        
+
 
 
     return obstacles

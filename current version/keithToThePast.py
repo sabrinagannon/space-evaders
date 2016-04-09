@@ -54,7 +54,7 @@ if __name__ == '__main__':
         cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
         # play level cutscene
         level.playCutscene(1)
-        
+
         # CUTSCENE TESTING
         # cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
         # level.playCutscene(1)
@@ -137,25 +137,25 @@ if __name__ == '__main__':
         # generate new crystal that does not collide with player or sink
         if(frameCount >= 90) and (levelNum != 4):
             frameCount = 0
-            if(len(crystalList) < 10): # quick way of limiting us to 10 items (or however many crystals, can be changed depending on level.)
+            if(len(crystalList) < 20): # quick way of limiting us to 10 items (or however many crystals, can be changed depending on level.)
                 #make sure the crystal is not inside of an obstacle
                 goodCrystal = True
-                crystalToAppend = items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect)
+                crystalToAppend = items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect, levelNum)
                 while True:
                     for obstacle in level.obstacles:
                         if (crystalToAppend.rect.colliderect((obstacle.rect.x ,obstacle.rect.y,obstacle.rect.width,obstacle.rect.height))):
                             goodCrystal = False
                             break
                     if(goodCrystal == False):
-                        crystalToAppend = items.createRandomRect(w_width, w_height,41,36,keith.rectangle,sink.rect)
+                        crystalToAppend = items.createRandomRect(w_width, w_height,41,36,keith.rectangle,sink.rect, levelNum)
                         goodCrystal = True
                     else:
                         break
 
-                crystalList.append(items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect))
+                crystalList.append(items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect, levelNum))
             elif(len(crystalList) > 0):
                 del crystalList[1]
-                crystalList.append(items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect))
+                crystalList.append(items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect, levelNum))
 
         # Check for collisions, update speed and score
         index = 0
