@@ -31,8 +31,8 @@ if __name__ == '__main__':
     screen.fill(colors['black'])
     # screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 
-    level = level3.level(screen)
-    levelNum = 3
+    level = level1.level(screen)
+    levelNum = 1
 
     pygame.display.set_caption('*~*~*KEITH TO THE PAST*~*~*')
 
