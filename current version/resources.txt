@@ -1,2 +1,23 @@
-Logo generated at http://cooltext.com
-Game Menu code modified from user nebelhom at https://nebelprog.wordpress.com/2013/08/14/create-a-simple-game-menu-with-pygame-pt-1-writing-the-menu-options-to-the-screen/
+Logos generated at http://cooltext.com
+
+Game Menu code modified from author 'nebelhom' at https://nebelprog.wordpress.com/2013/08/14/create-a-simple-game-menu-with-pygame-pt-1-writing-the-menu-options-to-the-screen/
+
+Keys:
+ wasd: http://renegade.army/blog/?p=206
+ K: https://www.iconfinder.com/icons/833264/k_keyboard_latin_letter_lowcase_virtual_icon
+ spaceBar: https://www.wpclipart.com/computer/keyboard_keys/large_keys/computer_key_Space_bar.png.html
+
+
+
+backgrounds:
+ Dark Clouds © 2007, Paul Wright
+ https://en.wikipedia.org/wiki/File:Dark,_Clouds.JPG
+
+ nice cloud: http://www.1mtb.com/top-10-best-free-online-cloud-storage-services/
+
+ space: http://kmknowles.com/images/header-background-3000.jpg
+
+
+
+
+

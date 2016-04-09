@@ -6,9 +6,6 @@
 
 import pygame
 
-pygame.init()
-
-
 class MenuItem(pygame.font.Font):
     def __init__(self, text, font='nanumgothic', font_size=60,
                  font_color=(255, 255, 255), (pos_x, pos_y)=(0, 0)):
@@ -80,12 +77,13 @@ class GameMenu():
 
                 # handle MOUSEBUTTONUP
                 if event.type == pygame.MOUSEBUTTONUP:
-                   mainloop = False
                    index = 0
                    for item in self.items:
                        index += 1
                        if item.is_mouse_selection(pygame.mouse.get_pos()):
                            switch = index
+                           mainloop = False
+
 
             # Redraw the background
             #self.screen.fill(self.bg_color)
@@ -93,7 +91,7 @@ class GameMenu():
 
             for item in self.items:
                 if item.is_mouse_selection(pygame.mouse.get_pos()):
-                    item.set_font_color((255, 0, 0))
+                    item.set_font_color((0, 0, 255))
                     item.set_italic(True)
                 else:
                     item.set_font_color((255, 255, 255))
@@ -176,7 +174,7 @@ class controlsDisplay():
 
             for item in self.items:
                 if item.is_mouse_selection(pygame.mouse.get_pos()):
-                    item.set_font_color((255, 0, 0))
+                    item.set_font_color((0, 0, 255))
                     item.set_italic(True)
                 else:
                     item.set_font_color((255, 255, 255))

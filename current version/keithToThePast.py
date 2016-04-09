@@ -2,7 +2,7 @@ import pygame, sys,items,random
 sys.path.insert(0,'levels/')
 from constants import w_width, w_height, colors, playerSpeed, playerPath1, playerPath2
 import player, level1, level2, level3, level4, level5, sounds
-import cutscenes, cutsceneText, menu
+import cutscenes, cutsceneText, menu, Win, gameOver
 
 def reset(sink,soundEffects,initRect,initCrystal,crystalList):
     sink.itemsHeld = 0
@@ -10,6 +10,16 @@ def reset(sink,soundEffects,initRect,initCrystal,crystalList):
     initRect = pygame.Rect(-4000,-4000,25,25)
     initCrystal = items.Crystal(initRect)
     crystalList= [initCrystal]
+
+def lose():
+    pygame.mixer.music.stop()
+    gameOver.display()
+    sys.exit()
+
+def win():
+    pygame.mixer.music.stop()
+    Win.display()
+    sys.exit()
 
 if __name__ == '__main__':
     pygame.init()
@@ -96,19 +106,19 @@ if __name__ == '__main__':
                 initCoin4 = items.Coin(initRect4)
 
                 crystalList= [initCoin1,initCoin2,initCoin3,initCoin4]
+            elif levelNum == 5:
+                win()
 
         elif sink.itemsHeld == 4 and levelNum == 4:
             # Need to make window static and constrain movement still for level 5
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
             level = level5.level(screen)
             levelNum = 5
-
             sink.itemsHeld =0
             level.playLvlMusic(levelNum)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                print "player score is : " + str(keith.score)
                 sys.exit()
 
         keys = pygame.key.get_pressed()
@@ -174,13 +184,12 @@ if __name__ == '__main__':
 
         if levelNum == 4:
             if level.timer == 0:
-                 print "you weren't fast enough"
-                 sys.exit()
+                 lose()
 
         level.draw(crystalList,sink,keith)
         pygame.display.update()
+
         if keith.lives <= 0 :
-            print "you lost all your lives!"
-            sys.exit()
+            lose()
 
         gameClock.tick(30)
