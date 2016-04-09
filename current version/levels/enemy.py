@@ -13,6 +13,24 @@ class vector():
     def negateY(self):
         self.y *= -1
 
+def createPoints():
+        
+    x,y = random.randrange(w_width),random.randrange(w_height)
+
+    goodX = (x > 700) or (x < 450)
+    goodY = (y > 500) or (y < 250)
+    
+    while not goodX or not goodY:
+        if not goodX:
+            x = random.randrange(0,1200)
+        if not goodY:
+            y = random.randrange(0,700)
+
+        goodX = (x > 700) or (x < 450)
+        goodY = (y > 500) or (y < 250)
+
+    return x,y
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self,startingPos,imagePath,speed = 10, inflate = 100,bearDex = 0):
         pygame.sprite.Sprite.__init__(self) # calls the parent class constructor
@@ -65,8 +83,9 @@ class Enemy(pygame.sprite.Sprite):
         self.direction = 'left'
         self.inflate = inflate
         self.detection = self.rectangle.inflate(self.inflate,self.inflate)
+                  
 
-    def update(self,keith,bg,keys,collision,obstacles):
+    def update(self,keith,bg,keys,collision,obstacles,bumped):
         if not collision:
             if keys[pygame.K_a]:
                 self.rectangle.x += keith.speed
@@ -77,7 +96,7 @@ class Enemy(pygame.sprite.Sprite):
             if keys[pygame.K_s]:
                 self.rectangle.y -= keith.speed
 
-        if self.detection.colliderect(keith.rectangle):
+        if self.detection.colliderect(keith.rectangle) and not bumped:
             self.chase(keith.rectangle)
         else:
             self.patrol(bg,obstacles)
@@ -85,22 +104,22 @@ class Enemy(pygame.sprite.Sprite):
             self.detection = self.rectangle.inflate(self.inflate,self.inflate)
 
     def patrol(self,bg,obstacles,ghost=False):
-        # Have to check for collisions here
         nextXPos = self.rectangle.x + (self.speed*self.heading.x)
         nextYPos = self.rectangle.y + (self.speed*self.heading.y)
 
         fnxt = math.floor(nextXPos)
         fnyt = math.floor(nextYPos)
 
+        # collisions
         if not ghost:
             for obstacle in obstacles:
                 x = obstacle.rect.x
                 y = obstacle.rect.y
                 width = obstacle.rect.width
                 height = obstacle.rect.height
-                if (nextXPos > x-self.rectangle.width-6) and (nextXPos < x +width+6) and (nextYPos > y-self.rectangle.height-6) and (nextYPos < y+height+6):
+                if (nextXPos > x-self.rectangle.width) and (nextXPos < x +width) and (nextYPos > y-self.rectangle.height) and (nextYPos < y+height):
 
-                    if fnxt in range(x-self.rectangle.width-5,x-self.rectangle.width+5):
+                    if fnxt in range(x-self.rectangle.width-3,x-self.rectangle.width+3):
                         # send back east
                         newHeading = vector((-1*self.heading.x),self.heading.y)
                         self.heading = newHeading
@@ -210,6 +229,31 @@ class Enemy(pygame.sprite.Sprite):
         self.sheet.set_clip(new_rect)
         return movement
 
+    def reverseHeading(self,sink):
+        x = sink.rect.x
+        y = sink.rect.y
+        width = sink.rect.width
+        height = sink.rect.height
+        nextXPos = self.rectangle.x
+        nextYPos = self.rectangle.y
+
+        if nextXPos in range(x-self.rectangle.width-5,x-self.rectangle.width+5):
+            # send back east
+            newHeading = vector((-1*self.heading.x),self.heading.y)
+            self.heading = newHeading
+        elif nextXPos in range(x + width-5,x+width+5):
+            # send back west
+            newHeading = vector((-1*self.heading.x),self.heading.y)
+            self.heading = newHeading
+        elif nextYPos in range(y-self.rectangle.height-5,y-self.rectangle.height+5):
+            # send back north
+            newHeading = vector(self.heading.x,(-1*self.heading.y))
+            self.heading = newHeading
+        elif nextYPos in range(y+height-5,y+height+5):
+            # send back south
+            newHeading = vector(self.heading.x,(-1*self.heading.y))
+            self.heading = newHeading
+
 
     def createRandomHeading(self):
         angle = random.randint(0,360)
@@ -219,3 +263,5 @@ class Enemy(pygame.sprite.Sprite):
         y = math.sin(angle)
         v = vector(x,y)
         return v
+        
+        

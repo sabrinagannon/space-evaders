@@ -17,8 +17,10 @@ class level(levels):
 
         with open('assets/images/levelThree/level3obstacles.json','rb') as obstacles:
             self.obstacleCoords = json.load(obstacles)
+        self.obstacleCoords['tm']= {"x": 500, "y": 300, "height": 150, "width": 150, "path": 'DNR'}
 
         self.obstacles = items.createObstacles(self.obstacleCoords)
+        self.sink = items.getSink(self.obstacles)
 
         # top left
         blob1 = levelEnemy((-100,-100),blobPath,3,0)
@@ -35,7 +37,7 @@ class level(levels):
         # bottom left
         blob7 = levelEnemy((-400,1000),blobPath,3,0)
         # bottom right
-        blob8 = levelEnemy((400,400),blobPath,3,0)
+        blob8 = levelEnemy((200,200),blobPath,3,0)
 
         self.enemies = [blob1,blob2,blob3,blob4,blob5,blob6,blob7,blob8]
         self.background = backgrounds.Background(3)
@@ -53,11 +55,18 @@ class level(levels):
         chasers = keith.itemsHeld//2
         
         for e in self.enemies:
+
+            if e.rectangle.colliderect(self.sink.rect):
+                e.reverseHeading(self.sink)
+                bumped = True
+            else:
+                bumped = False
+
             if chasers > 0:
-                e.update(keith,self.background,keys,collision,obstacles,True)
+                e.update(keith,self.background,keys,collision,obstacles,True,bumped)
                 chasers -= 1
             else:
-                e.update(keith,self.background,keys,collision,obstacles,False)
+                e.update(keith,self.background,keys,collision,obstacles,False,bumped)
 
             if(e.rectangle.colliderect(keith.rectangle)  and keith.isInvincible == False):
 
@@ -98,7 +107,7 @@ class vector():
 class levelEnemy(enemy.Enemy):
 
     
-    def update(self,keith,bg,keys,collision,obstacles,chaser):
+    def update(self,keith,bg,keys,collision,obstacles,chaser,bumped):
         # Houskeeping
         if not collision:
             if keys[pygame.K_a]:
@@ -110,7 +119,7 @@ class levelEnemy(enemy.Enemy):
             if keys[pygame.K_s]:
                 self.rectangle.y -= keith.speed
 
-        if (bg.previousPos == (bg.x,bg.y)) and (not chaser):
+        if (bg.previousPos == (bg.x,bg.y)):
             # not moving, so move away
             if self.chasing:
                 playerRect = keith.rectangle
@@ -128,6 +137,7 @@ class levelEnemy(enemy.Enemy):
             self.patrol(bg,obstacles,ghost=True)
         else:
             # move towards player
-            self.chase(keith.rectangle)
-            if not self.chasing:
-                self.chasing = True
+            if not bumped:
+                self.chase(keith.rectangle)
+                if not self.chasing:
+                    self.chasing = True

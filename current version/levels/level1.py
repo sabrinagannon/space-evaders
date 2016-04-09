@@ -16,10 +16,12 @@ class level(levels):
         self.soundFX = sounds.SoundFX()
         with open('assets/images/levelOne/level1obstacles.json','rb') as obstacles:
             self.obstacleCoords = json.load(obstacles)
+        self.obstacleCoords['tm']= {"x": 500, "y": 300, "height": 150, "width": 150, "path": 'DNR'}
 
         self.obstacles = items.createObstacles(self.obstacleCoords)
+        self.sink = items.getSink(self.obstacles)
         # where the enemies will start on this level
-        enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points
+        enemyStartX, enemyStartY = enemy.createPoints()
 
         wolf = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,7)
         bear = enemy.Enemy((enemyStartX, enemyStartY),bearPath,9)
@@ -40,9 +42,17 @@ class level(levels):
             for pressed in disabled:
                 if keys[pressed]:
                     collision = True
-        for e in self.enemies:
-            e.update(keith,self.background,keys,collision,obstacles)
 
+        for e in self.enemies:
+
+            if e.rectangle.colliderect(self.sink.rect):
+                e.reverseHeading(self.sink)
+                bumped = True
+            else:
+                bumped = False
+
+            e.update(keith,self.background,keys,collision,obstacles,bumped)
+        
             if(e.rectangle.colliderect(keith.rectangle) and keith.isInvincible == False):
 
                 self.soundFX.playBloop()
@@ -58,6 +68,7 @@ class level(levels):
                     crystalList.append(droppedItem)
                 else:
                     keith.lives -= 1
+                
 
     def draw(self,crystalList,sink,keith):
         self.screen.fill(colors['black'])

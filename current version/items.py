@@ -48,6 +48,11 @@ class Coin():
 
     def isCoin(self):
         return True
+
+def getSink(obstacles):
+    for obst in obstacles:
+        if obst.path == 'DNR':
+            return obst
         
 
 def createRandomRect( w_Width, w_Height , rectWidth , rectHeight , playerRect, sinkRect):
@@ -72,13 +77,13 @@ def createRandomRect( w_Width, w_Height , rectWidth , rectHeight , playerRect, s
 class Obstacle:
     
     def __init__(self,rect,path):
-        self.sheet = pygame.image.load(path)
+        if path != 'DNR':
+            self.sheet = pygame.image.load(path)
         self.rect = rect
         self.path = path
         self.origX = rect.x
         self.origY = rect.y
 
-    
 
 def createObstacles(obstacleDict):
 
@@ -94,11 +99,6 @@ def createObstacles(obstacleDict):
             
         obstacles.append(Obstacle(clip_area,obstacleDict[obstacle]['path']))
         
-
-        # self.sheet.set_clip(clip_area)
-        # self.image = self.sheet.subsurface(self.sheet.get_clip())
-        # self.rectangle = self.image.get_rect()
-        # self.rectangle.topleft = startingPos
 
 
     return obstacles

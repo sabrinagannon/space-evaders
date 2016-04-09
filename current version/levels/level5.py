@@ -14,11 +14,14 @@ class level(levels):
         self.startingPosX = 600
         self.startingPosY = 350
         self.soundFX = sounds.SoundFX()
-        self.obstacles = {}
+        self.obstacleCoords = {}
         #with open('assets/images/levelFive/levelfiveobstacles.json','rb') as obstacles:
             #self.obstacleCoords = json.load(obstacles)
+        self.obstacleCoords['tm']= {"x": 500, "y": 300, "height": 150, "width": 150, "path": 'DNR'}
 
-        #self.obstacles = items.createObstacles(self.obstacleCoords)
+        self.obstacles = items.createObstacles(self.obstacleCoords)
+        self.sink = items.getSink(self.obstacles)
+        
 
         enemyStartX, enemyStartY = random.randrange(300),random.randrange(600) # give enemies random start points
         wolf = level1Enemy((enemyStartX, enemyStartY),wolfPath,10)
@@ -42,6 +45,10 @@ class level(levels):
                     collision = True
 
         for e in self.enemies:
+
+            if e.rectangle.colliderect(self.sink.rect):
+                e.reverseHeading(self.sink)
+            
             if chasers > 0:
                 e.update(keith,self.background,keys,collision,obstacles,True,crystalList)
                 chasers -= 1

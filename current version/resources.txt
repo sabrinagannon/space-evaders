@@ -17,6 +17,16 @@ backgrounds:
 
  space: http://kmknowles.com/images/header-background-3000.jpg
 
+mis:
+
+https://vxresource.wordpress.com
+http://carmenmcs.deviantart.com
+http://ayene-chan.deviantart.com
+http://doubleleggy.deviantart.com
+http://dreamer-aruki.deviantart.com
+http://Petschko.deviantart.com
+http://telles0808.deviantart.com
+
 
 
 

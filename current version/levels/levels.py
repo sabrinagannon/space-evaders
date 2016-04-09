@@ -35,6 +35,8 @@ class levels():
         for obstacle in obstacleList:
             obstacle.rect.x = obstacle.origX + (bg.x + bg.offset)
             obstacle.rect.y = obstacle.origY + (bg.y + bg.offset)
+            if obstacle.path == 'DNR':
+                continue
             self.screen.blit(obstacle.sheet,obstacle.rect)
 
     def playLvlMusic(self,lvlNumber):

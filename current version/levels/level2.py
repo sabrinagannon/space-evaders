@@ -17,11 +17,12 @@ class level(levels):
  
         with open('assets/images/levelTwo/level2obstacles.json','rb') as obstacles:
             self.obstacleCoords = json.load(obstacles)
+        self.obstacleCoords['tm']= {"x": 500, "y": 300, "height": 150, "width": 150, "path": 'DNR'}
 
-        # self.obstacleCoords = {'obst1': {'x':100 ,'y':500 , 'width':376 , 'height':296, 'path':'assets/images/suck.png' },'obst2':{'x':1500,'y':-200 , 'width':376, 'height':296, 'path':'assets/images/suck.png'}}
         self.obstacles = items.createObstacles(self.obstacleCoords)
-        
-        enemyStartX, enemyStartY = random.randrange(w_width),random.randrange(w_height) # give enemies random start points
+        self.sink = items.getSink(self.obstacles)
+
+        enemyStartX, enemyStartY = enemy.createPoints()
         wolf = levelEnemy((enemyStartX, enemyStartY),wolfPath,10)
         wolf1 = enemy.Enemy((enemyStartX, enemyStartY),wolfPath,7)
         bear = enemy.Enemy((enemyStartX, enemyStartY),bearPath,9)
@@ -43,7 +44,14 @@ class level(levels):
                 if keys[pressed]:
                     collision = True
         for e in self.enemies:
-            e.update(keith,self.background,keys,collision,obstacles)
+
+            if e.rectangle.colliderect(self.sink.rect):
+                e.reverseHeading(self.sink)
+                bumped = True
+            else:
+                bumped = False
+
+            e.update(keith,self.background,keys,collision,obstacles,bumped)
 
             if(e.rectangle.colliderect(keith.rectangle) and keith.isInvincible == False):
 
@@ -85,7 +93,7 @@ class vector():
 
 class levelEnemy(enemy.Enemy):
 
-    def update(self,keith,bg,keys,collision,obstacles):
+    def update(self,keith,bg,keys,collision,obstacles,bumped):
         if not collision:
             if keys[pygame.K_a]:
                 self.rectangle.x += keith.speed
@@ -96,7 +104,7 @@ class levelEnemy(enemy.Enemy):
             if keys[pygame.K_s]:
                 self.rectangle.y -= keith.speed
 
-        if self.detection.colliderect(keith.rectangle):
+        if self.detection.colliderect(keith.rectangle) and not bumped:
             self.chase(keith.rectangle)
         else:
             self.patrol(bg,obstacles)

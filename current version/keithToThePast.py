@@ -31,8 +31,8 @@ if __name__ == '__main__':
     screen.fill(colors['black'])
     # screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 
-    level = level1.level(screen)
-    levelNum = 1
+    level = level3.level(screen)
+    levelNum = 3
 
     pygame.display.set_caption('*~*~*KEITH TO THE PAST*~*~*')
 
@@ -47,8 +47,10 @@ if __name__ == '__main__':
     pygame.display.update()
 
     frameCount = 0
+    level.playLvlMusic(5)
     gameLoop = menu.display()
     if gameLoop:
+        pygame.mixer.music.stop()
         cutscenes.playCutscene(screen, cutsceneText.text["intro_cutscene"])
         # play level cutscene
         level.playCutscene(1)
@@ -59,19 +61,19 @@ if __name__ == '__main__':
         # level.playCutscene(2)
         # level.playCutscene(3)
         # level.playCutscene(4)
-        # level.playCutscene(5)
+        #level.playCutscene(5)
 
     while gameLoop:
 
         if pygame.mixer.music.get_busy() == False:
             level.playLvlMusic(levelNum)
 
-        frameCount+=1
         if sink.itemsHeld == 10 and levelNum != 4:
               # print "player score is : " + str(keith.score)
               # sys.exit()
             pygame.mixer.music.stop()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
+
             if levelNum == 1:
                 level = level2.level(screen)
                 levelNum = 2
@@ -79,21 +81,13 @@ if __name__ == '__main__':
                 keith.itemsHeld = 0
                 keith.updateSpeed()
                 crystalList= [initCrystal]
+
             elif levelNum == 2:
-                level = level3.level(screen)
-                levelNum = 3
-                level.playCutscene(levelNum)
-                keith.itemsHeld = 0
-                keith.updateSpeed()
-                crystalList= [initCrystal]
-            elif levelNum == 3:
                 level = level4.level(screen)
                 levelNum = 4
-                # play level cutscene
-                level.playCutscene(levelNum)
+                level.playCutscene(3)
                 keith.itemsHeld = 0
                 keith.updateSpeed()
-                crystalList= [initCrystal]
 
                 initRect1 = pygame.Rect(-580,-560,36,36)
                 initRect2 = pygame.Rect(-580,1000,36,36)
@@ -105,17 +99,27 @@ if __name__ == '__main__':
                 initCoin3 = items.Coin(initRect3)
                 initCoin4 = items.Coin(initRect4)
 
-                crystalList= [initCoin1,initCoin2,initCoin3,initCoin4]
+                crystalList= [initCrystal,initCoin1,initCoin2,initCoin3,initCoin4]
+
+            elif levelNum == 3:
+                level = level5.level(screen)
+                levelNum = 5
+                sink.itemsHeld =0
+                level.playCutscene(5)
+                level.playLvlMusic(5)
+
             elif levelNum == 5:
                 win()
 
         elif sink.itemsHeld == 4 and levelNum == 4:
-            # Need to make window static and constrain movement still for level 5
+            pygame.mixer.music.stop()
             reset(sink,soundEffects,initRect,initCrystal,crystalList)
-            level = level5.level(screen)
-            levelNum = 5
-            sink.itemsHeld =0
-            level.playLvlMusic(levelNum)
+            level = level3.level(screen)
+            levelNum = 3
+            level.playCutscene(4)
+            keith.itemsHeld = 0
+            keith.updateSpeed()
+            crystalList= [initCrystal]
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -128,14 +132,16 @@ if __name__ == '__main__':
         update = keith.handle(keys,level.background)
         level.updateEnemies(keith,keys,crystalList,disabled,level.obstacles)
 
+        frameCount+=1
+
         # generate new crystal that does not collide with player or sink
-        if(frameCount == 90) and (levelNum != 4):
+        if(frameCount >= 90) and (levelNum != 4):
             frameCount = 0
             if(len(crystalList) < 10): # quick way of limiting us to 10 items (or however many crystals, can be changed depending on level.)
                 #make sure the crystal is not inside of an obstacle
                 goodCrystal = True
                 crystalToAppend = items.createRandomRect(w_width,w_height,41,36,keith.rectangle,sink.rect)
-                while 1:
+                while True:
                     for obstacle in level.obstacles:
                         if (crystalToAppend.rect.colliderect((obstacle.rect.x ,obstacle.rect.y,obstacle.rect.width,obstacle.rect.height))):
                             goodCrystal = False

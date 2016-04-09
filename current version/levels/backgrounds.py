@@ -117,6 +117,8 @@ class Background():
 def collision(level,keith):
     colliders = []
     for obstacle in level.obstacles:
+        if obstacle.path == 'DNR':
+            continue
         if obstacle.rect.colliderect(keith.rectangle):
             colliders.append(obstacle)
             #return True
