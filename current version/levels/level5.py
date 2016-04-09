@@ -14,8 +14,11 @@ class level(levels):
         self.startingPosX = 600
         self.startingPosY = 350
         self.soundFX = sounds.SoundFX()
-        self.obstacleCoords = {}
-        self.obstacles = items.createObstacles(self.obstacleCoords)
+        self.obstacles = {}
+        #with open('assets/images/levelFive/levelfiveobstacles.json','rb') as obstacles:
+            #self.obstacleCoords = json.load(obstacles)
+
+        #self.obstacles = items.createObstacles(self.obstacleCoords)
 
         enemyStartX, enemyStartY = random.randrange(300),random.randrange(600) # give enemies random start points
         wolf = level1Enemy((enemyStartX, enemyStartY),wolfPath,10)
